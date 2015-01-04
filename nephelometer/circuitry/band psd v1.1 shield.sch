@@ -6359,17 +6359,17 @@ General purpose 1N400x type rectifier
 <wire x1="-4.75" y1="8" x2="-2" y2="8" width="0.127" layer="21"/>
 <wire x1="-2" y1="8" x2="2" y2="8" width="0.127" layer="21"/>
 <wire x1="2" y1="8" x2="4.75" y2="8" width="0.127" layer="21"/>
-<wire x1="-2" y1="8" x2="-2" y2="12" width="0.127" layer="21"/>
-<wire x1="-2" y1="12" x2="-1.25" y2="12" width="0.127" layer="21"/>
-<wire x1="-1.25" y1="12" x2="1.25" y2="12" width="0.127" layer="21"/>
-<wire x1="1.25" y1="12" x2="2" y2="12" width="0.127" layer="21"/>
-<wire x1="2" y1="12" x2="2" y2="8" width="0.127" layer="21"/>
-<wire x1="-1.25" y1="12" x2="-1.25" y2="14.8" width="0.127" layer="21"/>
-<wire x1="-1.25" y1="14.8" x2="-1.25" y2="16" width="0.127" layer="21"/>
-<wire x1="-1.25" y1="16" x2="1.25" y2="16" width="0.127" layer="21"/>
-<wire x1="1.25" y1="16" x2="1.25" y2="14.8" width="0.127" layer="21"/>
-<wire x1="1.25" y1="14.8" x2="1.25" y2="12" width="0.127" layer="21"/>
-<wire x1="-1.25" y1="14.8" x2="1.25" y2="14.8" width="0.127" layer="21" style="shortdash"/>
+<wire x1="-2" y1="8" x2="-2" y2="12" width="0.127" layer="51"/>
+<wire x1="-2" y1="12" x2="-1.25" y2="12" width="0.127" layer="51"/>
+<wire x1="-1.25" y1="12" x2="1.25" y2="12" width="0.127" layer="51"/>
+<wire x1="1.25" y1="12" x2="2" y2="12" width="0.127" layer="51"/>
+<wire x1="2" y1="12" x2="2" y2="8" width="0.127" layer="51"/>
+<wire x1="-1.25" y1="12" x2="-1.25" y2="14.8" width="0.127" layer="51"/>
+<wire x1="-1.25" y1="14.8" x2="-1.25" y2="16" width="0.127" layer="51"/>
+<wire x1="-1.25" y1="16" x2="1.25" y2="16" width="0.127" layer="51"/>
+<wire x1="1.25" y1="16" x2="1.25" y2="14.8" width="0.127" layer="51"/>
+<wire x1="1.25" y1="14.8" x2="1.25" y2="12" width="0.127" layer="51"/>
+<wire x1="-1.25" y1="14.8" x2="1.25" y2="14.8" width="0.127" layer="51" style="shortdash"/>
 </package>
 <package name="PTRANS">
 <wire x1="1.5748" y1="-1.27" x2="1.5748" y2="1.27" width="0.254" layer="51"/>
