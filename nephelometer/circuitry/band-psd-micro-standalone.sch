@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="7.1.0">
+<eagle version="7.0.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -10255,16 +10255,6 @@ SO output always lower</text>
 <wire x1="157.48" y1="81.28" x2="157.48" y2="73.66" width="0.1524" layer="91"/>
 <pinref part="T1" gate="G$1" pin="B"/>
 <wire x1="157.48" y1="73.66" x2="162.56" y2="73.66" width="0.1524" layer="91"/>
-<wire x1="157.48" y1="73.66" x2="144.78" y2="73.66" width="0.1524" layer="91"/>
-<junction x="157.48" y="73.66"/>
-<label x="144.78" y="73.66" size="1.778" layer="95"/>
-</segment>
-<segment>
-<pinref part="U3" gate="G$1" pin="5"/>
-<wire x1="246.38" y1="35.56" x2="251.46" y2="35.56" width="0.1524" layer="91"/>
-<wire x1="251.46" y1="35.56" x2="254" y2="38.1" width="0.1524" layer="91"/>
-<wire x1="254" y1="38.1" x2="261.62" y2="38.1" width="0.1524" layer="91"/>
-<label x="254" y="38.1" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$23" class="0">
@@ -10299,6 +10289,11 @@ SO output always lower</text>
 <pinref part="IC3" gate="A" pin="Q"/>
 <wire x1="152.4" y1="91.44" x2="152.4" y2="104.14" width="0.1524" layer="91"/>
 <label x="149.86" y="99.06" size="1.778" layer="95" rot="R270"/>
+</segment>
+<segment>
+<pinref part="U3" gate="G$1" pin="5"/>
+<wire x1="246.38" y1="35.56" x2="261.62" y2="35.56" width="0.1524" layer="91"/>
+<label x="254" y="35.56" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$12" class="0">
