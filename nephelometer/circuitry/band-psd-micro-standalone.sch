@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="7.1.0">
+<eagle version="7.2.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -15390,18 +15390,42 @@ Source: http://www.bourns.com/data/global/PDFs/3223.PDF</description>
 <parts>
 <part name="SUPPLY4" library="supply2" deviceset="+5V" device=""/>
 <part name="SUPPLY5" library="supply2" deviceset="GND" device=""/>
-<part name="R3" library="adafruit" deviceset="R-US_" device="0204/2V" value="120"/>
+<part name="R3" library="adafruit" deviceset="R-US_" device="0204/2V" value="120">
+<attribute name="DIGIKEY#" value="S120CACT-ND"/>
+<attribute name="MANF" value="Stackpole Electronics Inc"/>
+<attribute name="MANF#" value="RNMF14FTC120R"/>
+</part>
 <part name="Q1" library="ingolia" deviceset="LTR-4206" device=""/>
 <part name="R1" library="adafruit" deviceset="R-US_" device="0204/5" value="1K0">
 <attribute name="DIGIKEY#" value="S1KCACT-ND "/>
 <attribute name="MANF" value="Stackpole Electronics Inc"/>
 <attribute name="MANF#" value="RNMF14FTC1K00"/>
 </part>
-<part name="R6" library="adafruit" deviceset="R-US_" device="0204/2V" value="10K (1%)"/>
-<part name="R7" library="adafruit" deviceset="R-US_" device="0204/2V" value="10K (1%)"/>
-<part name="U1" library="ingolia" deviceset="MAX4544" device="" value="MAX4544"/>
-<part name="R12" library="adafruit" deviceset="R-US_" device="0204/2V" value="330K"/>
-<part name="C12" library="adafruit" deviceset="C-US" device="050-025X075" value="22nF"/>
+<part name="R6" library="adafruit" deviceset="R-US_" device="0204/2V" value="10K (1%)">
+<attribute name="DIGIKEY#" value="S10KCACT-ND"/>
+<attribute name="MANF" value="Stackpole Electronics Inc"/>
+<attribute name="MANF#" value="RNMF14FTC10K0"/>
+</part>
+<part name="R7" library="adafruit" deviceset="R-US_" device="0204/2V" value="10K (1%)">
+<attribute name="DIGIKEY#" value="S10KCACT-ND"/>
+<attribute name="MANF" value="Stackpole Electronics Inc"/>
+<attribute name="MANF#" value="RNMF14FTC10K0"/>
+</part>
+<part name="U1" library="ingolia" deviceset="MAX4544" device="" value="MAX4544">
+<attribute name="DIGIKEY#" value="MAX4544CPA+-ND"/>
+<attribute name="MANF" value="Maxim Integrated"/>
+<attribute name="MANF#" value="MAX4544CPA+"/>
+</part>
+<part name="R12" library="adafruit" deviceset="R-US_" device="0204/2V" value="330K">
+<attribute name="DIGIKEY#" value="RNV14FAL330KCT-ND"/>
+<attribute name="MANF" value="Stackpole Electronics Inc"/>
+<attribute name="MANF#" value="RNV14FAL330K"/>
+</part>
+<part name="C12" library="adafruit" deviceset="C-US" device="025-024X044" value="22nF">
+<attribute name="DIGIKEY#" value="445-8280-ND"/>
+<attribute name="MANF" value="TDK Corporation"/>
+<attribute name="MANF#" value="FK14C0G1H223J"/>
+</part>
 <part name="SUPPLY11" library="supply2" deviceset="+5V" device=""/>
 <part name="SUPPLY12" library="supply2" deviceset="GND" device=""/>
 <part name="IC2" library="linear" deviceset="*555" device="N" technology="LM"/>
@@ -15412,8 +15436,12 @@ Source: http://www.bourns.com/data/global/PDFs/3223.PDF</description>
 <part name="C11" library="adafruit" deviceset="C-US" device="025-025X050" value="100n"/>
 <part name="SUPPLY2" library="supply2" deviceset="+5V" device=""/>
 <part name="SUPPLY3" library="supply2" deviceset="GND" device=""/>
-<part name="C5" library="adafruit" deviceset="C-US" device="025-025X050" value="100n"/>
-<part name="C3" library="adafruit" deviceset="C-US" device="025-025X050" value="1u"/>
+<part name="C5" library="adafruit" deviceset="C-US" device="025-025X050" value="100nF"/>
+<part name="C3" library="adafruit" deviceset="C-US" device="050-024X044" value="1u">
+<attribute name="DIGIKEY#" value="445-8614-ND"/>
+<attribute name="MANF" value="TDK Corporation"/>
+<attribute name="MANF#" value="FK28X7R1C105K"/>
+</part>
 <part name="C9" library="adafruit" deviceset="C-US" device="025-025X050" value="10n"/>
 <part name="R9" library="adafruit" deviceset="R-US_" device="0204/2V" value="4K7"/>
 <part name="Q2" library="ingolia" deviceset="IRLB8721" device=""/>
@@ -15438,10 +15466,18 @@ Source: http://www.bourns.com/data/global/PDFs/3223.PDF</description>
 <attribute name="MANF" value="Vishay BC Components"/>
 <attribute name="MANF#" value="K222J15C0GF5TL2"/>
 </part>
-<part name="C2" library="adafruit" deviceset="C-US" device="025-025X050" value="100n"/>
+<part name="C2" library="adafruit" deviceset="C-US" device="025-025X050" value="100nF">
+<attribute name="DIGIKEY#" value="BC1084CT-ND"/>
+<attribute name="MANF" value="Vishay BC Components"/>
+<attribute name="MANF#" value="K104K15X7RF5TL2"/>
+</part>
 <part name="C10" library="adafruit" deviceset="C-US" device="025-025X050" value="100n"/>
 <part name="SUPPLY1" library="supply2" deviceset="GND" device=""/>
-<part name="IC1" library="ingolia" deviceset="LMC6484" device="P"/>
+<part name="IC1" library="ingolia" deviceset="LMC6484" device="P">
+<attribute name="DIGIKEY#" value="LMC6484AIN/NOPB-ND"/>
+<attribute name="MANF" value="Texas Instruments"/>
+<attribute name="MANF#" value="LMC6484AIN/NOPB"/>
+</part>
 <part name="R2" library="adafruit" deviceset="R-US_" device="0204/5" value="1K0">
 <attribute name="DIGIKEY#" value="S1KCACT-ND "/>
 <attribute name="MANF" value="Stackpole Electronics Inc"/>
@@ -15452,18 +15488,26 @@ Source: http://www.bourns.com/data/global/PDFs/3223.PDF</description>
 <attribute name="MANF" value="Stackpole Electronics Inc"/>
 <attribute name="MANF#" value="RNV14FAL330K"/>
 </part>
-<part name="C6" library="adafruit" deviceset="C-US" device="025-024X044" value="10p">
+<part name="C6" library="adafruit" deviceset="C-US" device="025-024X044" value="10pF">
 <attribute name="DIGIKEY#" value="BC1001CT-ND"/>
 <attribute name="MANF" value="Vishay BC Components"/>
 <attribute name="MANF#" value="K100J15C0GF5TL2"/>
 </part>
-<part name="C4" library="adafruit" deviceset="C-US" device="025-060X050" value="100n">
+<part name="C4" library="adafruit" deviceset="C-US" device="025-060X050" value="100nF">
 <attribute name="DIGIKEY#" value="445-8325-ND"/>
 <attribute name="MANF" value="TDK Corporation"/>
 <attribute name="MANF#" value="FK16C0G1H104J"/>
 </part>
-<part name="R14" library="adafruit" deviceset="R-US_" device="0204/2V" value="680K"/>
-<part name="C13" library="adafruit" deviceset="C-US" device="050-025X075" value="50nF"/>
+<part name="R14" library="adafruit" deviceset="R-US_" device="0204/2V" value="680K">
+<attribute name="DIGIKEY#" value="S680KCACT-ND"/>
+<attribute name="MANF" value="Stackpole Electronics Inc"/>
+<attribute name="MANF#" value="RNMF14FTC680K"/>
+</part>
+<part name="C13" library="adafruit" deviceset="C-US" device="025-040X050" value="47nF">
+<attribute name="DIGIKEY#" value="445-8327-ND"/>
+<attribute name="MANF" value="TDK Corporation"/>
+<attribute name="MANF#" value="FK16C0G1H473J"/>
+</part>
 <part name="U3" library="adafruit" deviceset="ARDUINOMICRO" device=""/>
 <part name="U2" library="ingolia" deviceset="DC-IN-PANEL-NODETECT" device=""/>
 <part name="Q3" library="ingolia" deviceset="IRLB8721" device=""/>
@@ -15476,7 +15520,11 @@ Source: http://www.bourns.com/data/global/PDFs/3223.PDF</description>
 <part name="SUPPLY19" library="supply2" deviceset="+12V" device=""/>
 <part name="SUPPLY17" library="supply2" deviceset="GND" device=""/>
 <part name="SUPPLY18" library="supply2" deviceset="GND" device=""/>
-<part name="R4" library="adafruit" deviceset="R-US_" device="0204/2V" value="120"/>
+<part name="R4" library="adafruit" deviceset="R-US_" device="0204/2V" value="120">
+<attribute name="DIGIKEY#" value="S120CACT-ND"/>
+<attribute name="MANF" value="Stackpole Electronics Inc"/>
+<attribute name="MANF#" value="RNMF14FTC120R"/>
+</part>
 <part name="IC4" library="40xx" deviceset="4044" device="N"/>
 <part name="C15" library="adafruit" deviceset="C-US" device="025-025X050" value="100n"/>
 <part name="SUPPLY20" library="supply2" deviceset="+5V" device=""/>
@@ -15492,11 +15540,19 @@ Source: http://www.bourns.com/data/global/PDFs/3223.PDF</description>
 <part name="R21" library="adafruit" deviceset="R-US_" device="0204/2V" value="10R"/>
 <part name="U$5" library="ingolia" deviceset="APE1F-5M-10-Z" device=""/>
 <part name="U$6" library="ingolia" deviceset="APE1F-5M-10-Z" device=""/>
-<part name="IC5" library="ingolia" deviceset="MCP3301" device=""/>
+<part name="IC5" library="ingolia" deviceset="MCP3301" device="">
+<attribute name="DIGIKEY#" value="MCP3301-BI/P-ND"/>
+<attribute name="MANF" value="Microchip Technology"/>
+<attribute name="MANF#" value="MCP3301-BI/P"/>
+</part>
 <part name="SUPPLY28" library="supply2" deviceset="GND" device=""/>
 <part name="SUPPLY29" library="supply2" deviceset="+5V" device=""/>
 <part name="C16" library="adafruit" deviceset="C-US" device="025-025X050" value="100n"/>
-<part name="IC6" library="v-reg" deviceset="LM317L" device=""/>
+<part name="IC6" library="v-reg" deviceset="LM317L" device="">
+<attribute name="DIGIKEY#" value="296-33312-5-ND"/>
+<attribute name="MANF" value="Texas Instruments"/>
+<attribute name="MANF#" value="LM317LCLP"/>
+</part>
 <part name="SUPPLY30" library="supply2" deviceset="GND" device=""/>
 <part name="U$8" library="ingolia" deviceset="APE1F-5M-10-Z" device=""/>
 <part name="U$9" library="ingolia" deviceset="APE1F-5M-10-Z" device=""/>
@@ -15560,19 +15616,43 @@ SO output always lower</text>
 <instances>
 <instance part="SUPPLY4" gate="+5V" x="-2.54" y="104.14"/>
 <instance part="SUPPLY5" gate="GND" x="20.32" y="63.5"/>
-<instance part="R3" gate="G$1" x="20.32" y="91.44" rot="R270"/>
+<instance part="R3" gate="G$1" x="20.32" y="91.44" rot="R270">
+<attribute name="DIGIKEY#" x="20.32" y="91.44" size="1.778" layer="96" rot="R270" display="off"/>
+<attribute name="MANF" x="20.32" y="91.44" size="1.778" layer="96" rot="R270" display="off"/>
+<attribute name="MANF#" x="20.32" y="91.44" size="1.778" layer="96" rot="R270" display="off"/>
+</instance>
 <instance part="Q1" gate="G$1" x="-15.24" y="40.64"/>
 <instance part="R1" gate="G$1" x="5.08" y="38.1">
 <attribute name="DIGIKEY#" x="5.08" y="38.1" size="1.778" layer="96" display="off"/>
 <attribute name="MANF" x="5.08" y="38.1" size="1.778" layer="96" display="off"/>
 <attribute name="MANF#" x="5.08" y="38.1" size="1.778" layer="96" display="off"/>
 </instance>
-<instance part="R6" gate="G$1" x="86.36" y="50.8"/>
-<instance part="R7" gate="G$1" x="104.14" y="43.18"/>
-<instance part="U1" gate="G$1" x="137.16" y="43.18" rot="MR0"/>
+<instance part="R6" gate="G$1" x="86.36" y="50.8">
+<attribute name="DIGIKEY#" x="86.36" y="50.8" size="1.778" layer="96" display="off"/>
+<attribute name="MANF" x="86.36" y="50.8" size="1.778" layer="96" display="off"/>
+<attribute name="MANF#" x="86.36" y="50.8" size="1.778" layer="96" display="off"/>
+</instance>
+<instance part="R7" gate="G$1" x="104.14" y="43.18">
+<attribute name="DIGIKEY#" x="104.14" y="43.18" size="1.778" layer="96" display="off"/>
+<attribute name="MANF" x="104.14" y="43.18" size="1.778" layer="96" display="off"/>
+<attribute name="MANF#" x="104.14" y="43.18" size="1.778" layer="96" display="off"/>
+</instance>
+<instance part="U1" gate="G$1" x="137.16" y="43.18" rot="MR0">
+<attribute name="DIGIKEY#" x="137.16" y="43.18" size="1.778" layer="96" rot="MR0" display="off"/>
+<attribute name="MANF" x="137.16" y="43.18" size="1.778" layer="96" rot="MR0" display="off"/>
+<attribute name="MANF#" x="137.16" y="43.18" size="1.778" layer="96" rot="MR0" display="off"/>
+</instance>
 <instance part="U1" gate="G$2" x="134.62" y="17.78"/>
-<instance part="R12" gate="G$1" x="157.48" y="35.56"/>
-<instance part="C12" gate="G$1" x="165.1" y="27.94"/>
+<instance part="R12" gate="G$1" x="157.48" y="35.56">
+<attribute name="DIGIKEY#" x="157.48" y="35.56" size="1.778" layer="96" display="off"/>
+<attribute name="MANF" x="157.48" y="35.56" size="1.778" layer="96" display="off"/>
+<attribute name="MANF#" x="157.48" y="35.56" size="1.778" layer="96" display="off"/>
+</instance>
+<instance part="C12" gate="G$1" x="165.1" y="27.94">
+<attribute name="DIGIKEY#" x="165.1" y="27.94" size="1.778" layer="96" display="off"/>
+<attribute name="MANF" x="165.1" y="27.94" size="1.778" layer="96" display="off"/>
+<attribute name="MANF#" x="165.1" y="27.94" size="1.778" layer="96" display="off"/>
+</instance>
 <instance part="SUPPLY11" gate="+5V" x="134.62" y="30.48"/>
 <instance part="SUPPLY12" gate="GND" x="134.62" y="5.08"/>
 <instance part="IC2" gate="A" x="91.44" y="109.22"/>
@@ -15584,7 +15664,11 @@ SO output always lower</text>
 <instance part="SUPPLY2" gate="+5V" x="40.64" y="91.44"/>
 <instance part="SUPPLY3" gate="GND" x="40.64" y="66.04"/>
 <instance part="C5" gate="G$1" x="45.72" y="81.28"/>
-<instance part="C3" gate="G$1" x="27.94" y="93.98"/>
+<instance part="C3" gate="G$1" x="27.94" y="93.98">
+<attribute name="DIGIKEY#" x="27.94" y="93.98" size="1.778" layer="96" display="off"/>
+<attribute name="MANF" x="27.94" y="93.98" size="1.778" layer="96" display="off"/>
+<attribute name="MANF#" x="27.94" y="93.98" size="1.778" layer="96" display="off"/>
+</instance>
 <instance part="C9" gate="G$1" x="106.68" y="96.52"/>
 <instance part="R9" gate="G$1" x="116.84" y="116.84" rot="R90"/>
 <instance part="Q2" gate="G$1" x="193.04" y="78.74"/>
@@ -15610,7 +15694,11 @@ SO output always lower</text>
 <attribute name="MANF" x="2.54" y="27.94" size="1.778" layer="96" rot="R90" display="off"/>
 <attribute name="MANF#" x="2.54" y="27.94" size="1.778" layer="96" rot="R90" display="off"/>
 </instance>
-<instance part="C2" gate="G$1" x="-2.54" y="93.98" rot="R180"/>
+<instance part="C2" gate="G$1" x="-2.54" y="93.98" rot="R180">
+<attribute name="DIGIKEY#" x="-2.54" y="93.98" size="1.778" layer="96" rot="R180" display="off"/>
+<attribute name="MANF" x="-2.54" y="93.98" size="1.778" layer="96" rot="R180" display="off"/>
+<attribute name="MANF#" x="-2.54" y="93.98" size="1.778" layer="96" rot="R180" display="off"/>
+</instance>
 <instance part="C10" gate="G$1" x="132.08" y="119.38"/>
 <instance part="SUPPLY1" gate="GND" x="-12.7" y="27.94"/>
 <instance part="IC1" gate="D" x="5.08" y="48.26"/>
@@ -15630,7 +15718,11 @@ SO output always lower</text>
 <attribute name="MANF" x="58.42" y="30.48" size="1.778" layer="96" rot="R90" display="off"/>
 <attribute name="MANF#" x="58.42" y="30.48" size="1.778" layer="96" rot="R90" display="off"/>
 </instance>
-<instance part="IC1" gate="B" x="104.14" y="53.34"/>
+<instance part="IC1" gate="B" x="104.14" y="53.34">
+<attribute name="DIGIKEY#" x="104.14" y="53.34" size="1.778" layer="96" display="off"/>
+<attribute name="MANF" x="104.14" y="53.34" size="1.778" layer="96" display="off"/>
+<attribute name="MANF#" x="104.14" y="53.34" size="1.778" layer="96" display="off"/>
+</instance>
 <instance part="IC1" gate="P" x="40.64" y="78.74"/>
 <instance part="C4" gate="G$1" x="27.94" y="48.26" rot="R90">
 <attribute name="DIGIKEY#" x="27.94" y="48.26" size="1.778" layer="96" rot="R90" display="off"/>
@@ -15638,8 +15730,16 @@ SO output always lower</text>
 <attribute name="MANF#" x="27.94" y="48.26" size="1.778" layer="96" rot="R90" display="off"/>
 </instance>
 <instance part="IC1" gate="C" x="190.5" y="33.02"/>
-<instance part="R14" gate="G$1" x="175.26" y="35.56"/>
-<instance part="C13" gate="G$1" x="180.34" y="43.18" rot="R90"/>
+<instance part="R14" gate="G$1" x="175.26" y="35.56">
+<attribute name="DIGIKEY#" x="175.26" y="35.56" size="1.778" layer="96" display="off"/>
+<attribute name="MANF" x="175.26" y="35.56" size="1.778" layer="96" display="off"/>
+<attribute name="MANF#" x="175.26" y="35.56" size="1.778" layer="96" display="off"/>
+</instance>
+<instance part="C13" gate="G$1" x="180.34" y="43.18" rot="R90">
+<attribute name="DIGIKEY#" x="180.34" y="43.18" size="1.778" layer="96" rot="R90" display="off"/>
+<attribute name="MANF" x="180.34" y="43.18" size="1.778" layer="96" rot="R90" display="off"/>
+<attribute name="MANF#" x="180.34" y="43.18" size="1.778" layer="96" rot="R90" display="off"/>
+</instance>
 <instance part="U3" gate="G$1" x="233.68" y="38.1" rot="MR90"/>
 <instance part="U2" gate="G$1" x="175.26" y="119.38"/>
 <instance part="Q3" gate="G$1" x="185.42" y="111.76" rot="R270"/>
@@ -15652,7 +15752,11 @@ SO output always lower</text>
 <instance part="SUPPLY19" gate="+12V" x="266.7" y="-5.08"/>
 <instance part="SUPPLY17" gate="GND" x="241.3" y="-45.72"/>
 <instance part="SUPPLY18" gate="GND" x="248.92" y="-25.4"/>
-<instance part="R4" gate="G$1" x="20.32" y="76.2" rot="R90"/>
+<instance part="R4" gate="G$1" x="20.32" y="76.2" rot="R90">
+<attribute name="DIGIKEY#" x="20.32" y="76.2" size="1.778" layer="96" rot="R90" display="off"/>
+<attribute name="MANF" x="20.32" y="76.2" size="1.778" layer="96" rot="R90" display="off"/>
+<attribute name="MANF#" x="20.32" y="76.2" size="1.778" layer="96" rot="R90" display="off"/>
+</instance>
 <instance part="IC4" gate="A" x="281.94" y="17.78" rot="R180"/>
 <instance part="IC4" gate="P" x="279.4" y="-22.86"/>
 <instance part="C15" gate="G$1" x="284.48" y="-20.32"/>
@@ -15669,11 +15773,19 @@ SO output always lower</text>
 <instance part="R21" gate="G$1" x="238.76" y="86.36" rot="R90"/>
 <instance part="U$5" gate="G$1" x="337.82" y="7.62" rot="MR270"/>
 <instance part="U$6" gate="G$1" x="337.82" y="-2.54" rot="MR270"/>
-<instance part="IC5" gate="G$1" x="215.9" y="-17.78" rot="R270"/>
+<instance part="IC5" gate="G$1" x="215.9" y="-17.78" rot="R270">
+<attribute name="DIGIKEY#" x="215.9" y="-17.78" size="1.778" layer="96" rot="R270" display="off"/>
+<attribute name="MANF" x="215.9" y="-17.78" size="1.778" layer="96" rot="R270" display="off"/>
+<attribute name="MANF#" x="215.9" y="-17.78" size="1.778" layer="96" rot="R270" display="off"/>
+</instance>
 <instance part="SUPPLY28" gate="GND" x="228.6" y="-12.7"/>
 <instance part="SUPPLY29" gate="+5V" x="228.6" y="5.08"/>
 <instance part="C16" gate="G$1" x="231.14" y="-2.54"/>
-<instance part="IC6" gate="A" x="10.16" y="99.06"/>
+<instance part="IC6" gate="A" x="10.16" y="99.06">
+<attribute name="DIGIKEY#" x="10.16" y="99.06" size="1.778" layer="96" display="off"/>
+<attribute name="MANF" x="10.16" y="99.06" size="1.778" layer="96" display="off"/>
+<attribute name="MANF#" x="10.16" y="99.06" size="1.778" layer="96" display="off"/>
+</instance>
 <instance part="SUPPLY30" gate="GND" x="-2.54" y="86.36"/>
 <instance part="U$8" gate="G$1" x="337.82" y="20.32" rot="MR270"/>
 <instance part="U$9" gate="G$1" x="337.82" y="33.02" rot="MR270"/>
