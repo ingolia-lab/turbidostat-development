@@ -8,20 +8,20 @@
 </settings>
 <grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
-<layer number="1" name="Top" color="4" fill="1" visible="yes" active="no"/>
-<layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="no"/>
-<layer number="17" name="Pads" color="2" fill="1" visible="yes" active="no"/>
-<layer number="18" name="Vias" color="2" fill="1" visible="yes" active="no"/>
-<layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="no"/>
-<layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="no"/>
-<layer number="21" name="tPlace" color="7" fill="1" visible="yes" active="no"/>
-<layer number="22" name="bPlace" color="7" fill="1" visible="yes" active="no"/>
-<layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="no"/>
-<layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="no"/>
-<layer number="25" name="tNames" color="7" fill="1" visible="yes" active="no"/>
-<layer number="26" name="bNames" color="7" fill="1" visible="yes" active="no"/>
-<layer number="27" name="tValues" color="7" fill="1" visible="yes" active="no"/>
-<layer number="28" name="bValues" color="7" fill="1" visible="yes" active="no"/>
+<layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
+<layer number="16" name="Bottom" color="1" fill="1" visible="no" active="no"/>
+<layer number="17" name="Pads" color="2" fill="1" visible="no" active="no"/>
+<layer number="18" name="Vias" color="2" fill="1" visible="no" active="no"/>
+<layer number="19" name="Unrouted" color="6" fill="1" visible="no" active="no"/>
+<layer number="20" name="Dimension" color="15" fill="1" visible="no" active="no"/>
+<layer number="21" name="tPlace" color="7" fill="1" visible="no" active="no"/>
+<layer number="22" name="bPlace" color="7" fill="1" visible="no" active="no"/>
+<layer number="23" name="tOrigins" color="15" fill="1" visible="no" active="no"/>
+<layer number="24" name="bOrigins" color="15" fill="1" visible="no" active="no"/>
+<layer number="25" name="tNames" color="7" fill="1" visible="no" active="no"/>
+<layer number="26" name="bNames" color="7" fill="1" visible="no" active="no"/>
+<layer number="27" name="tValues" color="7" fill="1" visible="no" active="no"/>
+<layer number="28" name="bValues" color="7" fill="1" visible="no" active="no"/>
 <layer number="29" name="tStop" color="7" fill="3" visible="no" active="no"/>
 <layer number="30" name="bStop" color="7" fill="6" visible="no" active="no"/>
 <layer number="31" name="tCream" color="7" fill="4" visible="no" active="no"/>
@@ -30,8 +30,8 @@
 <layer number="34" name="bFinish" color="6" fill="6" visible="no" active="no"/>
 <layer number="35" name="tGlue" color="7" fill="4" visible="no" active="no"/>
 <layer number="36" name="bGlue" color="7" fill="5" visible="no" active="no"/>
-<layer number="37" name="tTest" color="7" fill="1" visible="yes" active="no"/>
-<layer number="38" name="bTest" color="7" fill="1" visible="yes" active="no"/>
+<layer number="37" name="tTest" color="7" fill="1" visible="no" active="no"/>
+<layer number="38" name="bTest" color="7" fill="1" visible="no" active="no"/>
 <layer number="39" name="tKeepout" color="4" fill="11" visible="no" active="no"/>
 <layer number="40" name="bKeepout" color="1" fill="11" visible="no" active="no"/>
 <layer number="41" name="tRestrict" color="4" fill="10" visible="no" active="no"/>
@@ -39,17 +39,17 @@
 <layer number="43" name="vRestrict" color="2" fill="10" visible="no" active="no"/>
 <layer number="44" name="Drills" color="7" fill="1" visible="no" active="no"/>
 <layer number="45" name="Holes" color="7" fill="1" visible="no" active="no"/>
-<layer number="46" name="Milling" color="3" fill="1" visible="yes" active="no"/>
-<layer number="47" name="Measures" color="7" fill="1" visible="yes" active="no"/>
-<layer number="48" name="Document" color="7" fill="1" visible="yes" active="no"/>
-<layer number="49" name="Reference" color="7" fill="1" visible="yes" active="no"/>
-<layer number="50" name="dxf" color="7" fill="1" visible="yes" active="no"/>
-<layer number="51" name="tDocu" color="7" fill="1" visible="yes" active="no"/>
-<layer number="52" name="bDocu" color="7" fill="1" visible="yes" active="no"/>
-<layer number="53" name="tGND_GNDA" color="7" fill="9" visible="yes" active="no"/>
-<layer number="54" name="bGND_GNDA" color="1" fill="9" visible="yes" active="no"/>
-<layer number="56" name="wert" color="7" fill="1" visible="yes" active="no"/>
-<layer number="57" name="tCAD" color="7" fill="1" visible="yes" active="no"/>
+<layer number="46" name="Milling" color="3" fill="1" visible="no" active="no"/>
+<layer number="47" name="Measures" color="7" fill="1" visible="no" active="no"/>
+<layer number="48" name="Document" color="7" fill="1" visible="no" active="no"/>
+<layer number="49" name="Reference" color="7" fill="1" visible="no" active="no"/>
+<layer number="50" name="dxf" color="7" fill="1" visible="no" active="no"/>
+<layer number="51" name="tDocu" color="7" fill="1" visible="no" active="no"/>
+<layer number="52" name="bDocu" color="7" fill="1" visible="no" active="no"/>
+<layer number="53" name="tGND_GNDA" color="7" fill="9" visible="no" active="no"/>
+<layer number="54" name="bGND_GNDA" color="1" fill="9" visible="no" active="no"/>
+<layer number="56" name="wert" color="7" fill="1" visible="no" active="no"/>
+<layer number="57" name="tCAD" color="7" fill="1" visible="no" active="no"/>
 <layer number="90" name="Modules" color="5" fill="1" visible="yes" active="yes"/>
 <layer number="91" name="Nets" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="92" name="Busses" color="1" fill="1" visible="yes" active="yes"/>
@@ -15787,7 +15787,14 @@ Source: http://www.bourns.com/data/global/PDFs/3223.PDF</description>
 <attribute name="MANF" value="TDK Corporation"/>
 <attribute name="MANF#" value="FK16C0G1H473J"/>
 </part>
-<part name="U3" library="adafruit" deviceset="ARDUINOMICRO" device=""/>
+<part name="U3" library="adafruit" deviceset="ARDUINOMICRO" device="">
+<attribute name="DIGIKEY#" value="1050-1066-ND"/>
+<attribute name="DIGIKEY2#" value="S7050-ND x 2"/>
+<attribute name="MANF" value="Arduino"/>
+<attribute name="MANF#" value="A000053"/>
+<attribute name="MANF2" value="Sullins Connector Solutions"/>
+<attribute name="MANF2#" value="PPPC171LFBN-RC"/>
+</part>
 <part name="U2" library="ingolia" deviceset="DC-IN-PANEL-NODETECT" device="">
 <attribute name="DIGIKEY#" value="CP-5-ND"/>
 <attribute name="MANF" value="CUI Inc"/>
@@ -15918,7 +15925,11 @@ Source: http://www.bourns.com/data/global/PDFs/3223.PDF</description>
 </part>
 <part name="JP2" library="pinhead" deviceset="PINHD-1X2" device=""/>
 <part name="SUPPLY31" library="supply2" deviceset="+5V" device=""/>
-<part name="J1" library="jumper" deviceset="J" device="5MM"/>
+<part name="J1" library="jumper" deviceset="J" device="5MM">
+<attribute name="DIGIKEY#" value="0.0EBK-ND"/>
+<attribute name="MANF" value="Yageo"/>
+<attribute name="MANF#" value="ZOR-12-B-52-0R"/>
+</part>
 <part name="SUPPLY32" library="supply2" deviceset="+5V" device=""/>
 <part name="TP1" library="ingolia" deviceset="TEST_POINT" device=""/>
 </parts>
@@ -16171,7 +16182,14 @@ SO output always lower</text>
 <attribute name="MANF" x="180.34" y="43.18" size="1.778" layer="96" rot="R90" display="off"/>
 <attribute name="MANF#" x="180.34" y="43.18" size="1.778" layer="96" rot="R90" display="off"/>
 </instance>
-<instance part="U3" gate="G$1" x="233.68" y="38.1" rot="MR90"/>
+<instance part="U3" gate="G$1" x="233.68" y="38.1" rot="MR90">
+<attribute name="DIGIKEY#" x="233.68" y="38.1" size="1.778" layer="96" rot="MR90" display="off"/>
+<attribute name="MANF" x="233.68" y="38.1" size="1.778" layer="96" rot="MR90" display="off"/>
+<attribute name="MANF#" x="233.68" y="38.1" size="1.778" layer="96" rot="MR90" display="off"/>
+<attribute name="DIGIKEY2#" x="233.68" y="38.1" size="1.778" layer="96" rot="MR90" display="off"/>
+<attribute name="MANF2" x="233.68" y="38.1" size="1.778" layer="96" rot="MR90" display="off"/>
+<attribute name="MANF2#" x="233.68" y="38.1" size="1.778" layer="96" rot="MR90" display="off"/>
+</instance>
 <instance part="U2" gate="G$1" x="175.26" y="119.38">
 <attribute name="DIGIKEY#" x="175.26" y="119.38" size="1.778" layer="96" display="off"/>
 <attribute name="MANF" x="175.26" y="119.38" size="1.778" layer="96" display="off"/>
@@ -16304,7 +16322,11 @@ SO output always lower</text>
 <instance part="JP2" gate="G$1" x="248.92" y="76.2"/>
 <instance part="IC3" gate="B" x="25.4" y="129.54"/>
 <instance part="SUPPLY31" gate="+5V" x="10.16" y="139.7"/>
-<instance part="J1" gate="1" x="213.36" y="45.72"/>
+<instance part="J1" gate="1" x="213.36" y="45.72">
+<attribute name="DIGIKEY#" x="213.36" y="45.72" size="1.778" layer="96" display="off"/>
+<attribute name="MANF" x="213.36" y="45.72" size="1.778" layer="96" display="off"/>
+<attribute name="MANF#" x="213.36" y="45.72" size="1.778" layer="96" display="off"/>
+</instance>
 <instance part="SUPPLY32" gate="+5V" x="203.2" y="50.8"/>
 <instance part="TP1" gate="G$1" x="215.9" y="22.86"/>
 </instances>

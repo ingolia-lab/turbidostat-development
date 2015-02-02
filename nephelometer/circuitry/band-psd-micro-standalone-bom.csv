@@ -1,35 +1,67 @@
-Qty,Value,Device,Package,Parts,Description,,
-2,,APE1F-5M-10-Z,APE1F-5M-10Z,U$5&U$6,,,
-1,,ARDUINOMICRO,ARDUINOMICRO,U3,,,
-1,,DC-IN-PANEL,3WIRES,U2,,,
-3,,IRLB8721,TO220BV,Q2&Q3&Q4,,,
-1,,LED3MM,LED3MM,LED1,LED,,
-1,,LTR-4206PTRANS,PTRANS,Q1,,,
-1,,MCP3301,DIL08,IC5,,,
-1,,PINHD-1X12-CB,1X12-CB,16X2,PIN HEADER,,
-1,100K,R-US_0204/2V,0204V,R5,RESISTOR&American symbol,,
-9,100n,C-US025-025X050,C025-025X050,C2&C3&C5&C7&C8&C10&C11&C15&C16,CAPACITOR&American symbol,,
-5,10K,R-US_0204/2V,0204V,R2&R17&R18&R19&R20,RESISTOR&American symbol,,
-1,10K,TRIM_US-B25P,B25P,TM1,POTENTIOMETER,,
-2,10K (1%),R-US_0204/2V,0204V,R6&R7,RESISTOR&American symbol,,
-1,10R,R-US_0204/2V,0204V,R21,RESISTOR&American symbol,,
-1,10n,C-US025-025X050,C025-025X050,C9,CAPACITOR&American symbol,,
-2,10u,C-US050-025X075,C050-025X075,C12&C13,CAPACITOR&American symbol,,
-1,10u,C-US050-050X075,C050-050X075,C14,CAPACITOR&American symbol,,
-2,120,R-US_0204/2V,0204V,R3&R4,RESISTOR&American symbol,,
-3,1K0,R-US_0204/2V,0204V,R1&R12&R14,RESISTOR&American symbol,,
-1,1N4004,1N4004,DO41-10,D1,DIODE,,
-1,20n,C-US025-025X050,C025-025X050,C4,CAPACITOR&American symbol,,
-2,2N2222,2N2222,TO92-EBC-OVAL,T1&T2,NPN TRANSISTOR,,
-1,2n,C-US025-025X050,C025-025X050,C1,CAPACITOR&American symbol,,
-1,330,R-US_0204/2V,0204V,R16,RESISTOR&American symbol,,
-1,4044N,4044N,DIL16,IC4,Quad 3-state NAND R/S LATCH,,
-5,4K7,R-US_0204/2V,0204V,R8&R9&R10&R11&R13,RESISTOR&American symbol,,
-1,50p,C-US025-025X050,C025-025X050,C6,CAPACITOR&American symbol,,
-1,6.3R,R-US_0204/2V,0204V,R15,RESISTOR&American symbol,,
-1,74HCT74N,74HCT74N,DIL14,IC3,Dual D type positive edge triggered FLIP FLOP&preset and clear,,
-1,LED,LED_CXN,1X02_SCREW,JP1,,,
-1,LM555N,LM555N,DIL08,IC2,TIMER,,
-1,LMC6484P,LMC6484P,DIL14,IC1,SoundPLUS (TM) High Performance AUDIO OPERATIONAL AMPLIFIERS,,
-1,MAX4544,MAX4544,DIL08,U1,,,
-1,MotA,1X02_MOTOR,1X02_SCREW,U4,,,
+"Part";"Value";"Device";"Package";"Description";"DIGIKEY#";"DIGIKEY2#";"MANF";"MANF#";"MANF2";"MANF2#";"MF";"MPN";"OC_FARNELL";"OC_NEWARK";
+"16X2";"PINHD-1X10";"PINHD-1X10";"1X10-BIG";"Pin header 1x10 0.1" spacing";"";"";"";"";"";"";"";"";"";"";
+"C1";"2.2nF";"C-US025-024X044";"C025-024X044";"CAPACITOR, American symbol";"BC1029CT-ND";"";"Vishay BC Components";"K222J15C0GF5TL2";"";"";"";"";"";"";
+"C2";"100nF";"C-US025-025X050";"C025-025X050";"CAPACITOR, American symbol";"BC1084CT-ND";"";"Vishay BC Components";"K104K15X7RF5TL2";"";"";"";"";"";"";
+"C3";"1u";"C-US050-024X044";"C050-024X044";"CAPACITOR, American symbol";"445-8614-ND";"";"TDK Corporation";"FK28X7R1C105K";"";"";"";"";"";"";
+"C4";"100nF";"C-US025-060X050";"C025-060X050";"CAPACITOR, American symbol";"445-8325-ND";"";"TDK Corporation";"FK16C0G1H104J";"";"";"";"";"";"";
+"C5";"100nF";"C-US025-025X050";"C025-025X050";"CAPACITOR, American symbol";"BC1084CT-ND";"";"";"";"";"";"";"";"";"";
+"C6";"10pF";"C-US025-024X044";"C025-024X044";"CAPACITOR, American symbol";"BC1001CT-ND";"";"Vishay BC Components";"K100J15C0GF5TL2";"";"";"";"";"";"";
+"C7";"100n";"C-US025-025X050";"C025-025X050";"CAPACITOR, American symbol";"BC1084CT-ND";"";"";"";"";"";"";"";"";"";
+"C8";"100n";"C-US025-025X050";"C025-025X050";"CAPACITOR, American symbol";"BC1084CT-ND";"";"";"";"";"";"";"";"";"";
+"C9";"10n";"C-US025-025X050";"C025-025X050";"CAPACITOR, American symbol";"445-8384-ND";"";"TDK Corporation";"FK18C0G1H103J";"";"";"";"";"";"";
+"C10";"100n";"C-US025-025X050";"C025-025X050";"CAPACITOR, American symbol";"BC1084CT-ND";"";"";"";"";"";"";"";"";"";
+"C11";"100n";"C-US025-025X050";"C025-025X050";"CAPACITOR, American symbol";"BC1084CT-ND";"";"";"";"";"";"";"";"";"";
+"C12";"22nF";"C-US025-024X044";"C025-024X044";"CAPACITOR, American symbol";"445-8280-ND";"";"TDK Corporation";"FK14C0G1H223J";"";"";"";"";"";"";
+"C13";"47nF";"C-US025-040X050";"C025-040X050";"CAPACITOR, American symbol";"445-8327-ND";"";"TDK Corporation";"FK16C0G1H473J";"";"";"";"";"";"";
+"C14";"220µF";"CPOL-USE3.5-8";"E3,5-8";"POLARIZED CAPACITOR, American symbol";"P5166-ND";"";"Panasonic Electronic Components";"ECA-1VM221";"";"";"";"";"";"";
+"C15";"100n";"C-US025-025X050";"C025-025X050";"CAPACITOR, American symbol";"BC1084CT-ND";"";"";"";"";"";"";"";"";"";
+"C16";"100n";"C-US025-025X050";"C025-025X050";"CAPACITOR, American symbol";"BC1084CT-ND";"";"";"";"";"";"";"";"";"";
+"C17";"0.33µ";"C-US025-050X050";"C025-050X050";"CAPACITOR, American symbol";"445-5312-ND ";"";"TDK Corporation";"FK14X7R1H334K";"";"";"";"";"";"";
+"C18";"22µ";"C-US050-045X075";"C050-045X075";"CAPACITOR, American symbol";"445-8455-ND";"";"TDK Corporation";"FK20X7R1C226M";"";"";"";"";"";"";
+"C19";"0.33µ";"C-US025-050X050";"C025-050X050";"CAPACITOR, American symbol";"445-5312-ND ";"";"TDK Corporation";"FK14X7R1H334K";"";"";"";"";"";"";
+"D1";"1N4935";"1N4004";"DO41-10";"DIODE";"1N4935FSCT-ND";"";"Fairchild Semiconductor";"1N4935";"";"";"";"";"";"";
+"IC1";"LMC6484P";"LMC6484P";"DIL14";"SoundPLUS (TM) High Performance AUDIO OPERATIONAL AMPLIFIERS";"LMC6484AIN/NOPB-ND";"AE10012-ND";"Texas Instruments";"LMC6484AIN/NOPB";"";"";"";"";"";"";
+"IC2";"LM555N";"LM555N";"DIL08";"TIMER";"LM555CNFS-ND";"AE9986-ND";"Fairchild Semiconductor";"LM555CN";"";"";"";"";"";"";
+"IC3";"74HCT74N";"74HCT74N";"DIL14";"Dual D type positive edge triggered FLIP FLOP, preset and clear";"296-1625-5-ND ";"AE10012-ND";"Texas Instruments";"SN74HCT74N";"";"";"";"";"";"";
+"IC4";"4044N";"4044N";"DIL16";"Quad 3-state NAND R/S LATCH";"296-2051-5-ND ";"AE9992-ND";"Texas Instruments";"CD4044BE";"";"";"";"";"";"";
+"IC5";"";"MCP3301";"DIL08";"";"MCP3301-BI/P-ND";"AE9986-ND";"Microchip Technology";"MCP3301-BI/P";"";"";"";"";"";"";
+"IC6";"";"LM317L";"317L";"VOLTAGE REGULATOR";"296-33312-5-ND";"";"Texas Instruments";"LM317LCLP";"";"";"";"";"";"";
+"IC8";"7805TV";"7805TV";"TO220V";"Positive VOLTAGE REGULATOR";"LM7805CT-ND ";"";"Fairchild Semiconductor";"LM7805CT";"";"";"";"";"";"";
+"J1";"J5MM";"J5MM";"05";"Bridge";"0.0EBK-ND";"";"Yageo";"ZOR-12-B-52-0R";"";"";"";"";"";"";
+"JP1";"LED";"LED_CXN";"1X02_SCREW";"";"475-3002-ND";"492-1502-ND";"OSRAM Opto Semiconductors Inc";"SFH 4547";"Bivar Inc";"CR-174";"";"";"";"";
+"JP2";"";"PINHD-1X2";"1X02";"PIN HEADER";"";"";"";"";"";"";"";"";"";"";
+"LED1";"";"LED3MM";"LED3MM";"LED";"160-1139-ND";"";"Lite-On Inc";"LTL-4221N";"";"";"";"";"";"";
+"Q1";"";"LTR-4206";"3MM_LED";"";"160-1030-ND";"";"Lite-On Inc";"LTR-4206E";"";"";"";"";"";"";
+"Q2";"";"IRLB8721";"TO220BV";"";"IRLB8721PBF-ND";"";"";"";"";"";"";"";"";"";
+"Q3";"";"IRLB8721";"TO220BV";"";"IRLB8721PBF-ND";"";"International Rectifier";"IRLB8721PBF";"";"";"";"";"";"";
+"Q4";"";"IRLB8721";"TO220BV";"";"IRLB8721PBF-ND";"";"International Rectifier";"IRLB8721PBF";"";"";"";"";"";"";
+"R1";"1K0";"R-US_0204/5";"0204/5";"RESISTOR, American symbol";"S1KCACT-ND ";"";"Stackpole Electronics Inc";"RNMF14FTC1K00";"";"";"";"";"";"";
+"R2";"1K0";"R-US_0204/5";"0204/5";"RESISTOR, American symbol";"S1KCACT-ND ";"";"Stackpole Electronics Inc";"RNMF14FTC1K00";"";"";"";"";"";"";
+"R3";"120";"R-US_0204/2V";"0204V";"RESISTOR, American symbol";"S120CACT-ND";"";"Stackpole Electronics Inc";"RNMF14FTC120R";"";"";"";"";"";"";
+"R4";"120";"R-US_0204/2V";"0204V";"RESISTOR, American symbol";"S120CACT-ND";"";"Stackpole Electronics Inc";"RNMF14FTC120R";"";"";"";"";"";"";
+"R5";"330K";"R-US_0309/V";"0309V";"RESISTOR, American symbol";"RNV14FAL330KCT-ND";"";"Stackpole Electronics Inc";"RNV14FAL330K";"";"";"";"";"";"";
+"R6";"10K (1%)";"R-US_0204/5";"0204/5";"RESISTOR, American symbol";"S10KCACT-ND";"";"Stackpole Electronics Inc";"RNMF14FTC10K0";"";"";"";"";"";"";
+"R7";"10K (1%)";"R-US_0204/5";"0204/5";"RESISTOR, American symbol";"S10KCACT-ND";"";"Stackpole Electronics Inc";"RNMF14FTC10K0";"";"";"";"";"";"";
+"R8";"4K7";"R-US_0204/2V";"0204V";"RESISTOR, American symbol";"S4.7KCACT-ND ";"";"Stackpole Electronics Inc";"RNMF14FTC4K70";"";"";"";"";"";"";
+"R9";"4K7";"R-US_0204/2V";"0204V";"RESISTOR, American symbol";"S4.7KCACT-ND";"";"Stackpole Electronics Inc";"RNMF14FTC4K70";"";"";"";"";"";"";
+"R10";"4K7";"R-US_0204/2V";"0204V";"RESISTOR, American symbol";"S4.7KQCT-ND";"";"Stackpole Electronics Inc";"CFM14JT4K70";"";"";"";"";"";"";
+"R11";"4K7";"R-US_0204/2V";"0204V";"RESISTOR, American symbol";"S4.7KQCT-ND";"";"Stackpole Electronics Inc";"CFM14JT4K70";"";"";"";"";"";"";
+"R12";"330K";"R-US_0204/2V";"0204V";"RESISTOR, American symbol";"RNV14FAL330KCT-ND";"";"Stackpole Electronics Inc";"RNV14FAL330K";"";"";"";"";"";"";
+"R13";"4K7";"R-US_0204/2V";"0204V";"RESISTOR, American symbol";"S4.7KQCT-ND";"";"Stackpole Electronics Inc";"CFM14JT4K70";"";"";"";"";"";"";
+"R14";"680K";"R-US_0204/2V";"0204V";"RESISTOR, American symbol";"S680KCACT-ND";"";"Stackpole Electronics Inc";"RNMF14FTC680K";"";"";"";"";"";"";
+"R15";"6.2R";"R-US_0204/2V";"0204V";"RESISTOR, American symbol";"PPC6.2W-1CT-ND";"";"Vishay BC Components";"PR01000106208JR500";"";"";"";"";"";"";
+"R16";"330";"R-US_0204/2V";"0204V";"RESISTOR, American symbol";"CF14JT330RCT-ND ";"";"Stackpole Electronics Inc";"CF14JT330R";"";"";"";"";"";"";
+"R21";"10R";"R-US_0204/2V";"0204V";"RESISTOR, American symbol";"";"";"";"";"";"";"";"";"";"";
+"RN1";"";"G08R";"SIL9";"SIL RESISTOR";"4609X-101-103LF-ND";"";"Bourns Inc.";"4609X-101-103LF";"";"";"";"";"unknown";"unknown";
+"T1";"2N2222";"2N2222";"TO92-EBC-OVAL";"NPN TRANSISTOR";"PN2222ATFCT-ND";"";"Fairchild Semiconductor";"PN2222ATF";"";"";"";"";"";"";
+"T2";"2N2222";"2N2222";"TO92-EBC-OVAL";"NPN TRANSISTOR";"PN2222ATFCT-ND";"";"Fairchild Semiconductor";"PN2222ATF";"";"";"";"";"";"";
+"TM1";"10K";"TRIM_US-B25P";"B25P";"POTENTIOMETER";"3386P-103LF-ND";"";"Bourns Inc.";"3386P-1-103LF";"";"";"";"";"";"";
+"TP1";"";"TEST_POINT";"1X02_SCREW";"";"";"";"";"";"";"";"";"";"";"";
+"U$5";"";"APE1F-5M-10-Z";"APE1F-5M-10Z";"";"563-1183-ND";"";"";"";"";"";"";"";"";"";
+"U$6";"";"APE1F-5M-10-Z";"APE1F-5M-10Z";"";"563-1183-ND";"";"";"";"";"";"";"";"";"";
+"U$8";"";"APE1F-5M-10-Z";"APE1F-5M-10Z";"";"563-1183-ND";"";"";"";"";"";"";"";"";"";
+"U$9";"";"APE1F-5M-10-Z";"APE1F-5M-10Z";"";"563-1183-ND";"";"Copal Electronics Inc";"APE1F-5M-10-Z";"";"";"";"";"";"";
+"U1";"MAX4544";"MAX4544";"DIL08";"";"MAX4544CPA+-ND";"AE9986-ND";"Maxim Integrated";"MAX4544CPA+";"";"";"";"";"";"";
+"U2";"";"DC-IN-PANEL-NODETECT";"1X02_SCREW";"";"CP-5-ND";"";"CUI Inc";"PJ-005A";"";"";"";"";"";"";
+"U3";"";"ARDUINOMICRO";"ARDUINOMICRO";"";"1050-1066-ND";"S7050-ND x 2";"Arduino";"A000053";"Sullins Connector Solutions";"PPPC171LFBN-RC";"";"";"";"";
+"U4";"MotA";"1X02_MOTOR";"1X02_SCREW";"";"SC1455-ND";"";"Switchcraft Inc.";"35PM1";"";"";"";"";"";"";

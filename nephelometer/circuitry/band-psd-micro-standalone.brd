@@ -1414,7 +1414,14 @@ Please make sure your boards conform to these design rules.</description>
 <attribute name="MANF" value="TDK Corporation" x="23" y="30" size="1.778" layer="27" display="off"/>
 <attribute name="MANF#" value="FK16C0G1H473J" x="23" y="30" size="1.778" layer="27" display="off"/>
 </element>
-<element name="U3" library="adafruit" package="ARDUINOMICRO" value="" x="61.5" y="33" smashed="yes" rot="MR0"/>
+<element name="U3" library="adafruit" package="ARDUINOMICRO" value="" x="61.5" y="33" smashed="yes" rot="MR0">
+<attribute name="DIGIKEY#" value="1050-1066-ND" x="61.5" y="33" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="MANF" value="Arduino" x="61.5" y="33" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="MANF#" value="A000053" x="61.5" y="33" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="DIGIKEY2#" value="S7050-ND x 2" x="61.5" y="33" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="MANF2" value="Sullins Connector Solutions" x="61.5" y="33" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="MANF2#" value="PPPC171LFBN-RC" x="61.5" y="33" size="1.778" layer="28" rot="MR0" display="off"/>
+</element>
 <element name="U2" library="ingolia" package="1X02_SCREW" value="" x="86.5" y="15.5" smashed="yes" rot="R180">
 <attribute name="VALUE" x="86.5" y="14.865" size="1.27" layer="27" rot="R180"/>
 <attribute name="DIGIKEY#" value="CP-5-ND" x="86.5" y="15.5" size="1.778" layer="27" rot="R180" display="off"/>
@@ -1568,7 +1575,11 @@ Please make sure your boards conform to these design rules.</description>
 <attribute name="NAME" x="59.8838" y="27.8288" size="1" layer="25" ratio="10"/>
 <attribute name="VALUE" x="57.825" y="34.54" size="1.27" layer="27" rot="R270"/>
 </element>
-<element name="J1" library="jumper" package="05" value="J5MM" x="51.5" y="28"/>
+<element name="J1" library="jumper" package="05" value="J5MM" x="51.5" y="28">
+<attribute name="DIGIKEY#" value="0.0EBK-ND" x="51.5" y="28" size="1.778" layer="27" display="off"/>
+<attribute name="MANF" value="Yageo" x="51.5" y="28" size="1.778" layer="27" display="off"/>
+<attribute name="MANF#" value="ZOR-12-B-52-0R" x="51.5" y="28" size="1.778" layer="27" display="off"/>
+</element>
 <element name="TP1" library="ingolia" package="1X02_SCREW" value="" x="27.5" y="40" rot="R180"/>
 </elements>
 <signals>
