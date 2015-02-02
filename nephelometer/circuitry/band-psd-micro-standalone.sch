@@ -11891,6 +11891,17 @@ With round pins</description>
 <pin name="GND" x="-15.24" y="0" length="short" direction="pwr" swaplevel="1"/>
 <pin name="VREF" x="-15.24" y="-12.7" length="short" direction="in" swaplevel="1"/>
 </symbol>
+<symbol name="TEST_POINT">
+<wire x1="0" y1="5.08" x2="0" y2="-2.54" width="0.254" layer="94"/>
+<wire x1="0" y1="-2.54" x2="2.54" y2="-2.54" width="0.254" layer="94"/>
+<wire x1="2.54" y1="-2.54" x2="2.54" y2="5.08" width="0.254" layer="94"/>
+<wire x1="2.54" y1="5.08" x2="0" y2="5.08" width="0.254" layer="94"/>
+<pin name="+" x="-2.54" y="2.54" visible="off" length="short" direction="pas"/>
+<pin name="-" x="-2.54" y="0" visible="off" length="short" direction="pas"/>
+<text x="0.254" y="1.651" size="2.54" layer="94">+</text>
+<text x="0" y="5.334" size="1.27" layer="95">&gt;NAME</text>
+<text x="0.254" y="-4.064" size="1.27" layer="96">&gt;VALUE</text>
+</symbol>
 </symbols>
 <devicesets>
 <deviceset name="LTR-4206" prefix="Q" uservalue="yes">
@@ -12119,6 +12130,22 @@ Source: http://focus.ti.com/lit/ds/sbos058/sbos058.pdf</description>
 <connect gate="G$1" pin="SHDN" pad="5"/>
 <connect gate="G$1" pin="VDD" pad="8"/>
 <connect gate="G$1" pin="VREF" pad="1"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="TEST_POINT" prefix="TP" uservalue="yes">
+<gates>
+<gate name="G$1" symbol="TEST_POINT" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="1X02_SCREW">
+<connects>
+<connect gate="G$1" pin="+" pad="1/POS"/>
+<connect gate="G$1" pin="-" pad="2"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -15784,6 +15811,7 @@ Source: http://www.bourns.com/data/global/PDFs/3223.PDF</description>
 <part name="SUPPLY31" library="supply2" deviceset="+5V" device=""/>
 <part name="J1" library="jumper" deviceset="J" device="5MM"/>
 <part name="SUPPLY32" library="supply2" deviceset="+5V" device=""/>
+<part name="TP1" library="ingolia" deviceset="TEST_POINT" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -16059,6 +16087,7 @@ SO output always lower</text>
 <instance part="SUPPLY31" gate="+5V" x="10.16" y="139.7"/>
 <instance part="J1" gate="1" x="213.36" y="45.72"/>
 <instance part="SUPPLY32" gate="+5V" x="203.2" y="50.8"/>
+<instance part="TP1" gate="G$1" x="215.9" y="22.86"/>
 </instances>
 <busses>
 </busses>
@@ -16255,8 +16284,10 @@ SO output always lower</text>
 </segment>
 <segment>
 <pinref part="IC5" gate="G$1" pin="IN+"/>
-<wire x1="210.82" y1="-2.54" x2="210.82" y2="5.08" width="0.1524" layer="91"/>
 <label x="210.82" y="0" size="1.778" layer="95" rot="R90"/>
+<pinref part="TP1" gate="G$1" pin="+"/>
+<wire x1="213.36" y1="25.4" x2="210.82" y2="25.4" width="0.1524" layer="91"/>
+<wire x1="210.82" y1="25.4" x2="210.82" y2="-2.54" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="GND" class="0">
@@ -16760,7 +16791,11 @@ SO output always lower</text>
 <wire x1="203.2" y1="33.02" x2="208.28" y2="33.02" width="0.1524" layer="91"/>
 <junction x="203.2" y="33.02"/>
 <pinref part="IC5" gate="G$1" pin="IN-"/>
-<wire x1="208.28" y1="33.02" x2="208.28" y2="-2.54" width="0.1524" layer="91"/>
+<wire x1="208.28" y1="33.02" x2="208.28" y2="22.86" width="0.1524" layer="91"/>
+<pinref part="TP1" gate="G$1" pin="-"/>
+<wire x1="208.28" y1="22.86" x2="208.28" y2="-2.54" width="0.1524" layer="91"/>
+<wire x1="213.36" y1="22.86" x2="208.28" y2="22.86" width="0.1524" layer="91"/>
+<junction x="208.28" y="22.86"/>
 </segment>
 </net>
 <net name="N$47" class="0">
