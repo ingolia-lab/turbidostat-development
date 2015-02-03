@@ -15724,7 +15724,7 @@ Source: http://www.bourns.com/data/global/PDFs/3223.PDF</description>
 <attribute name="MANF#" value="CFM14JT4K70"/>
 </part>
 <part name="R8" library="adafruit" deviceset="R-US_" device="0204/2V" value="4K7">
-<attribute name="DIGIKEY#" value="S4.7KCACT-ND "/>
+<attribute name="DIGIKEY#" value="S4.7KCACT-ND"/>
 <attribute name="MANF" value="Stackpole Electronics Inc"/>
 <attribute name="MANF#" value="RNMF14FTC4K70"/>
 </part>

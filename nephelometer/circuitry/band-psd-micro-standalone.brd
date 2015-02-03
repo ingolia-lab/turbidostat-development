@@ -1303,7 +1303,7 @@ Please make sure your boards conform to these design rules.</description>
 <element name="R8" library="adafruit" package="0204V" value="4K7" x="66.85" y="18.74" smashed="yes" rot="R90">
 <attribute name="NAME" x="67.3936" y="22.1816" size="0.8" layer="25" ratio="12" rot="R180"/>
 <attribute name="VALUE" x="68.1614" y="20.6064" size="1.27" layer="27" ratio="12" rot="R90"/>
-<attribute name="DIGIKEY#" value="S4.7KCACT-ND " x="66.85" y="18.74" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="DIGIKEY#" value="S4.7KCACT-ND" x="66.85" y="18.74" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="MANF" value="Stackpole Electronics Inc" x="66.85" y="18.74" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="MANF#" value="RNMF14FTC4K70" x="66.85" y="18.74" size="1.778" layer="27" rot="R90" display="off"/>
 </element>
