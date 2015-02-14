@@ -1,0 +1,48 @@
+Phase-Sensitive Detector
+
+.INCLUDE /Users/ingolia/Dropbox/Experiments/turbidostat/nephelometer/circuitry/nat_semi.lib
+
+VCC  1 0  DC 5
+
+* Transimpedance amplifier at V0 = 2.5
+V1   3 0  DC 2.5
+*    + - V G O
+XOP1 3 4 1 0 5 LMC6484A/NS
+R1   4 5 1K
+C1   4 5 2.2n
+
+* High-pass filter, combined freq response peaks over 5 kHz but reject 60 Hz better
+* Level shift to center on 2.5V (pure AC)
+C4   5 6 100n
+R2   6 7 1k
+XOP2 3 7 1 0 8 LMC6484A/NS
+R5   8 7 330k
+C6   8 7 10p
+
+* Generate a balanced inverted signal
+R6   8  9 10k
+R7   9 10 10k
+XOP3 3  9 1 0 10 LMC6484A/NS
+
+Cp   4 0 10p
+Is   4 0 PULSE(0.1u 1u    50u 1u 1u 100u 200u)
+Is2  4 0 PULSE(0u   1u 50.05m 1u 1u 100u 200u)
+
+S1   10 11 100 0 UPON
+S2    8 11 100 0 UPOFF
+
+R12  11 12 330K
+C12   3 12 22n
+R14  12 13 680K
+XOP4 13 14 1 0 14 LMC6484A/NS
+C13  14 12 47n
+
+Rzz  11 20 330K
+Czz  20  0 22n
+
+
+.MODEL UPON SW ( vt=2.6 vh=0 ron=10 roff=1e6)
+.MODEL UPOFF SW ( vt=2.4 vh=0 ron=1e6 roff=10)
+
+VP 100 0 PULSE(0.1 4.9 50u 1u 1u 100u 200u)
+* PULSE(V1 V2 TD TR TF PW PER)
