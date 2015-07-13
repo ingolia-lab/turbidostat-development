@@ -22,7 +22,7 @@ void setup() {
   pinMode(motorPin, OUTPUT);
   digitalWrite(motorPin, LOW);
   
-  SPI.setClockDivider( SPI_CLOCK_DIV16 );
+  SPI.setClockDivider( SPI_CLOCK_DIV16 ); // 1 MHz SPI clock
   SPI.setBitOrder(MSBFIRST);
   SPI.setDataMode(SPI_MODE0);
   SPI.begin();
@@ -31,9 +31,11 @@ void setup() {
   Serial.print(F("band-psd-micro 15-07-03\r\n"));
 }
 
-const int burnin = 32;
-const int nsamp = 96;
-const int delayUsec = 500;
+const int burnin = 16;
+const int nsamp = 128;
+const int delayUsec = 520 - 16; // Two bytes of SPI transfer at 1 MHz
+// 128 cycles at 1040 microseconds / cycle = 0.133 seconds, covers 7.98 cycles @ 60 Hz
+// 256 cycles at 1040 microseconds / cycle = 0.266 seconds, covers 16.0 cycles @ 60 Hz
 
 void measure(struct measure_struct *result)
 {
@@ -63,6 +65,8 @@ void measure(struct measure_struct *result)
   }
 }
 
+const int interval = 500; // milliseconds between measurements
+
 void loop() {
   unsigned long start = millis();
   
@@ -85,8 +89,8 @@ void loop() {
 
   unsigned long done = millis();
   
-  if (done < start + 1000) {
-    delay((start + 1000) - done);    
+  if (done < start + interval) {
+    delay((start + interval) - done);    
   }
 }
 
