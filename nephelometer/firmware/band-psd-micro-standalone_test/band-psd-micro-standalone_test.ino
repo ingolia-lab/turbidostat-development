@@ -26,14 +26,7 @@ void setup()
    pinMode(adcChipSel, OUTPUT);
    digitalWrite(adcChipSel, HIGH);
    
-   SPI.setClockDivider( SPI_CLOCK_DIV16 );
-   SPI.setBitOrder(MSBFIRST);
-   SPI.setDataMode(SPI_MODE0);
-   SPI.begin();
-   
-   Serial.begin(9600);
-   Serial.print(F("band-psd-micro-standalone_test\r\n"));
-}
+q}
 
 
 
@@ -42,7 +35,8 @@ void loop()
   long now = millis();
   long next = now + timestep;
 
-  int motorState = (((now / 1000) % 10) > 4) ? HIGH : LOW;
+//  int motorState = (((now / 1000) % 10) > 4) ? HIGH : LOW;
+  int motorState = LOW;
   digitalWrite(motorPin, motorState);
   
   int measure = readAdc();
