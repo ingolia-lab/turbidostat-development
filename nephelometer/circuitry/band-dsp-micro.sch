@@ -12307,10 +12307,10 @@ http://www.fairchildsemi.com/ds/LM/LM7805.pdf</description>
 </part>
 <part name="SUPPLY3" library="supply2" deviceset="GND" device=""/>
 <part name="U1" library="ingolia" deviceset="LMC6482" device="">
-<attribute name="DIGIKEY#" value="LMC6484AIN/NOPB-ND"/>
-<attribute name="DIGIKEY2#" value="AE10012-ND"/>
+<attribute name="DIGIKEY#" value="LMC6482AIN/NOPB-ND"/>
+<attribute name="DIGIKEY2#" value="AE9986-ND"/>
 <attribute name="MANF" value="Texas Instruments"/>
-<attribute name="MANF#" value="LMC6484AIN/NOPB"/>
+<attribute name="MANF#" value="LMC6482AIN/NOPB"/>
 </part>
 <part name="R4" library="adafruit" deviceset="R-US_" device="0204/5" value="10K">
 <attribute name="DIGIKEY#" value="S10KCACT-ND "/>
@@ -12329,11 +12329,17 @@ http://www.fairchildsemi.com/ds/LM/LM7805.pdf</description>
 </part>
 <part name="U3" library="adafruit" deviceset="ARDUINOMICRO" device="">
 <attribute name="DIGIKEY#" value="1050-1066-ND"/>
-<attribute name="DIGIKEY2#" value="S7050-ND x 2"/>
+<attribute name="DIGIKEY2#" value="S7050-ND"/>
+<attribute name="DIGIKEY3#" value="S7050-ND"/>
+<attribute name="DIGIKEY4#" value="AE10419-ND"/>
 <attribute name="MANF" value="Arduino"/>
 <attribute name="MANF#" value="A000053"/>
 <attribute name="MANF2" value="Sullins Connector Solutions"/>
 <attribute name="MANF2#" value="PPPC171LFBN-RC"/>
+<attribute name="MANF3" value="Sullins Connector Solutions"/>
+<attribute name="MANF3#" value="PPPC171LFBN-RC"/>
+<attribute name="MANF4" value="Assmann WSW Components"/>
+<attribute name="MANF4#" value="AK67421-1"/>
 </part>
 <part name="Q4" library="ingolia" deviceset="IRLB8721" device="">
 <attribute name="DIGIKEY#" value="IRLB8721PBF-ND"/>
@@ -12418,8 +12424,11 @@ http://www.fairchildsemi.com/ds/LM/LM7805.pdf</description>
 <part name="SUPPLY13" library="supply2" deviceset="+5V" device=""/>
 <part name="J1" library="adafruit" deviceset="2.1MMJACK" device="THM">
 <attribute name="DIGIKEY#" value="CP-102A-ND "/>
+<attribute name="DIGIKEY2#" value="T1071-P5P-ND "/>
 <attribute name="MANF" value="CUI Inc"/>
 <attribute name="MANF#" value="PJ-102A"/>
+<attribute name="MANF2" value="CUI Inc"/>
+<attribute name="MANF2#" value="EPSA120200U-P5P-SZ"/>
 </part>
 </parts>
 <sheets>
@@ -12535,6 +12544,12 @@ http://www.fairchildsemi.com/ds/LM/LM7805.pdf</description>
 <attribute name="DIGIKEY2#" x="233.68" y="38.1" size="1.778" layer="96" rot="MR90" display="off"/>
 <attribute name="MANF2" x="233.68" y="38.1" size="1.778" layer="96" rot="MR90" display="off"/>
 <attribute name="MANF2#" x="233.68" y="38.1" size="1.778" layer="96" rot="MR90" display="off"/>
+<attribute name="DIGIKEY3#" x="233.68" y="38.1" size="1.778" layer="96" rot="MR90" display="off"/>
+<attribute name="MANF3" x="233.68" y="38.1" size="1.778" layer="96" rot="MR90" display="off"/>
+<attribute name="MANF3#" x="233.68" y="38.1" size="1.778" layer="96" rot="MR90" display="off"/>
+<attribute name="DIGIKEY4#" x="233.68" y="38.1" size="1.778" layer="96" rot="MR90" display="off"/>
+<attribute name="MANF4" x="233.68" y="38.1" size="1.778" layer="96" rot="MR90" display="off"/>
+<attribute name="MANF4#" x="233.68" y="38.1" size="1.778" layer="96" rot="MR90" display="off"/>
 </instance>
 <instance part="Q4" gate="G$1" x="205.74" y="81.28" rot="R270">
 <attribute name="DIGIKEY#" x="205.74" y="81.28" size="1.778" layer="96" rot="R270" display="off"/>
@@ -12621,6 +12636,9 @@ http://www.fairchildsemi.com/ds/LM/LM7805.pdf</description>
 <attribute name="DIGIKEY#" x="193.04" y="88.9" size="1.778" layer="96" display="off"/>
 <attribute name="MANF" x="193.04" y="88.9" size="1.778" layer="96" display="off"/>
 <attribute name="MANF#" x="193.04" y="88.9" size="1.778" layer="96" display="off"/>
+<attribute name="DIGIKEY2#" x="193.04" y="88.9" size="1.778" layer="96" display="off"/>
+<attribute name="MANF2" x="193.04" y="88.9" size="1.778" layer="96" display="off"/>
+<attribute name="MANF2#" x="193.04" y="88.9" size="1.778" layer="96" display="off"/>
 </instance>
 </instances>
 <busses>
