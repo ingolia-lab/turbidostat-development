@@ -27,6 +27,7 @@ enum state_enum {
 
 struct turbido_struct {
   enum state_enum state;
+  long turbidoStartTime;
   int pumpState;
   long pumpLastTime;
   long pumpTotalTime;
@@ -58,14 +59,14 @@ void setup() {
   SPI.setBitOrder(MSBFIRST);
   SPI.setDataMode(SPI_MODE0);
   SPI.begin();
-   
+
+  turbido.state = STATE_MANUAL;
+  turbido.turbidoStartTime = 0;
   turbido.pumpState = LOW;
   turbido.pumpLastTime = -1;
   turbido.pumpTotalTime = 0;
-  turbido.state = STATE_MANUAL;
 
   Serial.begin(9600);
-  Serial.print(F("band-psd-micro 15-07-13\r\n"));
 }
 
 void loop() {
@@ -79,6 +80,7 @@ void loop() {
     case STATE_TURBIDO_START:
     {
       turbido.state = STATE_TURBIDO_RUN;
+      turbido.turbidoStartTime = millis();
       tnext = (millis() / tstep) + 2;
       Serial.println(F("\r\n# Turbidostat mode (q to quit)"));
       
@@ -115,7 +117,7 @@ void loop() {
 
 void manualLoop()
 {
-  Serial.print(F("# setup [amprst] > "));
+  Serial.print(F("# band-psd-micro 15-10-13 setup [amprst] > "));
 
   int cmd;
   unsigned long idleStart = millis();
@@ -123,7 +125,7 @@ void manualLoop()
   while ((cmd = Serial.read()) < 0) {
     delay(1);
     if (manualIdleAutoStart && millis() > manualIdleTimeout + idleStart) {
-      Serial.print(F("manual idle timeout, starting turbidostat\r\n"));
+      Serial.print(F("# manual idle timeout, starting turbidostat\r\n"));
       turbido.state = STATE_TURBIDO_START;
       return;
     }
@@ -304,7 +306,7 @@ void manualParams()
   Serial.print(F("# Writing new settings to EEPROM\r\n"));
   writeEepromParams(&p);
 
-  Serial.print(F("\r\n# Current settings:\r\n"));
+  Serial.print(F("# Current settings:\r\n"));
   
   struct param_struct q;
   readEepromParams(&q);
@@ -348,7 +350,7 @@ void turbidoLoop()
   long vols = turbido.pumpTotalTime / turbido.params.volume;
   
   snprintf(outbuf, outbuf_len, "%ld\t%ld\t%ld.%03ld\t%ld.%03ld\t%ld.%03ld\r\n", 
-           start,
+           start - turbido.turbidoStartTime,
            v, (dens / 1000), (dens % 1000),
            (turbido.pumpTotalTime / 1000), (turbido.pumpTotalTime % 1000), (vols / 1000), (vols % 1000));
   Serial.write(outbuf);
@@ -453,7 +455,7 @@ void writeEepromParams(const struct param_struct *params)
 
 void formatEepromParams(char *buf, unsigned int buflen, const struct param_struct *params)
 {
-  snprintf(buf, buflen, "# Pump on V: %ld\r\n# Pump off V = %ld\r\n# Volume = %ld sec to fill\r\n# Calibration V = %ld @ OD=1.0\r\n", params->pumpOnV, params->pumpOffV,params->volume, params->calibration);
+  snprintf(buf, buflen, "# Pump on V = %ld\r\n# Pump off V = %ld\r\n# Volume = %ld sec to fill\r\n# Calibration V = %ld @ OD=1.0\r\n", params->pumpOnV, params->pumpOffV,params->volume, params->calibration);
 }
 
 /* Reading integers from Serial */
