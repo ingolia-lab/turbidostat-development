@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="7.7.0">
+<eagle version="7.5.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -4611,18 +4611,27 @@ Big oval pads</description>
 <rectangle x1="-0.889" y1="1.27" x2="0.889" y2="1.778" layer="51"/>
 <rectangle x1="1.651" y1="1.27" x2="3.429" y2="1.778" layer="51"/>
 </package>
-<package name="1X02_SCREW">
-<pad name="1/POS" x="1.27" y="1.27" drill="1.016" diameter="1.8796" rot="R90"/>
-<pad name="2" x="3.81" y="1.27" drill="1.016" diameter="1.8796" rot="R90"/>
-<text x="-0.0762" y="3.0988" size="1.27" layer="25" ratio="10">&gt;NAME</text>
-<text x="0" y="-1.905" size="1.27" layer="27">&gt;VALUE</text>
-<rectangle x1="3.556" y1="1.016" x2="4.064" y2="1.524" layer="51"/>
-<rectangle x1="1.016" y1="1.016" x2="1.524" y2="1.524" layer="51"/>
-<wire x1="5.334" y1="2.794" x2="5.334" y2="-0.254" width="0.127" layer="21"/>
-<wire x1="5.334" y1="-0.254" x2="-0.254" y2="-0.254" width="0.127" layer="21"/>
-<wire x1="-0.254" y1="2.794" x2="5.334" y2="2.794" width="0.127" layer="21"/>
-<wire x1="-0.254" y1="2.794" x2="-0.254" y2="-0.254" width="0.127" layer="21"/>
-<text x="-1.016" y="1.27" size="0.635" layer="21" rot="R90" align="center">POS</text>
+<package name="1X02_3.5MM">
+<wire x1="-3.4" y1="3.4" x2="-3.4" y2="-2.2" width="0.127" layer="21"/>
+<wire x1="-3.4" y1="-2.2" x2="-3.4" y2="-3.6" width="0.127" layer="21"/>
+<wire x1="-3.4" y1="-3.6" x2="3.6" y2="-3.6" width="0.127" layer="21"/>
+<wire x1="3.6" y1="-3.6" x2="3.6" y2="-2.2" width="0.127" layer="21"/>
+<wire x1="3.6" y1="-2.2" x2="3.6" y2="3.4" width="0.127" layer="21"/>
+<wire x1="3.6" y1="3.4" x2="-3.4" y2="3.4" width="0.127" layer="21"/>
+<wire x1="-3.4" y1="-2.2" x2="3.6" y2="-2.2" width="0.127" layer="21"/>
+<pad name="1A" x="1.8" y="0" drill="1" diameter="2.1844"/>
+<pad name="2K" x="-1.7" y="0" drill="1" diameter="2.1844"/>
+<text x="3" y="5" size="1.27" layer="25" rot="R180">&gt;NAME</text>
+<text x="-4.445" y="-1.27" size="1.27" layer="21" rot="R90">K(-)</text>
+<text x="5.715" y="-1.27" size="1.27" layer="21" rot="R90">A(+)</text>
+<wire x1="0.635" y1="-4.445" x2="-0.635" y2="-5.08" width="0.127" layer="21"/>
+<wire x1="-0.635" y1="-5.08" x2="0.635" y2="-5.715" width="0.127" layer="21"/>
+<wire x1="0.635" y1="-5.715" x2="0.635" y2="-5.08" width="0.127" layer="21"/>
+<wire x1="0.635" y1="-5.08" x2="0.635" y2="-4.445" width="0.127" layer="21"/>
+<wire x1="-0.635" y1="-4.445" x2="-0.635" y2="-5.08" width="0.127" layer="21"/>
+<wire x1="-0.635" y1="-5.08" x2="-0.635" y2="-5.715" width="0.127" layer="21"/>
+<wire x1="0.635" y1="-5.08" x2="1.905" y2="-5.08" width="0.127" layer="21"/>
+<wire x1="-1.905" y1="-5.08" x2="-0.635" y2="-5.08" width="0.127" layer="21"/>
 </package>
 <package name="LED5MM">
 <wire x1="2.54" y1="-1.905" x2="2.54" y2="1.905" width="0.2032" layer="21"/>
@@ -4868,15 +4877,15 @@ Big oval pads</description>
 </device>
 </devices>
 </deviceset>
-<deviceset name="LED_CXN" prefix="JP" uservalue="yes">
+<deviceset name="1X02_3.5MM_LED" prefix="LED">
 <gates>
-<gate name="G$1" symbol="LED" x="0" y="0"/>
+<gate name="G$1" symbol="LED" x="0" y="-2.54"/>
 </gates>
 <devices>
-<device name="" package="1X02_SCREW">
+<device name="" package="1X02_3.5MM">
 <connects>
-<connect gate="G$1" pin="A" pad="1/POS"/>
-<connect gate="G$1" pin="K" pad="2"/>
+<connect gate="G$1" pin="A" pad="1A"/>
+<connect gate="G$1" pin="K" pad="2K"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -5726,7 +5735,7 @@ Simple 6 pin RJ11 jack. Commonly found on CAT3 devices and Microchip programmers
 <attribute name="MANF#" value="CFM12JT8R20"/>
 </part>
 <part name="SUPPLY3" library="supply2" deviceset="GND" device=""/>
-<part name="JP1" library="ingolia" deviceset="LED_CXN" device="" value="LED">
+<part name="JP1" library="ingolia" deviceset="1X02_3.5MM_LED" device="" value="LED">
 <attribute name="DIGIKEY#" value="475-3002-ND"/>
 <attribute name="DIGIKEY2#" value="492-1502-ND"/>
 <attribute name="MANF" value="OSRAM Opto Semiconductors Inc"/>
@@ -6068,7 +6077,7 @@ Gain Amplifier</text>
 <attribute name="MANF" x="190.5" y="154.94" size="1.778" layer="96" display="off"/>
 <attribute name="MANF#" x="190.5" y="154.94" size="1.778" layer="96" display="off"/>
 </instance>
-<instance part="SUPPLY10" gate="GND" x="198.12" y="142.24"/>
+<instance part="SUPPLY10" gate="GND" x="200.66" y="142.24"/>
 <instance part="D1" gate="G$1" x="241.3" y="170.18" rot="R180">
 <attribute name="DIGIKEY#" x="241.3" y="170.18" size="1.778" layer="96" rot="R180" display="off"/>
 <attribute name="MANF" x="241.3" y="170.18" size="1.778" layer="96" rot="R180" display="off"/>
@@ -6257,8 +6266,8 @@ Gain Amplifier</text>
 </segment>
 <segment>
 <pinref part="J1" gate="G$1" pin="2"/>
-<wire x1="195.58" y1="152.4" x2="198.12" y2="152.4" width="0.1524" layer="91"/>
-<wire x1="198.12" y1="152.4" x2="198.12" y2="144.78" width="0.1524" layer="91"/>
+<wire x1="195.58" y1="152.4" x2="200.66" y2="152.4" width="0.1524" layer="91"/>
+<wire x1="200.66" y1="152.4" x2="200.66" y2="144.78" width="0.1524" layer="91"/>
 <pinref part="SUPPLY10" gate="GND" pin="GND"/>
 </segment>
 <segment>
