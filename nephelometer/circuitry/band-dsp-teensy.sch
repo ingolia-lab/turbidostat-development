@@ -5877,6 +5877,16 @@ Simple 6 pin RJ11 jack. Commonly found on CAT3 devices and Microchip programmers
 <attribute name="MANF" value="Kingbright"/>
 <attribute name="MANF#" value="WP937AD/EGW"/>
 </part>
+<part name="R13" library="adafruit" deviceset="R-US_" device="0207/9" value="14K3">
+<attribute name="DIGIKEY#" value="14.3KXBK-ND"/>
+<attribute name="MANF" value="Yageo"/>
+<attribute name="MANF#" value="MFR-25FBF52-14K3"/>
+</part>
+<part name="R14" library="adafruit" deviceset="R-US_" device="0207/9" value="14K3">
+<attribute name="DIGIKEY#" value="14.3KXBK-ND"/>
+<attribute name="MANF" value="Yageo"/>
+<attribute name="MANF#" value="MFR-25FBF52-14K3"/>
+</part>
 </parts>
 <sheets>
 <sheet>
@@ -5887,10 +5897,10 @@ Simple 6 pin RJ11 jack. Commonly found on CAT3 devices and Microchip programmers
 <text x="73.66" y="60.96" size="1.778" layer="97">Transimpedance Amplifier
 1 V / µA, fN = 194 kHz</text>
 <wire x1="109.22" y1="66.04" x2="109.22" y2="22.86" width="0.1524" layer="97"/>
-<wire x1="111.76" y1="66.04" x2="111.76" y2="30.48" width="0.1524" layer="97"/>
+<wire x1="111.76" y1="66.04" x2="111.76" y2="10.16" width="0.1524" layer="97"/>
 <wire x1="167.64" y1="66.04" x2="111.76" y2="66.04" width="0.1524" layer="97"/>
-<wire x1="111.76" y1="30.48" x2="167.64" y2="30.48" width="0.1524" layer="97"/>
-<wire x1="167.64" y1="66.04" x2="167.64" y2="30.48" width="0.1524" layer="97"/>
+<wire x1="111.76" y1="10.16" x2="167.64" y2="10.16" width="0.1524" layer="97"/>
+<wire x1="167.64" y1="66.04" x2="167.64" y2="10.16" width="0.1524" layer="97"/>
 <text x="114.3" y="60.96" size="1.778" layer="97">High-Pass Filter
 6 kHz / Butterworth</text>
 <wire x1="66.04" y1="134.62" x2="66.04" y2="73.66" width="0.1524" layer="97"/>
@@ -6112,6 +6122,16 @@ Gain Amplifier</text>
 <attribute name="MANF" x="200.66" y="180.34" size="1.778" layer="96" rot="R180" display="off"/>
 <attribute name="MANF#" x="200.66" y="180.34" size="1.778" layer="96" rot="R180" display="off"/>
 </instance>
+<instance part="R13" gate="G$1" x="154.94" y="35.56" rot="R180">
+<attribute name="DIGIKEY#" x="154.94" y="35.56" size="1.778" layer="96" rot="R180" display="off"/>
+<attribute name="MANF" x="154.94" y="35.56" size="1.778" layer="96" rot="R180" display="off"/>
+<attribute name="MANF#" x="154.94" y="35.56" size="1.778" layer="96" rot="R180" display="off"/>
+</instance>
+<instance part="R14" gate="G$1" x="142.24" y="25.4" rot="R270">
+<attribute name="DIGIKEY#" x="142.24" y="25.4" size="1.778" layer="96" rot="R270" display="off"/>
+<attribute name="MANF" x="142.24" y="25.4" size="1.778" layer="96" rot="R270" display="off"/>
+<attribute name="MANF#" x="142.24" y="25.4" size="1.778" layer="96" rot="R270" display="off"/>
+</instance>
 </instances>
 <busses>
 </busses>
@@ -6189,7 +6209,7 @@ Gain Amplifier</text>
 <pinref part="R6" gate="G$1" pin="1"/>
 <wire x1="129.54" y1="33.02" x2="137.16" y2="33.02" width="0.1524" layer="91"/>
 <wire x1="137.16" y1="33.02" x2="137.16" y2="35.56" width="0.1524" layer="91"/>
-<label x="129.54" y="33.02" size="1.778" layer="95"/>
+<label x="129.54" y="30.48" size="1.778" layer="95"/>
 </segment>
 <segment>
 <pinref part="BRD1" gate="G$1" pin="A11"/>
@@ -6202,6 +6222,12 @@ Gain Amplifier</text>
 <wire x1="182.88" y1="12.7" x2="190.5" y2="12.7" width="0.1524" layer="91"/>
 <label x="182.88" y="12.7" size="1.778" layer="95"/>
 <pinref part="IC3" gate="G$1" pin="VREF"/>
+</segment>
+<segment>
+<pinref part="R14" gate="G$1" pin="2"/>
+<wire x1="142.24" y1="20.32" x2="142.24" y2="17.78" width="0.1524" layer="91"/>
+<wire x1="142.24" y1="17.78" x2="129.54" y2="17.78" width="0.1524" layer="91"/>
+<label x="129.54" y="15.24" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="GND" class="0">
@@ -6444,17 +6470,14 @@ Gain Amplifier</text>
 <wire x1="185.42" y1="17.78" x2="165.1" y2="17.78" width="0.1524" layer="91"/>
 <pinref part="IC2" gate="B" pin="OUT"/>
 <wire x1="160.02" y1="45.72" x2="165.1" y2="45.72" width="0.1524" layer="91"/>
-<wire x1="165.1" y1="45.72" x2="165.1" y2="35.56" width="0.1524" layer="91"/>
-<wire x1="165.1" y1="35.56" x2="142.24" y2="35.56" width="0.1524" layer="91"/>
-<wire x1="142.24" y1="35.56" x2="142.24" y2="43.18" width="0.1524" layer="91"/>
-<pinref part="IC2" gate="B" pin="IN-"/>
-<wire x1="142.24" y1="43.18" x2="144.78" y2="43.18" width="0.1524" layer="91"/>
 <wire x1="165.1" y1="45.72" x2="165.1" y2="58.42" width="0.1524" layer="91"/>
 <junction x="165.1" y="45.72"/>
 <pinref part="R7" gate="G$1" pin="1"/>
 <wire x1="165.1" y1="58.42" x2="152.4" y2="58.42" width="0.1524" layer="91"/>
 <wire x1="165.1" y1="17.78" x2="165.1" y2="35.56" width="0.1524" layer="91"/>
-<junction x="165.1" y="35.56"/>
+<pinref part="R13" gate="G$1" pin="1"/>
+<wire x1="165.1" y1="35.56" x2="165.1" y2="45.72" width="0.1524" layer="91"/>
+<wire x1="165.1" y1="35.56" x2="160.02" y2="35.56" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$4" class="0">
@@ -6585,6 +6608,18 @@ Gain Amplifier</text>
 <wire x1="203.2" y1="187.96" x2="200.66" y2="187.96" width="0.1524" layer="91"/>
 <pinref part="U$6" gate="G$1" pin="GK"/>
 <wire x1="200.66" y1="187.96" x2="200.66" y2="185.42" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$6" class="0">
+<segment>
+<pinref part="IC2" gate="B" pin="IN-"/>
+<wire x1="142.24" y1="43.18" x2="144.78" y2="43.18" width="0.1524" layer="91"/>
+<wire x1="142.24" y1="35.56" x2="142.24" y2="43.18" width="0.1524" layer="91"/>
+<pinref part="R13" gate="G$1" pin="2"/>
+<wire x1="142.24" y1="35.56" x2="149.86" y2="35.56" width="0.1524" layer="91"/>
+<pinref part="R14" gate="G$1" pin="1"/>
+<wire x1="142.24" y1="30.48" x2="142.24" y2="35.56" width="0.1524" layer="91"/>
+<junction x="142.24" y="35.56"/>
 </segment>
 </net>
 </nets>
