@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="7.5.0">
+<eagle version="7.7.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -5687,7 +5687,7 @@ Simple 6 pin RJ11 jack. Commonly found on CAT3 devices and Microchip programmers
 </classes>
 <parts>
 <part name="SUPPLY2" library="supply2" deviceset="GND" device=""/>
-<part name="R2" library="adafruit" deviceset="R-US_" device="0207/9" value="1K00">
+<part name="R2" library="adafruit" deviceset="R-US_" device="0207/9" value="3K01">
 <attribute name="DIGIKEY#" value="RNF14FTD1K00CT-ND"/>
 <attribute name="MANF" value="Stackpole Electronics Inc."/>
 <attribute name="MANF#" value="RNF14FTD1K00"/>
@@ -5748,7 +5748,7 @@ Simple 6 pin RJ11 jack. Commonly found on CAT3 devices and Microchip programmers
 <attribute name="MANF" value="TDK Corporation"/>
 <attribute name="MANF#" value="FK18C0G1H030C"/>
 </part>
-<part name="R3" library="adafruit" deviceset="R-US_" device="0207/9" value="3K01">
+<part name="R3" library="adafruit" deviceset="R-US_" device="0207/9" value="1K00">
 <attribute name="DIGIKEY#" value="RNF14FTD3K01CT-ND"/>
 <attribute name="MANF" value="Stackpole Electronics Inc."/>
 <attribute name="MANF#" value="RNF14FTD3K01"/>

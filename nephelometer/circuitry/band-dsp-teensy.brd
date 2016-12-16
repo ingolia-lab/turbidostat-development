@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="7.5.0">
+<eagle version="7.7.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -763,7 +763,7 @@ Please make sure your boards conform to these design rules.</description>
 <attribute name="MANF" value="Infineon Technologies" x="41.25" y="52.51" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="MANF#" value="IRLB8721PBF" x="41.25" y="52.51" size="1.778" layer="27" rot="R90" display="off"/>
 </element>
-<element name="R2" library="adafruit" package="0207/9" value="1K00" x="15.5" y="41.5">
+<element name="R2" library="adafruit" package="0207/9" value="3K01" x="15.5" y="41.5">
 <attribute name="DIGIKEY#" value="RNF14FTD1K00CT-ND" x="15.5" y="41.5" size="1.778" layer="27" display="off"/>
 <attribute name="MANF" value="Stackpole Electronics Inc." x="15.5" y="41.5" size="1.778" layer="27" display="off"/>
 <attribute name="MANF#" value="RNF14FTD1K00" x="15.5" y="41.5" size="1.778" layer="27" display="off"/>
@@ -812,7 +812,7 @@ Please make sure your boards conform to these design rules.</description>
 <element name="U$4" library="ingolia" package="M2MOUNT" value="" x="3" y="42"/>
 <element name="U$2" library="ingolia" package="M2MOUNT" value="" x="63" y="57"/>
 <element name="U$3" library="ingolia" package="M2MOUNT" value="" x="63" y="8"/>
-<element name="R3" library="adafruit" package="0207/9" value="3K01" x="15.5" y="37">
+<element name="R3" library="adafruit" package="0207/9" value="1K00" x="15.5" y="37">
 <attribute name="DIGIKEY#" value="RNF14FTD3K01CT-ND" x="15.5" y="37" size="1.778" layer="27" display="off"/>
 <attribute name="MANF" value="Stackpole Electronics Inc." x="15.5" y="37" size="1.778" layer="27" display="off"/>
 <attribute name="MANF#" value="RNF14FTD3K01" x="15.5" y="37" size="1.778" layer="27" display="off"/>
