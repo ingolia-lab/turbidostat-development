@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="7.5.0">
+<eagle version="7.7.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -812,19 +812,19 @@ Please make sure your boards conform to these design rules.</description>
 </element>
 <element name="Q2" library="ingolia" package="TO220BV" value="" x="13" y="33" smashed="yes">
 <attribute name="VALUE" x="7.92" y="27.92" size="1.27" layer="27" ratio="10"/>
-<attribute name="DIGIKEY#" value="IRLU120NPBF-ND" x="13" y="33" size="1.778" layer="27" display="off"/>
+<attribute name="DIGIKEY#" value="IRLB8721PBF-ND" x="13" y="33" size="1.778" layer="27" display="off"/>
 <attribute name="MANF" value="International Rectifier" x="13" y="33" size="1.778" layer="27" display="off"/>
-<attribute name="MANF#" value="IRLU120NPBF" x="13" y="33" size="1.778" layer="27" display="off"/>
+<attribute name="MANF#" value="IRLB8721PBF" x="13" y="33" size="1.778" layer="27" display="off"/>
 </element>
 <element name="J5" library="ingolia" package="1X02_3.5MM_MOT" value="MotA" x="11.5" y="40.5" rot="R180">
-<attribute name="DIGIKEY#" value="SC1455-ND" x="11.5" y="40.5" size="1.778" layer="27" rot="R180" display="off"/>
-<attribute name="MANF" value="Switchcraft Inc." x="11.5" y="40.5" size="1.778" layer="27" rot="R180" display="off"/>
-<attribute name="MANF#" value="35PM1" x="11.5" y="40.5" size="1.778" layer="27" rot="R180" display="off"/>
+<attribute name="DIGIKEY#" value="ED2740-ND" x="11.5" y="40.5" size="1.778" layer="27" rot="R180" display="off"/>
+<attribute name="MANF" value="On Shore Technology Inc." x="11.5" y="40.5" size="1.778" layer="27" rot="R180" display="off"/>
+<attribute name="MANF#" value="OSTTE020104" x="11.5" y="40.5" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
-<element name="R11" library="adafruit" package="0207/10" value="150R" x="23.5" y="41.5" rot="R180">
-<attribute name="DIGIKEY#" value="CF14JT150RCT-ND" x="23.5" y="41.5" size="1.778" layer="27" rot="R180" display="off"/>
+<element name="R11" library="adafruit" package="0207/10" value="330R" x="23.5" y="41.5" rot="R180">
+<attribute name="DIGIKEY#" value="CF14JT330RCT-ND" x="23.5" y="41.5" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="MANF" value="Stackpole Electronics Inc" x="23.5" y="41.5" size="1.778" layer="27" rot="R180" display="off"/>
-<attribute name="MANF#" value="CF14JT150R" x="23.5" y="41.5" size="1.778" layer="27" rot="R180" display="off"/>
+<attribute name="MANF#" value="CF14JT330R" x="23.5" y="41.5" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
 <element name="LED3" library="adafruit" package="LED3MM" value="" x="2.5" y="32" rot="R90">
 <attribute name="DIGIKEY#" value="754-1275-ND" x="2.5" y="32" size="1.778" layer="27" rot="R90" display="off"/>
@@ -866,7 +866,14 @@ Please make sure your boards conform to these design rules.</description>
 <attribute name="MANF" value="Stackpole Electronics Inc." x="53.5" y="10" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="MANF#" value="CFM12JT1K00" x="53.5" y="10" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
-<element name="MCU1" library="Teensy_3_and_LC_Series_Boards_v1.4" package="TEENSY_3.0-3.2&amp;LC_DIL" value="TEENSY_3.1-3.2_DIL" x="55" y="22.5" smashed="yes" rot="R270"/>
+<element name="MCU1" library="Teensy_3_and_LC_Series_Boards_v1.4" package="TEENSY_3.0-3.2&amp;LC_DIL" value="TEENSY_3.1-3.2_DIL" x="55" y="22.5" smashed="yes" rot="R270">
+<attribute name="DIGIKEY#" value="SAM1198-14-ND" x="55" y="22.5" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="DIGIKEY2#" value="SAM1198-14-ND" x="55" y="22.5" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="MANF" value="Samtec Inc." x="55" y="22.5" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="MANF#" value="SSQ-114-03-G-S" x="55" y="22.5" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="MANF2" value="Samtec Inc." x="55" y="22.5" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="MANF2#" value="SSQ-114-03-G-S" x="55" y="22.5" size="1.778" layer="27" rot="R270" display="off"/>
+</element>
 <element name="D1" library="diode" package="DO41-7.6" value="1N5817-T" x="33.5" y="17" smashed="yes" rot="R90">
 <attribute name="DIGIKEY#" value="1N5817FSCT-ND" x="33.5" y="17" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="MANF" value="Fairchild Semiconductor" x="33.5" y="17" size="1.778" layer="27" rot="R90" display="off"/>
@@ -876,19 +883,19 @@ Please make sure your boards conform to these design rules.</description>
 </element>
 <element name="Q1" library="ingolia" package="TO220BV" value="" x="39" y="53.5" rot="R270">
 <attribute name="MANF" value="International Rectifier" x="53.5" y="53.5" size="1.778" layer="27" rot="R270" display="off"/>
-<attribute name="DIGIKEY#" value="IRLU120NPBF-ND" x="53.5" y="53.5" size="1.778" layer="27" rot="R270" display="off"/>
-<attribute name="MANF#" value="IRLU120NPBF" x="53.5" y="53.5" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="DIGIKEY#" value="IRLB8721PBF-ND" x="53.5" y="53.5" size="1.778" layer="27" rot="R270" display="off"/>
+<attribute name="MANF#" value="IRLB8721PBF" x="53.5" y="53.5" size="1.778" layer="27" rot="R270" display="off"/>
 </element>
 <element name="J2" library="ingolia" package="1X02_3.5MM_MOT" value="MotA" x="51" y="55.5" smashed="yes" rot="R180">
-<attribute name="MANF" value="Switchcraft Inc." x="51" y="62" size="1.778" layer="27" rot="R180" display="off"/>
-<attribute name="DIGIKEY#" value="SC1455-ND" x="51" y="62" size="1.778" layer="27" rot="R180" display="off"/>
-<attribute name="MANF#" value="35PM1" x="51" y="62" size="1.778" layer="27" rot="R180" display="off"/>
+<attribute name="MANF" value="On Shore Technology Inc." x="51" y="62" size="1.778" layer="27" rot="R180" display="off"/>
+<attribute name="DIGIKEY#" value="ED2740-ND" x="51" y="62" size="1.778" layer="27" rot="R180" display="off"/>
+<attribute name="MANF#" value="OSTTE020104" x="51" y="62" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="NAME" x="50" y="52.5" size="1.27" layer="25"/>
 </element>
-<element name="R6" library="adafruit" package="0207/10" value="150R" x="59.5" y="51" rot="R90">
+<element name="R6" library="adafruit" package="0207/10" value="330R" x="59.5" y="51" rot="R90">
 <attribute name="MANF" value="Stackpole Electronics Inc" x="59" y="40" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="DIGIKEY#" value="CF14JT150RCT-ND" x="59" y="40" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="MANF#" value="CF14JT150R" x="59" y="40" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="DIGIKEY#" value="CF14JT330RCT-ND" x="59" y="40" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="MANF#" value="CF14JT330R" x="59" y="40" size="1.778" layer="27" rot="R90" display="off"/>
 </element>
 <element name="LED2" library="adafruit" package="LED3MM" value="" x="70.5" y="58" smashed="yes">
 <attribute name="MANF" value="Kingbright" x="70.5" y="59.5" size="1.778" layer="27" display="off"/>
@@ -902,61 +909,84 @@ Please make sure your boards conform to these design rules.</description>
 <attribute name="DIGIKEY#" value="1N4935FSCT-ND" x="36.5" y="29.5" size="1.778" layer="27" display="off"/>
 <attribute name="MANF#" value="1N4935" x="36.5" y="29.5" size="1.778" layer="27" display="off"/>
 </element>
-<element name="J1" library="ingolia" package="PJ-102A" value="PJ-102A" x="67.5" y="36.5" rot="R90"/>
-<element name="J3" library="SparkFun-Connectors" package="AUDIO-JACK" value="AUDIO-JACK2PTH" x="69" y="49.5" rot="R180"/>
-<element name="J4" library="SparkFun-Connectors" package="RJ11-6" value="RJ11-6PTH" x="16.5" y="9.5"/>
+<element name="J1" library="ingolia" package="PJ-102A" value="PJ-102A" x="67.5" y="36.5" rot="R90">
+<attribute name="DIGIKEY#" value="CP-102A-ND" x="67.5" y="36.5" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="MANF" value="CUI Inc." x="67.5" y="36.5" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="MANF#" value="PJ-102A" x="67.5" y="36.5" size="1.778" layer="27" rot="R90" display="off"/>
+</element>
+<element name="J3" library="SparkFun-Connectors" package="AUDIO-JACK" value="AUDIO-JACK2PTH" x="69" y="49.5" rot="R180">
+<attribute name="DIGIKEY#" value="CP1-3523N-ND" x="69" y="49.5" size="1.778" layer="27" rot="R180" display="off"/>
+<attribute name="MANF" value="CUI Inc." x="69" y="49.5" size="1.778" layer="27" rot="R180" display="off"/>
+<attribute name="MANF#" value="SJ1-3523N" x="69" y="49.5" size="1.778" layer="27" rot="R180" display="off"/>
+</element>
+<element name="J4" library="SparkFun-Connectors" package="RJ11-6" value="RJ11-6PTH" x="16.5" y="9.5">
+<attribute name="DIGIKEY#" value="AE10383-ND" x="16.5" y="9.5" size="1.778" layer="27" display="off"/>
+<attribute name="MANF" value="Assmann WSW Components" x="16.5" y="9.5" size="1.778" layer="27" display="off"/>
+<attribute name="MANF#" value="-2004-1-4-LP-N-R" x="16.5" y="9.5" size="1.778" layer="27" display="off"/>
+</element>
 <element name="U$3" library="ingolia" package="M2MOUNT" value="" x="3" y="8"/>
 <element name="U$4" library="ingolia" package="M2MOUNT" value="" x="3" y="42"/>
 <element name="U$6" library="ingolia" package="M2MOUNT" value="" x="32.5" y="57"/>
 <element name="U$7" library="ingolia" package="M2MOUNT" value="" x="63" y="8"/>
-<element name="J6" library="SparkFun-Connectors" package="AUDIO-JACK" value="AUDIO-JACK2PTH" x="4" y="18"/>
+<element name="J6" library="SparkFun-Connectors" package="AUDIO-JACK" value="AUDIO-JACK2PTH" x="4" y="18">
+<attribute name="DIGIKEY#" value="CP1-3523N-ND" x="4" y="18" size="1.778" layer="27" display="off"/>
+<attribute name="MANF" value="CUI Inc." x="4" y="18" size="1.778" layer="27" display="off"/>
+<attribute name="MANF#" value="SJ1-3523N" x="4" y="18" size="1.778" layer="27" display="off"/>
+</element>
 <element name="T1" library="adafruit" package="TO92-EBC-OVAL" value="2N2222" x="52.5" y="47.5" smashed="yes" rot="R180">
 <attribute name="NAME" x="55.04" y="45.722" size="1.27" layer="25" ratio="10" rot="R180"/>
 <attribute name="VALUE" x="55.04" y="52.072" size="1.27" layer="27" ratio="10" rot="R180"/>
+<attribute name="DIGIKEY#" value="PN2222ATFCT-ND" x="52.5" y="47.5" size="1.778" layer="27" rot="R180" display="off"/>
+<attribute name="MANF" value="Fairchild Semiconductor" x="52.5" y="47.5" size="1.778" layer="27" rot="R180" display="off"/>
+<attribute name="MANF#" value="PN2222ATF" x="52.5" y="47.5" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
 <element name="R4" library="adafruit" package="0207/10" value="4K7" x="54.5" y="43" smashed="yes">
-<attribute name="MANF#" value="CF14JT150R" x="54.5" y="43" size="1.778" layer="27" display="off"/>
+<attribute name="MANF#" value="CF14JT4K70" x="54.5" y="43" size="1.778" layer="27" display="off"/>
 <attribute name="MANF" value="Stackpole Electronics Inc" x="54.5" y="43" size="1.778" layer="27" display="off"/>
-<attribute name="DIGIKEY#" value="CF14JT150RCT-ND" x="54.5" y="43" size="1.778" layer="27" display="off"/>
+<attribute name="DIGIKEY#" value="CF14JT4K70CT-ND" x="54.5" y="43" size="1.778" layer="27" display="off"/>
 <attribute name="NAME" x="51.452" y="44.524" size="1.27" layer="25" ratio="10"/>
 <attribute name="VALUE" x="52.2394" y="42.365" size="1.27" layer="27" ratio="10"/>
 </element>
-<element name="T2" library="adafruit" package="TO92-EBC-OVAL" value="2N2222" x="22" y="31"/>
+<element name="T2" library="adafruit" package="TO92-EBC-OVAL" value="2N2222" x="22" y="31">
+<attribute name="DIGIKEY#" value="PN2222ATFCT-ND" x="22" y="31" size="1.778" layer="27" display="off"/>
+<attribute name="MANF" value="Fairchild Semiconductor" x="22" y="31" size="1.778" layer="27" display="off"/>
+<attribute name="MANF#" value="PN2222ATF" x="22" y="31" size="1.778" layer="27" display="off"/>
+</element>
 <element name="R8" library="adafruit" package="0207/10" value="4K7" x="23.5" y="23.5">
-<attribute name="MANF#" value="CF14JT150R" x="23.5" y="23.5" size="1.778" layer="27" display="off"/>
+<attribute name="MANF#" value="CF14JT4K70" x="23.5" y="23.5" size="1.778" layer="27" display="off"/>
 <attribute name="MANF" value="Stackpole Electronics Inc" x="23.5" y="23.5" size="1.778" layer="27" display="off"/>
-<attribute name="DIGIKEY#" value="CF14JT150RCT-ND" x="23.5" y="23.5" size="1.778" layer="27" display="off"/>
+<attribute name="DIGIKEY#" value="CF14JT4K70CT-ND" x="23.5" y="23.5" size="1.778" layer="27" display="off"/>
 </element>
 <element name="R5" library="adafruit" package="0207/10" value="1K0" x="46" y="50.5" smashed="yes" rot="R90">
-<attribute name="MANF#" value="CF14JT150R" x="46" y="50.5" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="DIGIKEY#" value="CF14JT150RCT-ND" x="46" y="50.5" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="MANF#" value="CFM12JT1K00" x="46" y="50.5" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="DIGIKEY#" value="S1KHCT-ND" x="46" y="50.5" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="MANF" value="Stackpole Electronics Inc" x="46" y="50.5" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="NAME" x="44.476" y="47.452" size="1.27" layer="25" ratio="10" rot="R90"/>
 <attribute name="VALUE" x="46.635" y="48.2394" size="1.27" layer="27" ratio="10" rot="R90"/>
 </element>
 <element name="R2" library="adafruit" package="0207/10" value="1K0" x="44.5" y="25">
-<attribute name="MANF#" value="CF14JT150R" x="44.5" y="25" size="1.778" layer="27" display="off"/>
-<attribute name="DIGIKEY#" value="CF14JT150RCT-ND" x="44.5" y="25" size="1.778" layer="27" display="off"/>
+<attribute name="MANF#" value="CFM12JT1K00" x="44.5" y="25" size="1.778" layer="27" display="off"/>
+<attribute name="DIGIKEY#" value="S1KHCT-ND" x="44.5" y="25" size="1.778" layer="27" display="off"/>
 <attribute name="MANF" value="Stackpole Electronics Inc" x="44.5" y="25" size="1.778" layer="27" display="off"/>
 </element>
 <element name="R3" library="adafruit" package="0207/10" value="1K0" x="60" y="25">
-<attribute name="MANF#" value="CF14JT150R" x="60" y="25" size="1.778" layer="27" display="off"/>
-<attribute name="DIGIKEY#" value="CF14JT150RCT-ND" x="60" y="25" size="1.778" layer="27" display="off"/>
+<attribute name="MANF#" value="CFM12JT1K00" x="60" y="25" size="1.778" layer="27" display="off"/>
+<attribute name="DIGIKEY#" value="S1KHCT-ND" x="60" y="25" size="1.778" layer="27" display="off"/>
 <attribute name="MANF" value="Stackpole Electronics Inc" x="60" y="25" size="1.778" layer="27" display="off"/>
 </element>
 <element name="R7" library="adafruit" package="0207/10" value="1K0" x="44.5" y="20">
-<attribute name="MANF#" value="CF14JT150R" x="44.5" y="20" size="1.778" layer="27" display="off"/>
-<attribute name="DIGIKEY#" value="CF14JT150RCT-ND" x="44.5" y="20" size="1.778" layer="27" display="off"/>
+<attribute name="MANF#" value="CFM12JT1K00" x="44.5" y="20" size="1.778" layer="27" display="off"/>
+<attribute name="DIGIKEY#" value="S1KHCT-ND" x="44.5" y="20" size="1.778" layer="27" display="off"/>
 <attribute name="MANF" value="Stackpole Electronics Inc" x="44.5" y="20" size="1.778" layer="27" display="off"/>
 </element>
 <element name="R9" library="adafruit" package="0207/10" value="1K0" x="60" y="20">
-<attribute name="MANF#" value="CF14JT150R" x="60" y="20" size="1.778" layer="27" display="off"/>
-<attribute name="DIGIKEY#" value="CF14JT150RCT-ND" x="60" y="20" size="1.778" layer="27" display="off"/>
+<attribute name="MANF#" value="CFM12JT1K00" x="60" y="20" size="1.778" layer="27" display="off"/>
+<attribute name="DIGIKEY#" value="S1KHCT-ND" x="60" y="20" size="1.778" layer="27" display="off"/>
 <attribute name="MANF" value="Stackpole Electronics Inc" x="60" y="20" size="1.778" layer="27" display="off"/>
 </element>
 <element name="R10" library="adafruit" package="0207/10" value="1K0" x="23.5" y="37" rot="R180">
-<attribute name="MANF#" value="CF14JT150R" x="23.5" y="37" size="1.778" layer="27" rot="R180" display="off"/>
-<attribute name="DIGIKEY#" value="CF14JT150RCT-ND" x="23.5" y="37" size="1.778" layer="27" rot="R180" display="off"/>
+<attribute name="MANF#" value="CFM12JT1K00" x="23.5" y="37" size="1.778" layer="27" rot="R180" display="off"/>
+<attribute name="DIGIKEY#" value="S1KHCT-ND" x="23.5" y="37" size="1.778" layer="27" rot="R180" display="off"/>
 <attribute name="MANF" value="Stackpole Electronics Inc" x="23.5" y="37" size="1.778" layer="27" rot="R180" display="off"/>
 </element>
 </elements>

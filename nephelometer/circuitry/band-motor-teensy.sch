@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="7.5.0">
+<eagle version="7.7.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -12143,19 +12143,19 @@ Simple 6 pin RJ11 jack. Commonly found on CAT3 devices and Microchip programmers
 <attribute name="MANF#" value="ECA-1VM221"/>
 </part>
 <part name="Q2" library="ingolia" deviceset="IRLB8721" device="">
-<attribute name="DIGIKEY#" value="IRLU120NPBF-ND"/>
+<attribute name="DIGIKEY#" value="IRLB8721PBF-ND"/>
 <attribute name="MANF" value="International Rectifier"/>
-<attribute name="MANF#" value="IRLU120NPBF"/>
+<attribute name="MANF#" value="IRLB8721PBF"/>
 </part>
 <part name="J5" library="ingolia" deviceset="1X02_3.5MM_MOT" device="" value="MotA">
-<attribute name="DIGIKEY#" value="SC1455-ND"/>
-<attribute name="MANF" value="Switchcraft Inc."/>
-<attribute name="MANF#" value="35PM1"/>
+<attribute name="DIGIKEY#" value="ED2740-ND"/>
+<attribute name="MANF" value="On Shore Technology Inc."/>
+<attribute name="MANF#" value="OSTTE020104"/>
 </part>
-<part name="R11" library="adafruit" deviceset="R-US_" device="0207/10" value="150R">
-<attribute name="DIGIKEY#" value="CF14JT150RCT-ND"/>
+<part name="R11" library="adafruit" deviceset="R-US_" device="0207/10" value="330R">
+<attribute name="DIGIKEY#" value="CF14JT330RCT-ND"/>
 <attribute name="MANF" value="Stackpole Electronics Inc"/>
-<attribute name="MANF#" value="CF14JT150R"/>
+<attribute name="MANF#" value="CF14JT330R"/>
 </part>
 <part name="LED3" library="adafruit" deviceset="LED" device="3MM">
 <attribute name="DIGIKEY#" value="754-1275-ND"/>
@@ -12200,7 +12200,14 @@ Simple 6 pin RJ11 jack. Commonly found on CAT3 devices and Microchip programmers
 </part>
 <part name="SUPPLY4" library="supply2" deviceset="GND" device=""/>
 <part name="SUPPLY1" library="supply2" deviceset="GND" device=""/>
-<part name="MCU1" library="Teensy_3_and_LC_Series_Boards_v1.4" deviceset="TEENSY_3.1-3.2_DIL" device=""/>
+<part name="MCU1" library="Teensy_3_and_LC_Series_Boards_v1.4" deviceset="TEENSY_3.1-3.2_DIL" device="">
+<attribute name="DIGIKEY#" value="SAM1198-14-ND"/>
+<attribute name="DIGIKEY2#" value="SAM1198-14-ND"/>
+<attribute name="MANF" value="Samtec Inc."/>
+<attribute name="MANF#" value="SSQ-114-03-G-S"/>
+<attribute name="MANF2" value="Samtec Inc."/>
+<attribute name="MANF2#" value="SSQ-114-03-G-S"/>
+</part>
 <part name="D1" library="diode" deviceset="1N581*" device="" technology="7-T">
 <attribute name="DIGIKEY#" value="1N5817FSCT-ND"/>
 <attribute name="MANF" value="Fairchild Semiconductor"/>
@@ -12212,19 +12219,19 @@ Simple 6 pin RJ11 jack. Commonly found on CAT3 devices and Microchip programmers
 <part name="SUPPLY2" library="supply2" deviceset="GND" device=""/>
 <part name="P+10" library="supply1" deviceset="+12V" device=""/>
 <part name="Q1" library="ingolia" deviceset="IRLB8721" device="">
-<attribute name="DIGIKEY#" value="IRLU120NPBF-ND"/>
+<attribute name="DIGIKEY#" value="IRLB8721PBF-ND"/>
 <attribute name="MANF" value="International Rectifier"/>
-<attribute name="MANF#" value="IRLU120NPBF"/>
+<attribute name="MANF#" value="IRLB8721PBF"/>
 </part>
 <part name="J2" library="ingolia" deviceset="1X02_3.5MM_MOT" device="" value="MotA">
-<attribute name="DIGIKEY#" value="SC1455-ND"/>
-<attribute name="MANF" value="Switchcraft Inc."/>
-<attribute name="MANF#" value="35PM1"/>
+<attribute name="DIGIKEY#" value="ED2740-ND"/>
+<attribute name="MANF" value="On Shore Technology Inc."/>
+<attribute name="MANF#" value="OSTTE020104"/>
 </part>
-<part name="R6" library="adafruit" deviceset="R-US_" device="0207/10" value="150R">
-<attribute name="DIGIKEY#" value="CF14JT150RCT-ND"/>
+<part name="R6" library="adafruit" deviceset="R-US_" device="0207/10" value="330R">
+<attribute name="DIGIKEY#" value="CF14JT330RCT-ND"/>
 <attribute name="MANF" value="Stackpole Electronics Inc"/>
-<attribute name="MANF#" value="CF14JT150R"/>
+<attribute name="MANF#" value="CF14JT330R"/>
 </part>
 <part name="LED2" library="adafruit" deviceset="LED" device="3MM">
 <attribute name="DIGIKEY#" value="754-1275-ND"/>
@@ -12238,60 +12245,84 @@ Simple 6 pin RJ11 jack. Commonly found on CAT3 devices and Microchip programmers
 </part>
 <part name="SUPPLY5" library="supply2" deviceset="GND" device=""/>
 <part name="P+6" library="supply1" deviceset="+12V" device=""/>
-<part name="J1" library="ingolia" deviceset="PJ-102A" device=""/>
-<part name="J3" library="SparkFun-Connectors" deviceset="AUDIO-JACK2" device="PTH"/>
-<part name="J4" library="SparkFun-Connectors" deviceset="RJ11-6" device="PTH"/>
+<part name="J1" library="ingolia" deviceset="PJ-102A" device="">
+<attribute name="DIGIKEY#" value="CP-102A-ND"/>
+<attribute name="MANF" value="CUI Inc."/>
+<attribute name="MANF#" value="PJ-102A"/>
+</part>
+<part name="J3" library="SparkFun-Connectors" deviceset="AUDIO-JACK2" device="PTH">
+<attribute name="DIGIKEY#" value="CP1-3523N-ND"/>
+<attribute name="MANF" value="CUI Inc."/>
+<attribute name="MANF#" value="SJ1-3523N"/>
+</part>
+<part name="J4" library="SparkFun-Connectors" deviceset="RJ11-6" device="PTH">
+<attribute name="DIGIKEY#" value="AE10383-ND"/>
+<attribute name="MANF" value="Assmann WSW Components"/>
+<attribute name="MANF#" value="-2004-1-4-LP-N-R"/>
+</part>
 <part name="P+7" library="supply1" deviceset="+5V" device=""/>
 <part name="SUPPLY8" library="supply2" deviceset="GND" device=""/>
-<part name="J6" library="SparkFun-Connectors" deviceset="AUDIO-JACK2" device="PTH"/>
-<part name="T1" library="adafruit" deviceset="2N2222" device=""/>
+<part name="J6" library="SparkFun-Connectors" deviceset="AUDIO-JACK2" device="PTH">
+<attribute name="DIGIKEY#" value="CP1-3523N-ND"/>
+<attribute name="MANF" value="CUI Inc."/>
+<attribute name="MANF#" value="SJ1-3523N"/>
+</part>
+<part name="T1" library="adafruit" deviceset="2N2222" device="">
+<attribute name="DIGIKEY#" value="PN2222ATFCT-ND"/>
+<attribute name="MANF" value="Fairchild Semiconductor"/>
+<attribute name="MANF#" value="PN2222ATF"/>
+</part>
 <part name="P+4" library="supply1" deviceset="+5V" device=""/>
 <part name="R4" library="adafruit" deviceset="R-US_" device="0207/10" value="4K7">
-<attribute name="DIGIKEY#" value="CF14JT150RCT-ND"/>
+<attribute name="DIGIKEY#" value="CF14JT4K70CT-ND"/>
 <attribute name="MANF" value="Stackpole Electronics Inc"/>
-<attribute name="MANF#" value="CF14JT150R"/>
+<attribute name="MANF#" value="CF14JT4K70"/>
 </part>
 <part name="P+5" library="supply1" deviceset="+5V" device=""/>
-<part name="T2" library="adafruit" deviceset="2N2222" device=""/>
+<part name="T2" library="adafruit" deviceset="2N2222" device="">
+<attribute name="DIGIKEY#" value="PN2222ATFCT-ND"/>
+<attribute name="MANF" value="Fairchild Semiconductor"/>
+<attribute name="MANF#" value="PN2222ATF"/>
+</part>
 <part name="P+9" library="supply1" deviceset="+5V" device=""/>
 <part name="R8" library="adafruit" deviceset="R-US_" device="0207/10" value="4K7">
-<attribute name="DIGIKEY#" value="CF14JT150RCT-ND"/>
+<attribute name="DIGIKEY#" value="CF14JT4K70CT-ND"/>
 <attribute name="MANF" value="Stackpole Electronics Inc"/>
-<attribute name="MANF#" value="CF14JT150R"/>
+<attribute name="MANF#" value="CF14JT4K70"/>
 </part>
 <part name="P+8" library="supply1" deviceset="+5V" device=""/>
 <part name="R5" library="adafruit" deviceset="R-US_" device="0207/10" value="1K0">
-<attribute name="DIGIKEY#" value="CF14JT150RCT-ND"/>
+<attribute name="DIGIKEY#" value="S1KHCT-ND"/>
 <attribute name="MANF" value="Stackpole Electronics Inc"/>
-<attribute name="MANF#" value="CF14JT150R"/>
+<attribute name="MANF#" value="CFM12JT1K00"/>
 </part>
 <part name="SUPPLY6" library="supply2" deviceset="GND" device=""/>
 <part name="R2" library="adafruit" deviceset="R-US_" device="0207/10" value="1K0">
-<attribute name="DIGIKEY#" value="CF14JT150RCT-ND"/>
+<attribute name="DIGIKEY#" value="S1KHCT-ND"/>
 <attribute name="MANF" value="Stackpole Electronics Inc"/>
-<attribute name="MANF#" value="CF14JT150R"/>
+<attribute name="MANF#" value="CFM12JT1K00"/>
 </part>
 <part name="R3" library="adafruit" deviceset="R-US_" device="0207/10" value="1K0">
-<attribute name="DIGIKEY#" value="CF14JT150RCT-ND"/>
+<attribute name="DIGIKEY#" value="S1KHCT-ND"/>
 <attribute name="MANF" value="Stackpole Electronics Inc"/>
-<attribute name="MANF#" value="CF14JT150R"/>
+<attribute name="MANF#" value="CFM12JT1K00"/>
 </part>
 <part name="SUPPLY3" library="supply2" deviceset="GND" device=""/>
 <part name="SUPPLY11" library="supply2" deviceset="GND" device=""/>
 <part name="R7" library="adafruit" deviceset="R-US_" device="0207/10" value="1K0">
-<attribute name="DIGIKEY#" value="CF14JT150RCT-ND"/>
+<attribute name="DIGIKEY#" value="S1KHCT-ND"/>
 <attribute name="MANF" value="Stackpole Electronics Inc"/>
-<attribute name="MANF#" value="CF14JT150R"/>
+<attribute name="MANF#" value="CFM12JT1K00"/>
 </part>
 <part name="R9" library="adafruit" deviceset="R-US_" device="0207/10" value="1K0">
-<attribute name="DIGIKEY#" value="CF14JT150RCT-ND"/>
+<attribute name="DIGIKEY#" value="S1KHCT-ND"/>
 <attribute name="MANF" value="Stackpole Electronics Inc"/>
-<attribute name="MANF#" value="CF14JT150R"/>
+<attribute name="MANF#" value="CFM12JT1K00"/>
 </part>
 <part name="R10" library="adafruit" deviceset="R-US_" device="0207/10" value="1K0">
-<attribute name="DIGIKEY#" value="CF14JT150RCT-ND"/>
+<attribute name="DIGIKEY#" value="S1KHCT-ND"/>
 <attribute name="MANF" value="Stackpole Electronics Inc"/>
-<attribute name="MANF#" value="CF14JT150R"/>
+<attribute name="MANF#" value="CFM12JT1K00"/>
 </part>
 <part name="SUPPLY10" library="supply2" deviceset="GND" device=""/>
 <part name="SUPPLY7" library="supply2" deviceset="GND" device=""/>
@@ -12364,7 +12395,14 @@ Simple 6 pin RJ11 jack. Commonly found on CAT3 devices and Microchip programmers
 </instance>
 <instance part="SUPPLY4" gate="GND" x="48.26" y="50.8"/>
 <instance part="SUPPLY1" gate="GND" x="63.5" y="63.5"/>
-<instance part="MCU1" gate="G$1" x="172.72" y="53.34"/>
+<instance part="MCU1" gate="G$1" x="172.72" y="53.34">
+<attribute name="DIGIKEY#" x="172.72" y="53.34" size="1.778" layer="96" display="off"/>
+<attribute name="DIGIKEY2#" x="172.72" y="53.34" size="1.778" layer="96" display="off"/>
+<attribute name="MANF" x="172.72" y="53.34" size="1.778" layer="96" display="off"/>
+<attribute name="MANF#" x="172.72" y="53.34" size="1.778" layer="96" display="off"/>
+<attribute name="MANF2" x="172.72" y="53.34" size="1.778" layer="96" display="off"/>
+<attribute name="MANF2#" x="172.72" y="53.34" size="1.778" layer="96" display="off"/>
+</instance>
 <instance part="D1" gate="G$1" x="114.3" y="81.28">
 <attribute name="DIGIKEY#" x="114.3" y="81.28" size="1.778" layer="96" display="off"/>
 <attribute name="MANF" x="114.3" y="81.28" size="1.778" layer="96" display="off"/>
@@ -12402,13 +12440,33 @@ Simple 6 pin RJ11 jack. Commonly found on CAT3 devices and Microchip programmers
 </instance>
 <instance part="SUPPLY5" gate="GND" x="101.6" y="35.56" rot="MR0"/>
 <instance part="P+6" gate="1" x="83.82" y="55.88"/>
-<instance part="J1" gate="G$1" x="43.18" y="76.2"/>
-<instance part="J3" gate="G$1" x="71.12" y="40.64"/>
-<instance part="J4" gate="G$1" x="38.1" y="25.4" rot="MR180"/>
+<instance part="J1" gate="G$1" x="43.18" y="76.2">
+<attribute name="DIGIKEY#" x="43.18" y="76.2" size="1.778" layer="96" display="off"/>
+<attribute name="MANF" x="43.18" y="76.2" size="1.778" layer="96" display="off"/>
+<attribute name="MANF#" x="43.18" y="76.2" size="1.778" layer="96" display="off"/>
+</instance>
+<instance part="J3" gate="G$1" x="71.12" y="40.64">
+<attribute name="DIGIKEY#" x="71.12" y="40.64" size="1.778" layer="96" display="off"/>
+<attribute name="MANF" x="71.12" y="40.64" size="1.778" layer="96" display="off"/>
+<attribute name="MANF#" x="71.12" y="40.64" size="1.778" layer="96" display="off"/>
+</instance>
+<instance part="J4" gate="G$1" x="38.1" y="25.4" rot="MR180">
+<attribute name="DIGIKEY#" x="38.1" y="25.4" size="1.778" layer="96" rot="MR180" display="off"/>
+<attribute name="MANF" x="38.1" y="25.4" size="1.778" layer="96" rot="MR180" display="off"/>
+<attribute name="MANF#" x="38.1" y="25.4" size="1.778" layer="96" rot="MR180" display="off"/>
+</instance>
 <instance part="P+7" gate="1" x="48.26" y="43.18"/>
 <instance part="SUPPLY8" gate="GND" x="48.26" y="12.7"/>
-<instance part="J6" gate="G$1" x="71.12" y="7.62"/>
-<instance part="T1" gate="G$1" x="116.84" y="58.42" rot="MR270"/>
+<instance part="J6" gate="G$1" x="71.12" y="7.62">
+<attribute name="DIGIKEY#" x="71.12" y="7.62" size="1.778" layer="96" display="off"/>
+<attribute name="MANF" x="71.12" y="7.62" size="1.778" layer="96" display="off"/>
+<attribute name="MANF#" x="71.12" y="7.62" size="1.778" layer="96" display="off"/>
+</instance>
+<instance part="T1" gate="G$1" x="116.84" y="58.42" rot="MR270">
+<attribute name="DIGIKEY#" x="116.84" y="58.42" size="1.778" layer="96" rot="MR270" display="off"/>
+<attribute name="MANF" x="116.84" y="58.42" size="1.778" layer="96" rot="MR270" display="off"/>
+<attribute name="MANF#" x="116.84" y="58.42" size="1.778" layer="96" rot="MR270" display="off"/>
+</instance>
 <instance part="P+4" gate="1" x="134.62" y="78.74"/>
 <instance part="R4" gate="G$1" x="106.68" y="53.34" rot="MR90">
 <attribute name="DIGIKEY#" x="106.68" y="53.34" size="1.778" layer="96" rot="MR90" display="off"/>
@@ -12416,7 +12474,11 @@ Simple 6 pin RJ11 jack. Commonly found on CAT3 devices and Microchip programmers
 <attribute name="MANF#" x="106.68" y="53.34" size="1.778" layer="96" rot="MR90" display="off"/>
 </instance>
 <instance part="P+5" gate="1" x="106.68" y="63.5"/>
-<instance part="T2" gate="G$1" x="114.3" y="15.24" rot="MR270"/>
+<instance part="T2" gate="G$1" x="114.3" y="15.24" rot="MR270">
+<attribute name="DIGIKEY#" x="114.3" y="15.24" size="1.778" layer="96" rot="MR270" display="off"/>
+<attribute name="MANF" x="114.3" y="15.24" size="1.778" layer="96" rot="MR270" display="off"/>
+<attribute name="MANF#" x="114.3" y="15.24" size="1.778" layer="96" rot="MR270" display="off"/>
+</instance>
 <instance part="P+9" gate="1" x="142.24" y="33.02"/>
 <instance part="R8" gate="G$1" x="106.68" y="22.86" rot="MR90">
 <attribute name="DIGIKEY#" x="106.68" y="22.86" size="1.778" layer="96" rot="MR90" display="off"/>
