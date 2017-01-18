@@ -15,15 +15,26 @@ import System.IO
 main :: IO ()
 main = getArgs >>= mainWithArgs
   where mainWithArgs [ bomIn ] = fixupBom bomIn
-        mainWithArgs _ = do prog <- getProgName
-                            hPutStrLn stderr $ "Usage: " ++ prog ++ " <BOM.csv>"
+        mainWithArgs [ ] = do prog <- getProgName
+                              hPutStrLn stderr $ "Usage: " ++ prog ++ " <BOM.csv>\n       " ++ prog ++ " <OUT> <BOM1.csv> <BOM2.csv> ..."
+        mainWithArgs (out:bomsIn) = fixupBoms out bomsIn
 
 fixupBom :: FilePath -> IO ()
 fixupBom bomInFile = do bom <- liftM parseBom $ BS.readFile bomInFile
-                        BS.writeFile bomOrderFile $ bomOrder bom
-                        BS.writeFile bomAssemblyFile $ bomAssembly bom
-  where bomOrderFile = (dropExtension bomInFile) ++ "-order.txt"
-        bomAssemblyFile = (dropExtension bomInFile) ++ "-assembly.txt"
+                        BS.writeFile (bomOrderFile bomInFile) $ bomOrder bom
+                        BS.writeFile (bomAssemblyFile bomInFile) $ bomAssembly bom
+
+fixupBoms :: FilePath -> [FilePath] -> IO ()
+fixupBoms outbase bomsIn = do boms <- mapM (liftM parseBom . BS.readFile) bomsIn
+                              let bom = concat boms
+                              BS.writeFile (bomOrderFile outbase) $ bomOrder bom
+                              BS.writeFile (bomAssemblyFile outbase) $ bomAssembly bom
+
+bomOrderFile :: FilePath -> FilePath
+bomOrderFile base = (dropExtension base) ++ "-order.txt"
+
+bomAssemblyFile :: FilePath -> FilePath
+bomAssemblyFile base = (dropExtension base) ++ "-assembly.txt"
 
 bomOrder :: [Bom] -> BS.ByteString
 bomOrder bom = BS.unlines . map pnoLine $ bomByPno 

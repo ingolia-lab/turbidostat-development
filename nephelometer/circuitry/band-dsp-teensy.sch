@@ -6580,10 +6580,10 @@ new: Attribute TP_SIGNAL_NAME&lt;br&gt;
 <attribute name="MANF" value="Vishay BC Components"/>
 <attribute name="MANF#" value="K122J15C0GF5TL2"/>
 </part>
-<part name="R8" library="adafruit" deviceset="R-US_" device="0207/9" value="13K3">
-<attribute name="DIGIKEY#" value="13.3KXBK-ND"/>
+<part name="R8" library="adafruit" deviceset="R-US_" device="0207/9" value="6K65">
+<attribute name="DIGIKEY#" value="6.65KXBK-ND"/>
 <attribute name="MANF" value="Yageo"/>
-<attribute name="MANF#" value="MFR-25FBF52-13K3"/>
+<attribute name="MANF#" value="MFR-25FBF52-6K65"/>
 </part>
 <part name="R11" library="adafruit" deviceset="R-US_" device="0207/9" value="4K7">
 <attribute name="DIGIKEY#" value="CF14JT4K70CT-ND"/>
@@ -6680,10 +6680,10 @@ new: Attribute TP_SIGNAL_NAME&lt;br&gt;
 <attribute name="MANF" value="Yageo"/>
 <attribute name="MANF#" value="MFR-25FBF52-133K"/>
 </part>
-<part name="R7" library="adafruit" deviceset="R-US_" device="0207/9" value="1K47">
-<attribute name="DIGIKEY#" value="1.50KXBK-ND"/>
+<part name="R7" library="adafruit" deviceset="R-US_" device="0207/9" value="1K65">
+<attribute name="DIGIKEY#" value="1.65KXBK-ND"/>
 <attribute name="MANF" value="Yageo"/>
-<attribute name="MANF#" value="MFR-25FBF52-1K5"/>
+<attribute name="MANF#" value="MFR-25FBF52-1K65"/>
 </part>
 <part name="C8" library="adafruit" deviceset="C-US" device="025-030X050" value="10µF">
 <attribute name="DIGIKEY#" value="445-8348-ND"/>
