@@ -8,6 +8,9 @@ const int pgaCSPin = 15;
 const int pgaSCKPin = 13;
 const int pgaMOSIPin = 11;
 
+const int motor1Pin = 16;
+const int motor2Pin = 17;
+
 // MODE3 = 1,1 is better so device select pin doesn't clock
 SPISettings pgaSettings(4000000 /* 4 MHz */, MSBFIRST, SPI_MODE3);
 
@@ -32,7 +35,13 @@ struct measure_conf_struct {
   unsigned int nMeasure;
 };
 
+/* A useful scratch buffer to format output e.g. with snprintf() */
+const int outbuf_len = 256;
+char outbuf[outbuf_len];
+
+void manualAnnotate(void);
 void manualMeasure(void);
+void manualPump(void);
 
 void delayScan(uint8_t pga, unsigned int nEquil, unsigned int nMeasure, unsigned long maxAdcDelay);
 int measure(const struct measure_conf_struct *conf, long *ttlon, long *ttloff);
@@ -40,6 +49,8 @@ int measure(const struct measure_conf_struct *conf, long *ttlon, long *ttloff);
 void serialPrintMicros(unsigned long t);
 inline unsigned long delayIfNeeded(unsigned long until);
 void setPGA(uint8_t setting);
+
+int blockingReadLong(long *res);
 
 ADC *adc = new ADC();
 
@@ -52,6 +63,11 @@ void setup() {
 
   pinMode(pgaSCKPin, OUTPUT);
   pinMode(pgaMOSIPin, OUTPUT);
+
+  pinMode(motor1Pin, OUTPUT);
+  digitalWrite(motor1Pin, LOW);
+  pinMode(motor2Pin, OUTPUT);
+  digitalWrite(motor2Pin, LOW);
 
   Serial.begin(9600);
 
@@ -83,7 +99,7 @@ void loop() {
 
 void manualLoop()
 {
-  Serial.print(F("# band-psd-teensy 17-02-10 setup [adm] > "));
+  Serial.print(F("# band-psd-teensy 17-02-10 setup [admp] > "));
 
   int cmd;
   unsigned long idleStart = millis();
@@ -105,6 +121,10 @@ void manualLoop()
       
     case 'm':
       manualMeasure();
+      break;
+
+    case 'p':
+      manualPump();
       break;
 
     default:
@@ -155,6 +175,55 @@ void manualMeasure(void)
   }
 }
 
+void manualPump(void)
+{
+  int motorPin, ch;
+  
+  Serial.print(F("\r\n# Which pump [12]: "));
+  while ((ch = Serial.read()) < 0) {
+    delay(1);
+  }
+  if (ch == '1') {
+    motorPin = motor1Pin;
+  } else if (ch == '2') {
+    motorPin = motor2Pin;
+  } else {
+    Serial.print(F("\r\n# Manual pump cancelled\r\n"));
+    return; 
+  }
+  
+  Serial.print(F("\r\n# Enter pump duration (sec): "));
+  long pumpDurationRequested;
+  if (blockingReadLong(&pumpDurationRequested) > 0) {
+    Serial.print(F("# Planned pumping time: "));
+    Serial.print(pumpDurationRequested);
+    Serial.print(F(" sec (any key to interrupt)"));
+
+    unsigned long tstart = millis();
+    digitalWrite(motorPin, HIGH);
+
+    unsigned long tend = tstart + pumpDurationRequested * 1000;
+
+    while (millis() < tend) {
+      if (Serial.read() > 0) {
+        break; 
+      }
+      delay(1);
+    }
+
+    unsigned long tstop = millis();
+    digitalWrite(motorPin, LOW);
+
+    unsigned long pumpDurationActual = tstop - tstart;
+
+    snprintf(outbuf, outbuf_len, "\r\n# Pumped %ld.%03ld seconds\r\n", pumpDurationActual / 1000, pumpDurationActual % 1000);
+    Serial.write(outbuf);  
+  } else {
+    Serial.print(F("\r\n# Manual pump cancelled\r\n"));
+  }  
+}
+
+// Measurement
 
 int measureAndPrint(const struct measure_conf_struct *conf)
 {
@@ -181,6 +250,13 @@ int measureAndPrint(const struct measure_conf_struct *conf)
   return res;
 }
 
+/* Make a phase-sensitive scattered light measurement
+ * Using timing and gain parameters in `conf`, measure scattered light.
+ * Store the measured values with LED on in *ttlon and with LED off in *ttloff and return 0
+ * A real signal should give *ttloff > *ttlon
+ * conf->nMeasure measurements are added, each one is [0,4095] so *ttloff, *ttlon is in [0,4095*conf->nMeasure]
+ * In the event of a timing failure, *ttloff and *ttlon are unreliable and a negative value is returned
+ */
 int measure(const struct measure_conf_struct *conf, long *ttlon, long *ttloff)
 {
   *ttlon = 0;
@@ -247,14 +323,12 @@ void delayScan(void)
       conf.adcDelayUsec = adcDelay;
       
       long ttlon, ttloff;
-      unsigned long tStart = micros();
 
       int res = measure(&conf, &ttlon, &ttloff);
 
       if (res < 0) {
         Serial.write("# ");
       }
-
 
       Serial.write('\t');
       Serial.print(halfCycle);
@@ -277,6 +351,10 @@ void delayScan(void)
   }
 }
 
+/* Delay until a specified time in microseconds
+ * Return the number of microseconds delayed
+ * If the current time is at or after `until` do not delay and return 0.
+ */
 inline unsigned long delayIfNeeded(unsigned long until)
 {
   unsigned long now = micros();
@@ -288,6 +366,9 @@ inline unsigned long delayIfNeeded(unsigned long until)
   }
 }
 
+/* Set the gain on the programmable gain amplifier (PGA)
+ * Use SPI to set the gain
+ */
 void setPGA(uint8_t setting)
 {
   SPI.beginTransaction(pgaSettings);
@@ -301,11 +382,17 @@ void setPGA(uint8_t setting)
 #define PGA_NSETTING 8
 long pgaScales[PGA_NSETTING] = { 1, 2, 4, 5, 8, 10, 16, 32 };
 
+/* Return the scaling factor for a PGA setting
+ * For undefined settings, return -1 instead
+ */
 long pgaScale(uint8_t setting)
 {
   return (setting < PGA_NSETTING) ? pgaScales[setting] : -1;
 }
 
+/* Print a microseconds time to Serial
+ * Print the number of seconds and (as a decimal) milliseconds in a microseconds time t
+ */
 void serialPrintMicros(unsigned long t)
 {
   Serial.print(t / ((unsigned long) 1000000));
@@ -314,4 +401,47 @@ void serialPrintMicros(unsigned long t)
   Serial.print(t / ((unsigned long)   10000) % 10);
   Serial.print(t / ((unsigned long)    1000) % 10);
 }
+
+/* Read a (long) integer from Serial
+ * Read digits from serial until enter/return, store the result into *res, and return 1
+ * If no digits are typed before enter/return, return 0 and leave *res unchanged
+ * If a non-digit character is typed, return -1 immediately and leave *res unchanged
+ */
+int blockingReadLong(long *res)
+{
+  const int buflen = 12;
+  char buffer[buflen];
+  int bufpos = 0;
+
+  int ch;
+  
+  do {
+    ch = Serial.read();
+    if (ch <= 0) {
+       delay(1);
+    } else if (ch == '\n' || ch == '\r') {
+       Serial.println();
+       break;
+    } else if (ch < '0' || ch > '9') {
+       Serial.write('*');
+       return -1;
+    } else {
+       buffer[bufpos] = (char) ch;
+       Serial.write(ch);
+       bufpos++;
+       if (bufpos == (buflen - 1)) {
+         break;
+       } 
+    }
+  } while(1);
+  
+  if (bufpos > 0) {  
+    buffer[bufpos] = '\0';
+    *res = atol(buffer);
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
 
