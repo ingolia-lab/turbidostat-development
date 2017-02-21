@@ -1,102 +1,46 @@
-#include <ADC.h>
 #include <EEPROM.h>
 #include <SPI.h>
 
-const int irLedPin = 2;
-
-const int pgaCSPin = 15;
-const int pgaSCKPin = 13;
-const int pgaMOSIPin = 11;
-
-const int motor1Pin = 16;
-const int motor2Pin = 17;
-
-#define PGA_NSETTING 8
-long pgaScales[PGA_NSETTING] = { 1, 2, 4, 5, 8, 10, 16, 32 };
-
-// MODE3 = 1,1 is better so device select pin doesn't clock
-SPISettings pgaSettings(4000000 /* 4 MHz */, MSBFIRST, SPI_MODE3);
-
-// const int motorPin = XXX
-// const int adcChipSelPin = XXX
-
-#define MEASURE_HALF_CYCLE_USEC 52
-#define MEASURE_ADC_DELAY_USEC 25
-
-#define MEASURE_NEQUIL 16
-#define MEASURE_NMEASURE 4096
-#define MEASURE_USEC (((long) MEASURE_NMEASURE) * 2 * MEASURE_HALFT_USEC)
-#define MEASURE_INTERVAL_USEC 500000
-
-struct measure_conf_struct {
-  uint8_t pga;
-  unsigned long halfCycleUsec;
-  unsigned long adcDelayUsec;
-  unsigned int nEquil;
-  unsigned int nMeasure;
-};
+#include "nephelometer.h"
+#include "util.h"
+ 
+static const int motor1Pin = 16;
+static const int motor2Pin = 17;
 
 /* A useful scratch buffer to format output e.g. with snprintf() */
 const int outbuf_len = 256;
 char outbuf[outbuf_len];
 
+long tnext;
+const long tstep = 1000;
+
+int manualIdleAutoStart = 1;
+long manualIdleTimeout = 90 * (long) 1000;
+
 void manualAnnotate(void);
 void manualMeasure(void);
 void manualPump(void);
 
-void delayScan(uint8_t pga, unsigned int nEquil, unsigned int nMeasure, unsigned long maxAdcDelay);
-int measure(const struct measure_conf_struct *conf, long *ttlon, long *ttloff);
-
 void serialPrintMicros(unsigned long t);
-inline unsigned long delayIfNeeded(unsigned long until);
-void setPGA(uint8_t setting);
 
 int blockingReadLong(long *res);
 
-ADC *adc = new ADC();
-uint8_t measurePga = 0x03; // Default PGA setting is 5x
+struct nephelometer_struct *neph;
+struct nephel_measure_struct nephMeasure = measureDefault;
 
 void setup() {
-  pinMode(irLedPin, OUTPUT);
-  digitalWrite(irLedPin, HIGH);
-
-  pinMode(pgaCSPin, OUTPUT);
-  digitalWrite(pgaCSPin, HIGH);
-
-  pinMode(pgaSCKPin, OUTPUT);
-  pinMode(pgaMOSIPin, OUTPUT);
-
+  neph = nephel_init(&hwDefault);
+  
   pinMode(motor1Pin, OUTPUT);
   digitalWrite(motor1Pin, LOW);
   pinMode(motor2Pin, OUTPUT);
   digitalWrite(motor2Pin, LOW);
 
   Serial.begin(9600);
-
-  SPI.setSCK(pgaSCKPin);
-  SPI.begin();
-
-  pinMode(A10, INPUT);
-  pinMode(A11, INPUT);
-
-  adc->setAveraging(1);
-  adc->setResolution(12);
-  adc->setConversionSpeed(ADC_HIGH_SPEED);
-  adc->setSamplingSpeed(ADC_VERY_HIGH_SPEED);
-
-  setPGA(0x00);
 }
 
 void loop() {
-//  unsigned long tStart = micros();
-
   manualLoop();
-
-//  delayScan();
-
-//  measureAndPrint(0x03);
-
-//  delayIfNeeded(tStart + MEASURE_INTERVAL_USEC);
 }
 
 void manualLoop()
@@ -118,7 +62,7 @@ void manualLoop()
       break;
 
     case 'd':
-      delayScan();
+      neph_delayScan(neph);
       break;
 
     case 'g':
@@ -163,42 +107,54 @@ void manualAnnotate()
   } 
 }
 
-void manualGain()
+void manualGain(void)
 {
   Serial.print(F("\r\n# CURRENT GAIN: "));
-  Serial.write(pgaScale(measurePga));
-  Serial.print(F("x\r\n# NEW GAIN [a=1x, b=2x, c=4x, d=5x, e=8x, f=10x, g=16x, h=32x]: "));
+  Serial.write(pgaScale(nephMeasure.pga));
+  Serial.print(F("x\r\n# NEW GAIN ["));
+
+  for (uint8_t i = 0; i < nephel_pga_nsettings; i++) {
+    if (i > 0) {
+      Serial.print(", ");
+    }
+    Serial.print('a' + ((char) i));
+    Serial.print("=");
+    Serial.write(pgaScale(i));
+    Serial.print("x");
+  }
+
+  Serial.print(F("]: "));
 
   int ch;
   while ((ch = Serial.read()) < 0) {
     delay(1);
   }
-  if (ch >= 'a' && ch < ('a' + PGA_NSETTING)) {
-    measurePga = ch - 'a';
+  if (ch >= 'a' && ch < ('a' + nephel_pga_nsettings)) {
+    nephMeasure.pga = ch - 'a';
   } else {
     Serial.printf(F("\r\n# UNKNOWN SETTING, GAIN UNCHANGED"));
   }
 
   Serial.print(F("\r\n# CURRENT GAIN: "));
-  Serial.write(pgaScale(measurePga));
+  Serial.write(pgaScale(nephMeasure.pga));
   Serial.print(F("x\r\n"));
 }
+
+#define MANUAL_MEASURE_INTERVAL_USEC 500000
 
 void manualMeasure(void)
 {
   Serial.print(F("\r\n"));
 
-  struct measure_conf_struct conf = { measurePga, MEASURE_HALF_CYCLE_USEC, MEASURE_ADC_DELAY_USEC, MEASURE_NEQUIL, MEASURE_NMEASURE };
-  
   while (1) {
     unsigned long tStart = micros();
-    measureAndPrint(&conf);
+    measureAndPrint();
 
     if (Serial.read() > 0) {
       break; 
     }
 
-    delayIfNeeded(tStart + MEASURE_INTERVAL_USEC);
+    delayIfNeeded(tStart + MANUAL_MEASURE_INTERVAL_USEC);
   }
 }
 
@@ -252,13 +208,13 @@ void manualPump(void)
 
 // Measurement
 
-int measureAndPrint(const struct measure_conf_struct *conf)
+int measureAndPrint(void)
 {
   unsigned long tStart = micros();
 
-  long ttlon, ttloff;
+  long avg10;
   
-  int res = measure(conf, &ttlon, &ttloff);
+  int res = nephel_measure(neph, &nephMeasure, &avg10);
 
   Serial.write("M\t");
 
@@ -269,163 +225,13 @@ int measureAndPrint(const struct measure_conf_struct *conf)
     Serial.write("***");
     Serial.print(res);
   } else {
-    long avg10 = (10 * (ttloff - ttlon)) / conf->nMeasure;
     Serial.print(avg10);
     Serial.write("\t");
-    Serial.print(pgaScale(measurePga));
+    Serial.print(pgaScale(nephMeasure.pga));
   }
   Serial.println();
 
   return res;
-}
-
-/* Make a phase-sensitive scattered light measurement
- * Using timing and gain parameters in `conf`, measure scattered light.
- * Store the measured values with LED on in *ttlon and with LED off in *ttloff and return 0
- * A real signal should give *ttloff > *ttlon
- * conf->nMeasure measurements are added, each one is [0,4095] so *ttloff, *ttlon is in [0,4095*conf->nMeasure]
- * In the event of a timing failure, *ttloff and *ttlon are unreliable and a negative value is returned
- */
-int measure(const struct measure_conf_struct *conf, long *ttlon, long *ttloff)
-{
-  *ttlon = 0;
-  *ttloff = 0;
-  
-  setPGA(conf->pga);
-
-  unsigned long tStart = micros();
-  
-  for (unsigned int i = 0; i < conf->nEquil; i++) {
-    digitalWrite(irLedPin, LOW);
-    if (!delayIfNeeded(tStart + (1 + 2 * i) * conf->halfCycleUsec)) {
-      return -1;
-    }
-    digitalWrite(irLedPin, HIGH);
-    if (!delayIfNeeded(tStart + (2 + 2 * i) * conf->halfCycleUsec)) {
-      return -2;
-    }
-  }
-
-  unsigned long tMeasure = tStart + 2 * conf->nEquil * conf->halfCycleUsec;
-
-  for (unsigned int i = 0; i < conf->nMeasure; i++) {
-    unsigned long tCycle = tMeasure + 2 * i * conf->halfCycleUsec;
-    digitalWrite(irLedPin, LOW);
-    
-    if (!delayIfNeeded(tCycle + conf->adcDelayUsec)) {
-      return -3;
-    }
-    *ttlon += adc->analogRead(A10);
-
-    if (!delayIfNeeded(tCycle + conf->halfCycleUsec)) {
-      return -4;
-    }
-    digitalWrite(irLedPin, HIGH);
-
-    if (!delayIfNeeded(tCycle + conf->halfCycleUsec + conf->adcDelayUsec)) {
-      return -5;
-    }
-    *ttloff += adc->analogRead(A10);
-
-    if (!delayIfNeeded(tCycle + 2 * conf->halfCycleUsec)) {
-      return -6;
-    }
-  }
-
-  return 0;
-}
-
-#define DELAY_SCAN_PGA                 0x03
-#define DELAY_SCAN_NEQUIL              MEASURE_NEQUIL
-#define DELAY_SCAN_NMEASURE            256
-#define DELAY_SCAN_ADC_USEC            11
-#define DELAY_SCAN_MIN_HALF_CYCLE_USEC 40
-#define DELAY_SCAN_MAX_HALF_CYCLE_USEC 60
-
-void delayScan(void)
-{
-  struct measure_conf_struct conf = { DELAY_SCAN_PGA, 0, 0, DELAY_SCAN_NEQUIL, DELAY_SCAN_NMEASURE };
-
-  for (unsigned long halfCycle = DELAY_SCAN_MIN_HALF_CYCLE_USEC; halfCycle <= DELAY_SCAN_MAX_HALF_CYCLE_USEC; halfCycle++) {
-    conf.halfCycleUsec = halfCycle;
-    for (unsigned long adcDelay = 0; adcDelay <= halfCycle - DELAY_SCAN_ADC_USEC; adcDelay++) {
-      conf.adcDelayUsec = adcDelay;
-      
-      long ttlon, ttloff;
-
-      int res = measure(&conf, &ttlon, &ttloff);
-
-      if (res < 0) {
-        Serial.write("# ");
-      }
-
-      Serial.write('\t');
-      Serial.print(halfCycle);
-
-      Serial.write('\t');
-      Serial.print(adcDelay);
-
-      if (res < 0) {
-        Serial.write("\tERR ");
-        Serial.print(res);
-      } else {
-        long diff10 = 10 * (ttloff - ttlon) / ((long) conf.nMeasure);
-    
-        Serial.write('\t');
-        Serial.print(diff10);
-      }
-      
-      Serial.println();
-    }
-  }
-}
-
-/* Delay until a specified time in microseconds
- * Return the number of microseconds delayed
- * If the current time is at or after `until` do not delay and return 0.
- */
-inline unsigned long delayIfNeeded(unsigned long until)
-{
-  unsigned long now = micros();
-  if (now < until) {
-    delayMicroseconds(until - now);
-    return until - now;
-  } else {
-    return 0;
-  }
-}
-
-/* Set the gain on the programmable gain amplifier (PGA)
- * Use SPI to set the gain
- */
-void setPGA(uint8_t setting)
-{
-  SPI.beginTransaction(pgaSettings);
-  digitalWrite(pgaCSPin, LOW);
-  SPI.transfer(0x40);
-  SPI.transfer(setting);
-  digitalWrite(pgaCSPin, HIGH);
-  SPI.endTransaction();
-}
-
-/* Return the scaling factor for a PGA setting
- * For undefined settings, return -1 instead
- */
-long pgaScale(uint8_t setting)
-{
-  return (setting < PGA_NSETTING) ? pgaScales[setting] : -1;
-}
-
-/* Print a microseconds time to Serial
- * Print the number of seconds and (as a decimal) milliseconds in a microseconds time t
- */
-void serialPrintMicros(unsigned long t)
-{
-  Serial.print(t / ((unsigned long) 1000000));
-  Serial.write('.');
-  Serial.print(t / ((unsigned long)  100000) % 10);
-  Serial.print(t / ((unsigned long)   10000) % 10);
-  Serial.print(t / ((unsigned long)    1000) % 10);
 }
 
 /* Read a (long) integer from Serial
