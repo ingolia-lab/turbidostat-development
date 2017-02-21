@@ -11,13 +11,14 @@ const int pgaMOSIPin = 11;
 const int motor1Pin = 16;
 const int motor2Pin = 17;
 
+#define PGA_NSETTING 8
+long pgaScales[PGA_NSETTING] = { 1, 2, 4, 5, 8, 10, 16, 32 };
+
 // MODE3 = 1,1 is better so device select pin doesn't clock
 SPISettings pgaSettings(4000000 /* 4 MHz */, MSBFIRST, SPI_MODE3);
 
 // const int motorPin = XXX
 // const int adcChipSelPin = XXX
-
-#define MEASURE_PGA 0x03
 
 #define MEASURE_HALF_CYCLE_USEC 52
 #define MEASURE_ADC_DELAY_USEC 25
@@ -53,6 +54,7 @@ void setPGA(uint8_t setting);
 int blockingReadLong(long *res);
 
 ADC *adc = new ADC();
+uint8_t measurePga = 0x03; // Default PGA setting is 5x
 
 void setup() {
   pinMode(irLedPin, OUTPUT);
@@ -99,7 +101,7 @@ void loop() {
 
 void manualLoop()
 {
-  Serial.print(F("# band-psd-teensy 17-02-10 setup [admp] > "));
+  Serial.print(F("# band-psd-teensy 17-02-10 setup [adgmp] > "));
 
   int cmd;
   unsigned long idleStart = millis();
@@ -117,6 +119,10 @@ void manualLoop()
 
     case 'd':
       delayScan();
+      break;
+
+    case 'g':
+      manualGain();
       break;
       
     case 'm':
@@ -157,11 +163,32 @@ void manualAnnotate()
   } 
 }
 
+void manualGain()
+{
+  Serial.print(F("\r\n# CURRENT GAIN: "));
+  Serial.write(pgaScale(measurePga));
+  Serial.print(F("x\r\n# NEW GAIN [a=1x, b=2x, c=4x, d=5x, e=8x, f=10x, g=16x, h=32x]: "));
+
+  int ch;
+  while ((ch = Serial.read()) < 0) {
+    delay(1);
+  }
+  if (ch >= 'a' && ch < ('a' + PGA_NSETTING)) {
+    measurePga = ch - 'a';
+  } else {
+    Serial.printf(F("\r\n# UNKNOWN SETTING, GAIN UNCHANGED"));
+  }
+
+  Serial.print(F("\r\n# CURRENT GAIN: "));
+  Serial.write(pgaScale(measurePga));
+  Serial.print(F("x\r\n"));
+}
+
 void manualMeasure(void)
 {
   Serial.print(F("\r\n"));
 
-  struct measure_conf_struct conf = { MEASURE_PGA, MEASURE_HALF_CYCLE_USEC, MEASURE_ADC_DELAY_USEC, MEASURE_NEQUIL, MEASURE_NMEASURE };
+  struct measure_conf_struct conf = { measurePga, MEASURE_HALF_CYCLE_USEC, MEASURE_ADC_DELAY_USEC, MEASURE_NEQUIL, MEASURE_NMEASURE };
   
   while (1) {
     unsigned long tStart = micros();
@@ -244,6 +271,8 @@ int measureAndPrint(const struct measure_conf_struct *conf)
   } else {
     long avg10 = (10 * (ttloff - ttlon)) / conf->nMeasure;
     Serial.print(avg10);
+    Serial.write("\t");
+    Serial.print(pgaScale(measurePga));
   }
   Serial.println();
 
@@ -378,9 +407,6 @@ void setPGA(uint8_t setting)
   digitalWrite(pgaCSPin, HIGH);
   SPI.endTransaction();
 }
-
-#define PGA_NSETTING 8
-long pgaScales[PGA_NSETTING] = { 1, 2, 4, 5, 8, 10, 16, 32 };
 
 /* Return the scaling factor for a PGA setting
  * For undefined settings, return -1 instead
