@@ -1,6 +1,7 @@
 #include <EEPROM.h>
 #include <SPI.h>
 
+#include "controller.h"
 #include "nephelometer.h"
 #include "pump.h"
 #include "turbidostat.h"
@@ -86,6 +87,10 @@ void manualLoop()
       break;
 
     case 't':
+      if (turbido.begin()) {
+        Serial.println(F("\r\n# Unable to enter turbidostat mode"));
+        break;
+      }
       turbidoRunning = 1;
       Serial.println(F("\r\n# Turbidostat mode (q to quit)"));
       turbido.formatParams(outbuf, outbufLen);

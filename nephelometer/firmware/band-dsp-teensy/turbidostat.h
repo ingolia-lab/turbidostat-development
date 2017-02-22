@@ -1,11 +1,12 @@
 #ifndef _turbidostat_h
 #define _turbidostat_h 1
 
-class Turbido
+class Turbido : public Controller
 {
   public:
     Turbido(Nephel &neph, const NephelMeasure &measure, Pump &pump);
-    
+
+    inline int begin(void) { _prevMsec = millis(); return 0; }
     int loop(void);
 
     static const int eepromStart;
@@ -15,8 +16,6 @@ class Turbido
     void writeEeprom(void);
     void formatParams(char *buf, unsigned int buflen);
     void manualSetParams(void);
-
-    static const int loopMsec = 1000;
   private:
     Nephel &_neph;
     const NephelMeasure &_measure;
