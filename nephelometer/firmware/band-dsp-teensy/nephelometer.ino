@@ -1,7 +1,7 @@
 #include <SPI.h>
 
 #include "nephelometer.h"
-#include "util.h"
+#include "supervisor.h"
 
 NephelMeasure::NephelMeasure():
   pga(defaultPga),
@@ -93,11 +93,11 @@ int Nephel::measurePeaks(const NephelMeasure &measure, long *ttlon, long *ttloff
   
   for (unsigned int i = 0; i < measure.nEquil; i++) {
     digitalWrite(_irLedPin, LOW);
-    if (!delayIfNeeded(tStart + (1 + 2 * i) * measure.halfCycleUsec)) {
+    if (!Supervisor::delayIfNeeded(tStart + (1 + 2 * i) * measure.halfCycleUsec)) {
       return -1;
     }
     digitalWrite(_irLedPin, HIGH);
-    if (!delayIfNeeded(tStart + (2 + 2 * i) * measure.halfCycleUsec)) {
+    if (!Supervisor::delayIfNeeded(tStart + (2 + 2 * i) * measure.halfCycleUsec)) {
       return -2;
     }
   }
@@ -108,22 +108,22 @@ int Nephel::measurePeaks(const NephelMeasure &measure, long *ttlon, long *ttloff
     unsigned long tCycle = tMeasure + 2 * i * measure.halfCycleUsec;
     digitalWrite(_irLedPin, LOW);
     
-    if (!delayIfNeeded(tCycle + measure.adcDelayUsec)) {
+    if (!Supervisor::delayIfNeeded(tCycle + measure.adcDelayUsec)) {
       return -3;
     }
     *ttlon += _adc.analogRead(_adcSignalPin);
 
-    if (!delayIfNeeded(tCycle + measure.halfCycleUsec)) {
+    if (!Supervisor::delayIfNeeded(tCycle + measure.halfCycleUsec)) {
       return -4;
     }
     digitalWrite(_irLedPin, HIGH);
 
-    if (!delayIfNeeded(tCycle + measure.halfCycleUsec +measure.adcDelayUsec)) {
+    if (!Supervisor::delayIfNeeded(tCycle + measure.halfCycleUsec +measure.adcDelayUsec)) {
       return -5;
     }
     *ttloff += _adc.analogRead(_adcSignalPin);
 
-    if (!delayIfNeeded(tCycle + 2 * measure.halfCycleUsec)) {
+    if (!Supervisor::delayIfNeeded(tCycle + 2 * measure.halfCycleUsec)) {
       return -6;
     }
   }

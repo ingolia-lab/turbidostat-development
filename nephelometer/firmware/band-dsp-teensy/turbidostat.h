@@ -1,21 +1,24 @@
 #ifndef _turbidostat_h
 #define _turbidostat_h 1
 
+#include "controller.h"
+
 class Turbido : public Controller
 {
   public:
     Turbido(Nephel &neph, const NephelMeasure &measure, Pump &pump);
 
-    inline int begin(void) { _prevMsec = millis(); return 0; }
+    int begin(void);
     int loop(void);
 
-    static const int eepromStart;
-    static const int eepromEnd;
-
-    void readEeprom(void);
-    void writeEeprom(void);
+    void readEeprom(unsigned int eepromBase);
+    void writeEeprom(unsigned int eepromBase);
     void formatParams(char *buf, unsigned int buflen);
     void manualSetParams(void);
+
+    const char *name(void) { return "Turbidostat"; }
+    char letter(void) { return 't'; }
+    
   private:
     Nephel &_neph;
     const NephelMeasure &_measure;
@@ -24,7 +27,8 @@ class Turbido : public Controller
     long _pumpOn;  // Measurement for pump-on
     long _pumpOff; // Measurement for pump-off
 
-    long _prevMsec;
+    long _startSec;
+    long _startPumpMsec;
 };
 
 #endif /* !defined(_turbidostat_h) */

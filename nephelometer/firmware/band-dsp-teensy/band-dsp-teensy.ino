@@ -4,8 +4,8 @@
 #include "controller.h"
 #include "nephelometer.h"
 #include "pump.h"
+#include "supervisor.h"
 #include "turbidostat.h"
-#include "util.h"
  
 static const int motor1Pin = 16;
 static const int motor2Pin = 17;
@@ -45,7 +45,7 @@ void loop() {
 
 void manualLoop()
 {
-  Serial.print(F("# band-psd-teensy 17-02-10 setup [adgmprst] > "));
+  Serial.print(F("# band-psd-teensy 17-02-10 setup [adghmprst] > "));
 
   int cmd;
   unsigned long idleStart = millis();
@@ -67,6 +67,10 @@ void manualLoop()
 
     case 'g':
       manualGain();
+      break;
+
+    case 'h':
+      manualHelp();
       break;
       
     case 'm':
@@ -93,8 +97,7 @@ void manualLoop()
       }
       turbidoRunning = 1;
       Serial.println(F("\r\n# Turbidostat mode (q to quit)"));
-      turbido.formatParams(outbuf, outbufLen);
-      Serial.write(outbuf);
+      turbido.serialWriteParams();
       break;
 
     default:
@@ -109,22 +112,6 @@ void manualLoop()
 
 void manualAnnotate()
 {
-  int ch;
-  
-  Serial.print(F("\r\n# NOTE: "));
- 
-  while (1) {
-    while ((ch = Serial.read()) < 0) {
-      delay(1);
-    }
-    
-    if (ch == '\n' || ch == '\r') {
-      Serial.println();
-      break; 
-    }
-    
-    Serial.write(ch);
-  } 
 }
 
 void manualGain(void)
@@ -160,6 +147,11 @@ void manualGain(void)
   Serial.print(F("x\r\n"));
 }
 
+void manualHelp(void)
+{
+  return;
+}
+
 #define MANUAL_MEASURE_INTERVAL_USEC 500000
 
 void manualMeasure(void)
@@ -174,7 +166,7 @@ void manualMeasure(void)
       break; 
     }
 
-    delayIfNeeded(tStart + MANUAL_MEASURE_INTERVAL_USEC);
+    Supervisor::delayIfNeeded(tStart + MANUAL_MEASURE_INTERVAL_USEC);
   }
 }
 
@@ -198,7 +190,7 @@ void manualPump(void)
   
   Serial.print(F("\r\n# Enter pump duration (sec): "));
   long pumpDurationRequested;
-  if (blockingReadLong(&pumpDurationRequested) > 0) {
+  if (Supervisor::blockingReadLong(&pumpDurationRequested) > 0) {
     Serial.print(F("# Planned pumping time: "));
     Serial.print(pumpDurationRequested);
     Serial.print(F(" sec (any key to interrupt)"));
@@ -220,8 +212,10 @@ void manualPump(void)
 
     unsigned long pumpDurationActual = tstop - tstart;
 
-    snprintf(outbuf, outbufLen, "\r\n# Pumped %ld.%03ld seconds\r\n", pumpDurationActual / 1000, pumpDurationActual % 1000);
-    Serial.write(outbuf);  
+    snprintf(Supervisor::outbuf, Supervisor::outbufLen, 
+             "\r\n# Pumped %ld.%03ld seconds\r\n", 
+             pumpDurationActual / 1000, pumpDurationActual % 1000);
+    Serial.write(Supervisor::outbuf);  
   } else {
     Serial.print(F("\r\n# Manual pump cancelled\r\n"));
   }  
@@ -231,22 +225,15 @@ void manualPump(void)
 
 void measureAndPrint(void)
 {
-  unsigned long tStart = micros();
+  unsigned long startMsec = millis();
 
   long avg10 = neph.measure(nephMeasure);
 
-  Serial.write("M\t");
-
-  formatMicros(outbuf, outbufLen, tStart);
-  Serial.write(outbuf);
-  
-  Serial.write('\t');
-
-  Serial.print(avg10);
-  Serial.write("\t");
-  Serial.print(nephMeasure.pgaScale());
-
-  Serial.println();
+  snprintf(Supervisor::outbuf, Supervisor::outbufLen, 
+           "M\t%lu.%03lu\t%ld\t%ld",
+           startMsec / ((unsigned long) 1000), startMsec % ((unsigned long) 1000),
+           avg10, nephMeasure.pgaScale());
+  Serial.println(Supervisor::outbuf);
 }
 
 

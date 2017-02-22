@@ -1,17 +1,15 @@
-#include "Arduino.h"
-#include "WProgram.h"
-#include "util.h"
+#include "supervisor.h"
 
 #define OUTBUF_LEN 512
-const unsigned int outbufLen = OUTBUF_LEN;
-char outbuf[OUTBUF_LEN];
+const unsigned int Supervisor::outbufLen = OUTBUF_LEN;
+char Supervisor::outbuf[OUTBUF_LEN] = "";
 
 /* Read a (long) integer from Serial
  * Read digits from serial until enter/return, store the result into *res, and return 1
  * If no digits are typed before enter/return, return 0 and leave *res unchanged
  * If a non-digit character is typed, return -1 immediately and leave *res unchanged
  */
-int blockingReadLong(long *res)
+int Supervisor::blockingReadLong(long *res)
 {
   const int buflen = 12;
   char buffer[buflen];
@@ -47,5 +45,4 @@ int blockingReadLong(long *res)
     return 0;
   }
 }
-
 
