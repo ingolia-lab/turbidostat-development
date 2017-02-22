@@ -2,14 +2,14 @@
 #include <SPI.h>
 
 #include "nephelometer.h"
+#include "pump.h"
+#include "turbidostat.h"
 #include "util.h"
  
 static const int motor1Pin = 16;
 static const int motor2Pin = 17;
 
 /* A useful scratch buffer to format output e.g. with snprintf() */
-long tnext;
-const long tstep = 1000;
 
 int manualIdleAutoStart = 1;
 long manualIdleTimeout = 90 * (long) 1000;
@@ -18,27 +18,33 @@ void manualAnnotate(void);
 void manualMeasure(void);
 void manualPump(void);
 
-int blockingReadLong(long *res);
-
 Nephel neph = Nephel();
 NephelMeasure nephMeasure = NephelMeasure();
 
-void setup() {
-  pinMode(motor1Pin, OUTPUT);
-  digitalWrite(motor1Pin, LOW);
-  pinMode(motor2Pin, OUTPUT);
-  digitalWrite(motor2Pin, LOW);
+Pump pump1 = Pump(motor1Pin, 1);
+Pump pump2 = Pump(motor2Pin, 1);
 
+Turbido turbido = Turbido(neph, nephMeasure, pump1);
+
+int turbidoRunning = 0;
+
+void setup() {
   Serial.begin(9600);
 }
 
 void loop() {
-  manualLoop();
+  if (turbidoRunning) {
+    if (turbido.loop()) {
+      turbidoRunning = 1;
+    }
+  } else {
+    manualLoop();
+  }
 }
 
 void manualLoop()
 {
-  Serial.print(F("# band-psd-teensy 17-02-10 setup [adgmp] > "));
+  Serial.print(F("# band-psd-teensy 17-02-10 setup [adgmprst] > "));
 
   int cmd;
   unsigned long idleStart = millis();
@@ -68,6 +74,22 @@ void manualLoop()
 
     case 'p':
       manualPump();
+      break;
+
+    case 'r':
+      pump1.reset();
+      pump2.reset();
+      break;
+
+    case 's':
+      turbido.manualSetParams();
+      break;
+
+    case 't':
+      turbidoRunning = 1;
+      Serial.println(F("\r\n# Turbidostat mode (q to quit)"));
+      turbido.formatParams(outbuf, outbufLen);
+      Serial.write(outbuf);
       break;
 
     default:
@@ -153,16 +175,17 @@ void manualMeasure(void)
 
 void manualPump(void)
 {
-  int motorPin, ch;
+  Pump *p;
+  int ch;
   
   Serial.print(F("\r\n# Which pump [12]: "));
   while ((ch = Serial.read()) < 0) {
     delay(1);
   }
   if (ch == '1') {
-    motorPin = motor1Pin;
+    p = &pump1;
   } else if (ch == '2') {
-    motorPin = motor2Pin;
+    p = &pump2;
   } else {
     Serial.print(F("\r\n# Manual pump cancelled\r\n"));
     return; 
@@ -176,7 +199,7 @@ void manualPump(void)
     Serial.print(F(" sec (any key to interrupt)"));
 
     unsigned long tstart = millis();
-    digitalWrite(motorPin, HIGH);
+    p->setPumping(1);
 
     unsigned long tend = tstart + pumpDurationRequested * 1000;
 
@@ -188,7 +211,7 @@ void manualPump(void)
     }
 
     unsigned long tstop = millis();
-    digitalWrite(motorPin, LOW);
+    p->setPumping(0);
 
     unsigned long pumpDurationActual = tstop - tstart;
 
@@ -219,48 +242,6 @@ void measureAndPrint(void)
   Serial.print(nephMeasure.pgaScale());
 
   Serial.println();
-}
-
-/* Read a (long) integer from Serial
- * Read digits from serial until enter/return, store the result into *res, and return 1
- * If no digits are typed before enter/return, return 0 and leave *res unchanged
- * If a non-digit character is typed, return -1 immediately and leave *res unchanged
- */
-int blockingReadLong(long *res)
-{
-  const int buflen = 12;
-  char buffer[buflen];
-  int bufpos = 0;
-
-  int ch;
-  
-  do {
-    ch = Serial.read();
-    if (ch <= 0) {
-       delay(1);
-    } else if (ch == '\n' || ch == '\r') {
-       Serial.println();
-       break;
-    } else if (ch < '0' || ch > '9') {
-       Serial.write('*');
-       return -1;
-    } else {
-       buffer[bufpos] = (char) ch;
-       Serial.write(ch);
-       bufpos++;
-       if (bufpos == (buflen - 1)) {
-         break;
-       } 
-    }
-  } while(1);
-  
-  if (bufpos > 0) {  
-    buffer[bufpos] = '\0';
-    *res = atol(buffer);
-    return 1;
-  } else {
-    return 0;
-  }
 }
 
 

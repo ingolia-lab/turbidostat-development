@@ -10,6 +10,8 @@ class Pump
     long totalOnMsec(void);
 
     void setPumping(int newpump);
+
+    void reset(void);
   private:
     int _pin;
     int _onIsHigh; // != 0 means HIGH turns on; == 0 means LOW turns on

@@ -26,10 +26,10 @@ inline unsigned long delayIfNeeded(unsigned long until)
  */
 inline void formatMicros(char *buf, unsigned int buflen, unsigned long t)
 {
-  snprintf(buf, buflen, "%lu.%lu%lu%lu", t / ((unsigned long) 1000000),
-  t / ((unsigned long)  100000) % 10,
-  t / ((unsigned long)   10000) % 10,
-  t / ((unsigned long)    1000) % 10);
+  snprintf(buf, buflen, "%lu.%03lu", t / ((unsigned long) 1000000),
+  t / ((unsigned long)    1000) % 1000);
 }
+
+int blockingReadLong(long *res);
 
 #endif /* defined(_util_h) */

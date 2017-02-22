@@ -1,6 +1,54 @@
 #include "turbidostat.h"
 #include "util.h"
 
+Turbido::Turbido(Nephel &neph, const NephelMeasure &measure, Pump &pump):
+  _neph(neph),
+  _measure(measure),
+  _pump(pump),
+  _prevMsec(0)
+{
+  readEeprom();  
+}
+
+int Turbido::loop(void)
+{
+  long entryMsec = millis();
+
+  if (entryMsec < _prevMsec + loopMsec) {
+    delay(_prevMsec + loopMsec - entryMsec);
+  }
+  
+  long startMsec = millis();
+  long m = _neph.measure(_measure);
+
+  if (_pump.isPumping() && m < _pumpOff) {
+    _pump.setPumping(0);
+  } else if ((!_pump.isPumping()) && m > _pumpOn) {
+    _pump.setPumping(1);
+  }
+
+  long ptime = _pump.totalOnMsec();
+
+  snprintf(outbuf, outbufLen, "%ld.%03ld\t%ld\t%ld.%03ld\r\n", 
+           startMsec / ((long) 1000), startMsec % ((long) 100), m, 
+           ptime / ((long) 1000), ptime % ((long) 1000));
+  Serial.write(outbuf);
+
+  _prevMsec = startMsec;
+
+  int ch;
+  while ((ch = Serial.read()) >= 0) {
+    if (ch == 'q') {
+      return 1;
+      while (Serial.read() >= 0) {
+        /* DISCARD */ 
+      }
+    } 
+  }
+
+  return 0;
+}
+
 /*
 extern const int turbidoEepromParamStart = 32;
 extern const int turbidoEepromParamEnd = turbidoEepromParamStart + sizeof(struct turbido_param_struct);
@@ -82,5 +130,40 @@ void Turbido::formatParams(char *buf, unsigned int buflen)
 {
   snprintf(buf, buflen, "# Pump on @ %ld\r\n# Pump off @ %ld\r\n", 
            _pumpOn, _pumpOff);
+}
+
+void Turbido::manualSetParams(void)
+{
+  long v;
+  
+  Serial.print(F("\r\n# Current settings:\r\n"));
+  formatParams(outbuf, outbufLen);
+  Serial.write(outbuf);
+  Serial.print(F("# Hit return to leave unchanged\r\n"));
+
+  Serial.print(F("# Enter pump on (high) measurement ("));
+  Serial.print(_pumpOn);
+  Serial.print(F("): "));
+  if (blockingReadLong(&v) > 0) {
+    _pumpOn = v;
+  } else {
+    Serial.print(F("# (not updated)\r\n"));
+  }
+  
+  Serial.print(F("# Enter pump off (low) measurement ("));
+  Serial.print(_pumpOff);
+  Serial.print(F("): "));
+  if (blockingReadLong(&v) > 0) {
+    _pumpOff = v;
+  } else {
+    Serial.print(F("# (not updated)\r\n"));
+  }  
+  
+  Serial.print(F("# Writing new settings to EEPROM\r\n"));
+  writeEeprom();
+
+  Serial.print(F("# Current settings:\r\n"));
+  formatParams(outbuf, outbufLen);
+  Serial.write(outbuf);  
 }
 

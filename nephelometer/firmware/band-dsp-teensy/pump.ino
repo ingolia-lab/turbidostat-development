@@ -31,3 +31,11 @@ void Pump::setPumping(int newpump)
   }
 }
 
+void Pump::reset(void)
+{
+  setPumping(0);
+  _lastOnMsec = -1;
+  _lastOffMsec = millis();
+  _cumulativeMsec = 0;
+}
+
