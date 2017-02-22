@@ -45,39 +45,42 @@ int turbidoLoop(struct turbido_struct *turbido) {
 
 }
  */
- 
-void TurbidoParams::readEeprom(void)
+
+const int Turbido::eepromStart = 32;
+const int Turbido::eepromEnd = eepromStart + sizeof(_pumpOn) + sizeof(_pumpOff);
+
+void Turbido::readEeprom(void)
 {
   unsigned int e = 0;
-  byte *b = (byte *) (void *) &pumpOn; 
-  for (unsigned int i = 0; i < sizeof(pumpOn); e++, i++) {
+  byte *b = (byte *) (void *) &_pumpOn; 
+  for (unsigned int i = 0; i < sizeof(_pumpOn); e++, i++) {
     b[i] = EEPROM.read(eepromStart + e);
   } 
 
-  b = (byte *) (void *) &pumpOff; 
-  for (unsigned int i = 0; i < sizeof(pumpOff); e++, i++) {
+  b = (byte *) (void *) &_pumpOff; 
+  for (unsigned int i = 0; i < sizeof(_pumpOff); e++, i++) {
     b[i] = EEPROM.read(eepromStart + i);
   } 
 }
 
-void TurbidoParams::writeEeprom(void)
+void Turbido::writeEeprom(void)
 {
   unsigned int e = 0;
 
-  const byte *b = (const byte *) (const void *) &pumpOn;
-  for (unsigned int i = 0; i < sizeof(pumpOn); e++, i++) {
+  const byte *b = (const byte *) (const void *) &_pumpOn;
+  for (unsigned int i = 0; i < sizeof(_pumpOn); e++, i++) {
     EEPROM.write(eepromStart + e, b[i]);
   } 
 
-  b = (const byte *) (const void *) &pumpOff;
-  for (unsigned int i = 0; i < sizeof(pumpOff); e++, i++) {
+  b = (const byte *) (const void *) &_pumpOff;
+  for (unsigned int i = 0; i < sizeof(_pumpOff); e++, i++) {
     EEPROM.write(eepromStart + e, b[i]);
   }
 }
 
-void TurbidoParams::format(char *buf, unsigned int buflen)
+void Turbido::formatParams(char *buf, unsigned int buflen)
 {
   snprintf(buf, buflen, "# Pump on @ %ld\r\n# Pump off @ %ld\r\n", 
-           pumpOn, pumpOff);
+           _pumpOn, _pumpOff);
 }
 
