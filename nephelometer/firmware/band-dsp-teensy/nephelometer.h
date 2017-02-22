@@ -16,6 +16,12 @@ public:
   unsigned int nMeasure;
 
   long pgaScale(void);
+
+  static const uint8_t defaultPga = 0x03;
+  static const long defaultHalfCycleUsec = 52;
+  static const long defaultAdcDelayUsec = 25;
+  static const int defaultNEquil = 16;
+  static const int defaultNMeasure = 4096;
 };
 
 class Nephel

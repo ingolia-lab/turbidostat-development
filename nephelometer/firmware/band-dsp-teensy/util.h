@@ -1,6 +1,8 @@
 #ifndef _util_h
 #define _util_h 1
 
+#include <stdio.h>
+
 extern const unsigned int outbufLen;
 extern char outbuf[];
 
@@ -24,7 +26,7 @@ inline unsigned long delayIfNeeded(unsigned long until)
  */
 inline void formatMicros(char *buf, unsigned int buflen, unsigned long t)
 {
-  snprintf(buf, buflen, "%d.%d%d%d", t / ((unsigned long) 1000000),
+  snprintf(buf, buflen, "%lu.%lu%lu%lu", t / ((unsigned long) 1000000),
   t / ((unsigned long)  100000) % 10,
   t / ((unsigned long)   10000) % 10,
   t / ((unsigned long)    1000) % 10);
