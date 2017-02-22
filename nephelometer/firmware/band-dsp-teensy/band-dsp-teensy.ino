@@ -8,9 +8,6 @@ static const int motor1Pin = 16;
 static const int motor2Pin = 17;
 
 /* A useful scratch buffer to format output e.g. with snprintf() */
-const int outbuf_len = 256;
-char outbuf[outbuf_len];
-
 long tnext;
 const long tstep = 1000;
 
@@ -21,16 +18,12 @@ void manualAnnotate(void);
 void manualMeasure(void);
 void manualPump(void);
 
-void serialPrintMicros(unsigned long t);
-
 int blockingReadLong(long *res);
 
-struct nephelometer_struct *neph;
-struct nephel_measure_struct nephMeasure = measureDefault;
+Nephel neph = Nephel();
+NephelMeasure nephMeasure = NephelMeasure();
 
 void setup() {
-  neph = nephel_init(&hwDefault);
-  
   pinMode(motor1Pin, OUTPUT);
   digitalWrite(motor1Pin, LOW);
   pinMode(motor2Pin, OUTPUT);
@@ -62,7 +55,7 @@ void manualLoop()
       break;
 
     case 'd':
-      neph_delayScan(neph);
+      neph.delayScan();
       break;
 
     case 'g':
@@ -110,16 +103,16 @@ void manualAnnotate()
 void manualGain(void)
 {
   Serial.print(F("\r\n# CURRENT GAIN: "));
-  Serial.write(pgaScale(nephMeasure.pga));
+  Serial.write(nephMeasure.pgaScale());
   Serial.print(F("x\r\n# NEW GAIN ["));
 
-  for (uint8_t i = 0; i < nephel_pga_nsettings; i++) {
+  for (uint8_t i = 0; i < Nephel::nPgaScales; i++) {
     if (i > 0) {
       Serial.print(", ");
     }
     Serial.print('a' + ((char) i));
     Serial.print("=");
-    Serial.write(pgaScale(i));
+    Serial.write(Nephel::pgaScale(i));
     Serial.print("x");
   }
 
@@ -129,14 +122,14 @@ void manualGain(void)
   while ((ch = Serial.read()) < 0) {
     delay(1);
   }
-  if (ch >= 'a' && ch < ('a' + nephel_pga_nsettings)) {
+  if (ch >= 'a' && ch < ('a' + Nephel::nPgaScales)) {
     nephMeasure.pga = ch - 'a';
   } else {
     Serial.printf(F("\r\n# UNKNOWN SETTING, GAIN UNCHANGED"));
   }
 
   Serial.print(F("\r\n# CURRENT GAIN: "));
-  Serial.write(pgaScale(nephMeasure.pga));
+  Serial.write(nephMeasure.pgaScale());
   Serial.print(F("x\r\n"));
 }
 
@@ -199,7 +192,7 @@ void manualPump(void)
 
     unsigned long pumpDurationActual = tstop - tstart;
 
-    snprintf(outbuf, outbuf_len, "\r\n# Pumped %ld.%03ld seconds\r\n", pumpDurationActual / 1000, pumpDurationActual % 1000);
+    snprintf(outbuf, outbufLen, "\r\n# Pumped %ld.%03ld seconds\r\n", pumpDurationActual / 1000, pumpDurationActual % 1000);
     Serial.write(outbuf);  
   } else {
     Serial.print(F("\r\n# Manual pump cancelled\r\n"));
@@ -208,30 +201,24 @@ void manualPump(void)
 
 // Measurement
 
-int measureAndPrint(void)
+void measureAndPrint(void)
 {
   unsigned long tStart = micros();
 
-  long avg10;
-  
-  int res = nephel_measure(neph, &nephMeasure, &avg10);
+  long avg10 = neph.measure(nephMeasure);
 
   Serial.write("M\t");
 
-  serialPrintMicros(tStart);
+  formatMicros(outbuf, outbufLen, tStart);
+  Serial.write(outbuf);
   
   Serial.write('\t');
-  if (res < 0) {
-    Serial.write("***");
-    Serial.print(res);
-  } else {
-    Serial.print(avg10);
-    Serial.write("\t");
-    Serial.print(pgaScale(nephMeasure.pga));
-  }
-  Serial.println();
 
-  return res;
+  Serial.print(avg10);
+  Serial.write("\t");
+  Serial.print(nephMeasure.pgaScale());
+
+  Serial.println();
 }
 
 /* Read a (long) integer from Serial

@@ -3,84 +3,66 @@
 #include "nephelometer.h"
 #include "util.h"
 
-static const int irLedPin = 2;
-static const int pgaCSPin = 15;
-static const int pgaSCKPin = 13;
-static const int pgaMOSIPin = 11;
-static const int adcSignalPin = A10;
-static const int adcRefPin = A11;
+// struct NephelHW defaultNephelHW = { irLedPin, pgaCSPin, pgaSCKPin, pgaMOSIPin, adcSignalPin, adcRefPin };
 
-struct nephel_hw_struct hwDefault = { irLedPin, pgaCSPin, pgaSCKPin, pgaMOSIPin, adcSignalPin, adcRefPin };
+static const uint8_t defaultPga = 0x03;
+static const long defaultHalfCycleUsec = 52;
+static const long defaultAdcDelayUsec = 25;
+static const int defaultNEquil = 16;
+static const int defaultNMeasure = 4096;
 
-struct nephelometer_struct {
-  SPISettings *pgaSettings;
-  ADC *adc;
-
-  struct nephel_hw_struct hw;
-};
-
-#define MEASURE_PGA 0x03
-#define MEASURE_HALF_CYCLE_USEC 52
-#define MEASURE_ADC_DELAY_USEC 25
-#define MEASURE_NEQUIL 16
-#define MEASURE_NMEASURE 4096
-
-struct nephel_measure_struct measureDefault = { MEASURE_PGA, MEASURE_HALF_CYCLE_USEC, MEASURE_ADC_DELAY_USEC, MEASURE_NEQUIL, MEASURE_NMEASURE };
-
-const int nephel_pga_nsettings = 8;
-static long pgaScales[nephel_pga_nsettings] = { 1, 2, 4, 5, 8, 10, 16, 32 };
-
-static int setPGA(struct nephelometer_struct *nephel, uint8_t setting);
-int measure_internal(struct nephelometer_struct *neph, const struct measure_conf_struct *measure, long *ttlon, long *ttloff);
-
-struct nephelometer_struct *
-nephel_init(const struct nephel_hw_struct *hw)
+NephelMeasure::NephelMeasure():
+  pga(defaultPga),
+  halfCycleUsec(defaultHalfCycleUsec),
+  adcDelayUsec(defaultAdcDelayUsec),
+  nEquil(defaultNEquil),
+  nMeasure(defaultNMeasure)
 {
-  struct nephelometer_struct *neph = new(struct nephelometer_struct);
-  
-  neph->hw = *hw;
+}
 
-  pinMode(neph->hw.irLedPin, OUTPUT);
-  digitalWrite(neph->hw.irLedPin, HIGH);
+long NephelMeasure::pgaScale(void) { return Nephel::pgaScale(pga); }
 
-  pinMode(neph->hw.pgaCSPin, OUTPUT);
-  digitalWrite(neph->hw.pgaCSPin, HIGH);
+const long Nephel::pgaScales[] = { 1, 2, 4, 5, 8, 10, 16, 32 };
 
-  pinMode(neph->hw.pgaSCKPin, OUTPUT);
-  pinMode(neph->hw.pgaMOSIPin, OUTPUT);
+// SPI MODE3 = 1,1 is better so device select pin doesn't clock
 
-  pinMode(neph->hw.adcSignalPin, INPUT);
-  pinMode(neph->hw.adcRefPin, INPUT);
+Nephel::Nephel(int irLedPin, int pgaCSPin, int pgaSCKPin, int pgaMOSIPin, int adcSignalPin , int adcRefPin):
+  _pgaSPISettings(4000000 /* 4 MHz */, MSBFIRST, SPI_MODE3),
+  _adc()
+{ 
+  pinMode(_irLedPin, OUTPUT);
+  digitalWrite(_irLedPin, HIGH);
 
-  // MODE3 = 1,1 is better so device select pin doesn't clock
-  neph->pgaSettings = new SPISettings(4000000 /* 4 MHz */, MSBFIRST, SPI_MODE3);
+  pinMode(_pgaCSPin, OUTPUT);
+  digitalWrite(_pgaCSPin, HIGH);
 
-  SPI.setSCK(neph->hw.pgaSCKPin);
-  SPI.begin();
+  pinMode(_pgaSCKPin, OUTPUT);
+  pinMode(_pgaMOSIPin, OUTPUT);
 
-  neph->adc = new ADC();
+  pinMode(_adcSignalPin, INPUT);
+  pinMode(_adcRefPin, INPUT);
 
-  neph->adc->setAveraging(1);
-  neph->adc->setResolution(12);
-  neph->adc->setConversionSpeed(ADC_HIGH_SPEED);
-  neph->adc->setSamplingSpeed(ADC_VERY_HIGH_SPEED);
+  SPI.setSCK(_pgaSCKPin);
 
-  setPGA(neph, 0x00);
+  _adc.setAveraging(1);
+  _adc.setResolution(12);
+  _adc.setConversionSpeed(ADC_HIGH_SPEED);
+  _adc.setSamplingSpeed(ADC_VERY_HIGH_SPEED);
 
-  return neph;
+  setPga(0x00);
 }                
 
 /* Set the gain on the programmable gain amplifier (PGA)
  * Use SPI to set the gain
  */
-static int setPGA(struct nephelometer_struct *neph, uint8_t setting)
+int Nephel::setPga(uint8_t setting)
 {
-  if (setting < nephel_pga_nsettings) {
-    SPI.beginTransaction(*(neph->pgaSettings));
-    digitalWrite(neph->hw.pgaCSPin, LOW);
+  if (setting < Nephel::nPgaScales) {
+    SPI.beginTransaction(_pgaSPISettings);
+    digitalWrite(_pgaCSPin, LOW);
     SPI.transfer(0x40);
     SPI.transfer(setting);
-    digitalWrite(neph->hw.pgaCSPin, HIGH);
+    digitalWrite(_pgaCSPin, HIGH);
     SPI.endTransaction();
 
     return 0;
@@ -89,26 +71,16 @@ static int setPGA(struct nephelometer_struct *neph, uint8_t setting)
   }
 }
 
-/* Return the scaling factor for a PGA setting
- * For undefined settings, return -1 instead
- */
-long pgaScale(uint8_t setting)
-{
-  return (setting < nephel_pga_nsettings) ? pgaScales[setting] : -1;
-}
-
-int nephel_measure(struct nephelometer_struct *neph, const struct nephel_measure_struct *measure, long *avg10)
+long Nephel::measure(const NephelMeasure &measure)
 {
   long ttlon, ttloff;
   int res;
   
-  if ((res = measure_internal(neph, measure, &ttlon, &ttloff))) {
-    return res;
+  if ((res = measurePeaks(measure, &ttlon, &ttloff))) {
+    return -1;
   }
 
-  *avg10 = (((long) 10) * (ttloff - ttlon)) / measure->nMeasure;
-
-  return 0;
+  return (((long) 10) * (ttloff - ttlon)) / measure.nMeasure;
 }
 
 /* Make a phase-sensitive scattered light measurement
@@ -118,48 +90,48 @@ int nephel_measure(struct nephelometer_struct *neph, const struct nephel_measure
  * conf->nMeasure measurements are added, each one is [0,4095] so *ttloff, *ttlon is in [0,4095*conf->nMeasure]
  * In the event of a timing failure, *ttloff and *ttlon are unreliable and a negative value is returned
  */
-int measure_internal(struct nephelometer_struct *neph, const struct nephel_measure_struct *measure, long *ttlon, long *ttloff)
+int Nephel::measurePeaks(const NephelMeasure &measure, long *ttlon, long *ttloff)
 {
   *ttlon = 0;
   *ttloff = 0;
 
-  setPGA(neph, measure->pga);
+  setPga(measure.pga);
   
   unsigned long tStart = micros();
   
-  for (unsigned int i = 0; i < measure->nEquil; i++) {
-    digitalWrite(neph->hw.irLedPin, LOW);
-    if (!delayIfNeeded(tStart + (1 + 2 * i) * measure->halfCycleUsec)) {
+  for (unsigned int i = 0; i < measure.nEquil; i++) {
+    digitalWrite(_irLedPin, LOW);
+    if (!delayIfNeeded(tStart + (1 + 2 * i) * measure.halfCycleUsec)) {
       return -1;
     }
-    digitalWrite(neph->hw.irLedPin, HIGH);
-    if (!delayIfNeeded(tStart + (2 + 2 * i) * measure->halfCycleUsec)) {
+    digitalWrite(_irLedPin, HIGH);
+    if (!delayIfNeeded(tStart + (2 + 2 * i) * measure.halfCycleUsec)) {
       return -2;
     }
   }
 
-  unsigned long tMeasure = tStart + 2 * measure->nEquil * measure->halfCycleUsec;
+  unsigned long tMeasure = tStart + 2 * measure.nEquil * measure.halfCycleUsec;
 
-  for (unsigned int i = 0; i < measure->nMeasure; i++) {
-    unsigned long tCycle = tMeasure + 2 * i * measure->halfCycleUsec;
-    digitalWrite(neph->hw.irLedPin, LOW);
+  for (unsigned int i = 0; i < measure.nMeasure; i++) {
+    unsigned long tCycle = tMeasure + 2 * i * measure.halfCycleUsec;
+    digitalWrite(_irLedPin, LOW);
     
-    if (!delayIfNeeded(tCycle + measure->adcDelayUsec)) {
+    if (!delayIfNeeded(tCycle + measure.adcDelayUsec)) {
       return -3;
     }
-    *ttlon += neph->adc->analogRead(A10);
+    *ttlon += _adc.analogRead(_adcSignalPin);
 
-    if (!delayIfNeeded(tCycle + measure->halfCycleUsec)) {
+    if (!delayIfNeeded(tCycle + measure.halfCycleUsec)) {
       return -4;
     }
-    digitalWrite(neph->hw.irLedPin, HIGH);
+    digitalWrite(_irLedPin, HIGH);
 
-    if (!delayIfNeeded(tCycle + measure->halfCycleUsec +measure->adcDelayUsec)) {
+    if (!delayIfNeeded(tCycle + measure.halfCycleUsec +measure.adcDelayUsec)) {
       return -5;
     }
-    *ttloff += neph->adc->analogRead(A10);
+    *ttloff += _adc.analogRead(_adcSignalPin);
 
-    if (!delayIfNeeded(tCycle + 2 * measure->halfCycleUsec)) {
+    if (!delayIfNeeded(tCycle + 2 * measure.halfCycleUsec)) {
       return -6;
     }
   }
@@ -168,15 +140,20 @@ int measure_internal(struct nephelometer_struct *neph, const struct nephel_measu
 }
 
 #define DELAY_SCAN_PGA                 0x03
-#define DELAY_SCAN_NEQUIL              MEASURE_NEQUIL
+#define DELAY_SCAN_NEQUIL              16
 #define DELAY_SCAN_NMEASURE            256
 #define DELAY_SCAN_ADC_USEC            11
 #define DELAY_SCAN_MIN_HALF_CYCLE_USEC 40
 #define DELAY_SCAN_MAX_HALF_CYCLE_USEC 60
 
-void neph_delayScan(struct nephelometer_struct *neph)
+void Nephel::delayScan()
 {
-  struct nephel_measure_struct conf = { DELAY_SCAN_PGA, 0, 0, DELAY_SCAN_NEQUIL, DELAY_SCAN_NMEASURE };
+  NephelMeasure conf;
+  conf.pga = DELAY_SCAN_PGA;
+  conf.halfCycleUsec = 0;
+  conf.adcDelayUsec = 0;
+  conf.nEquil = DELAY_SCAN_NEQUIL;
+  conf.nMeasure = DELAY_SCAN_NMEASURE;
 
   for (unsigned long halfCycle = DELAY_SCAN_MIN_HALF_CYCLE_USEC; halfCycle <= DELAY_SCAN_MAX_HALF_CYCLE_USEC; halfCycle++) {
     conf.halfCycleUsec = halfCycle;
@@ -185,7 +162,7 @@ void neph_delayScan(struct nephelometer_struct *neph)
       
       long ttlon, ttloff;
 
-      int res = measure_internal(neph, &conf, &ttlon, &ttloff);
+      int res = measurePeaks(conf, &ttlon, &ttloff);
 
       if (res < 0) {
         Serial.write("# ");
