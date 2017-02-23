@@ -46,8 +46,11 @@ void Supervisor::loop(void)
       _controllers[_runningController]->end();
       _runningController = -1;
     }
-    _controllers[_nextController]->begin();
-    _runningController = _nextController;
+    if (_controllers[_nextController]->begin()) {
+      Serial.println(F("# Problem switching to new controller -- entering manual mode"));
+    } else {
+      _runningController = _nextController;
+    }
     _nextController = -1;
   }
   
