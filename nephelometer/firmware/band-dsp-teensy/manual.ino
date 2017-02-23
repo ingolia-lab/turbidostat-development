@@ -23,14 +23,14 @@ void ManualAnnotate::run(void)
 
 void ManualController::run(void)
 {
+  Serial.println(F("# Pick a controller to start:"));
   int next = supervisor().pickController();
   if (next < 0) {
     Serial.println(F("# No controller to start"));
-    if (supervisor().startController(next)) {
-      Serial.println(F("# Problem starting controller"));
-    } else {
-      Serial.println(F("# Starting controller..."));
-    }
+  } else if (supervisor().startController(next)) {
+    Serial.println(F("# Problem starting controller"));
+  } else {
+    Serial.println(F("# Starting controller..."));
   }
 }
 
@@ -129,5 +129,16 @@ void ManualPump::run(void)
   }
   
 
+}
+
+void ManualSetup::run(void)
+{
+  Serial.println(F("# Pick a controller to set up"));
+  int cno = supervisor().pickController();
+  if (cno < 0) {
+    Serial.println(F("# No controller to setup"));
+  } else {
+    
+  }
 }
 

@@ -44,6 +44,7 @@ class Supervisor
     void help(void);
     
     int pickController(void);
+    void setupController(int);
     int startController(int);
 
     // Returns the time in real-time clock seconds

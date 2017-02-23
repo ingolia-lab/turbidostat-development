@@ -102,4 +102,14 @@ class ManualPump : public ManualCommand
     void run(void);  
 };
 
+class ManualSetup : public ManualCommand
+{
+  public:
+    ManualSetup(Supervisor &s) : ManualCommand(s) { }
+    const char *name(void) { return "Setup"; }
+    char letter(void) { return 's'; }
+    const char *help(void) { return "Set parameters for a controller"; }
+    void run(void);  
+};
+
 #endif /* !defined(_manual_h) */

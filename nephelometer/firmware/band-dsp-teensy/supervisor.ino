@@ -10,14 +10,16 @@ Supervisor::Supervisor(void):
   _neph()
 {
 
-  _nCommands = 2;
+  _nCommands = 8;
   _commands = new ManualCommand*[_nCommands];
   _commands[0] = new ManualAnnotate(*this);
-  _commands[1] = new ManualDelayScan(*this);
-  _commands[2] = new ManualHelp(*this);
-  _commands[3] = new ManualMeasure(*this);
-  _commands[4] = new ManualNephelSettings(*this);
-  _commands[5] = new ManualPump(*this);
+  _commands[1] = new ManualController(*this);
+  _commands[2] = new ManualDelayScan(*this);
+  _commands[3] = new ManualHelp(*this);
+  _commands[4] = new ManualMeasure(*this);
+  _commands[5] = new ManualNephelSettings(*this);
+  _commands[6] = new ManualPump(*this);
+  _commands[7] = new ManualSetup(*this);
 
   _commandChars = new char[_nCommands + 1];
   for (unsigned int i = 0; i < _nCommands; i++) {
@@ -134,6 +136,13 @@ int Supervisor::pickController(void)
 
   Serial.print(" does not match known controller");
   return -1;
+}
+
+void Supervisor::setupController(int cno)
+{
+  if (cno >= 0 && cno < ((int) _nControllers)) {
+    _controllers[cno]->manualSetParams();
+  }
 }
 
 int Supervisor::startController(int newController)
