@@ -19,6 +19,10 @@ class Controller : public ParamSettings {
     // Return 0 to continue control and non-zero when control should return to manual
     virtual int loop(void);
 
+    // Called when control is switched to a different controller while this is running
+    // NOT called after loop() returns non-zero
+    virtual void end(void);
+
     // Name of the controller algorithm
     virtual const char *name(void);
 
@@ -26,8 +30,6 @@ class Controller : public ParamSettings {
     virtual char letter(void);
 
   protected:
-    // Returns the time in real-time clock seconds
-    static unsigned long rtcSeconds(void) { return millis() / ((unsigned long) 1000); }
 };
 
 #endif /* !defined(_controller_h) */

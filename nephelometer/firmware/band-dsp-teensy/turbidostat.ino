@@ -16,7 +16,7 @@ Turbido::Turbido(Nephel &neph, Pump &pump):
 
 int Turbido::begin(void)
 {
-  _startSec = rtcSeconds();
+  _startSec = Supervisor::rtcSeconds();
   _startPumpMsec = _pump.totalOnMsec();
 
   _pump.setPumping(0);
@@ -26,7 +26,7 @@ int Turbido::begin(void)
 
 int Turbido::loop(void)
 {
-  long sec = rtcSeconds();
+  long sec = Supervisor::rtcSeconds();
   long m = _neph.measure();
 
   if (_pump.isPumping() && m < _pumpOff) {

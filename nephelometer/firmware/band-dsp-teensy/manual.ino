@@ -21,6 +21,19 @@ void ManualAnnotate::run(void)
   } 
 }
 
+void ManualController::run(void)
+{
+  int next = supervisor().pickController();
+  if (next < 0) {
+    Serial.println(F("# No controller to start"));
+    if (supervisor().startController(next)) {
+      Serial.println(F("# Problem starting controller"));
+    } else {
+      Serial.println(F("# Starting controller..."));
+    }
+  }
+}
+
 void ManualDelayScan::run(void)
 {
   supervisor().nephelometer().delayScan();

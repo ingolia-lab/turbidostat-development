@@ -42,6 +42,12 @@ class Supervisor
     void begin(void);
     void loop(void);
     void help(void);
+    
+    int pickController(void);
+    int startController(int);
+
+    // Returns the time in real-time clock seconds
+    static unsigned long rtcSeconds(void) { return millis() / ((unsigned long) 1000); }
 
   private:
     Nephel _neph;
@@ -58,7 +64,16 @@ class Supervisor
     unsigned int _nControllers;
     Controller **_controllers;
 
+    // Number of running controller, or -1 for manual
+    int _runningController;
+    // Controller to start next time, or -1 for no change
+    int _nextController;
+    // RTC seconds of previous loop
+    unsigned long _rtcPrevious;
+
     const char *_version = "band-dsp-teensy 2017-02-22";
+
+    void manualLoop(void);
 };
 
 

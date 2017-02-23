@@ -32,10 +32,40 @@ Supervisor::Supervisor(void):
 
 void Supervisor::begin(void)
 {
-  
+  _runningController = -1;
+  _nextController = -1;
+  _rtcPrevious = 0;
 }
 
 void Supervisor::loop(void)
+{
+  if (_nextController >= 0) {
+    if (_runningController >= 0) {
+      _controllers[_runningController]->end();
+      _runningController = -1;
+    }
+    _controllers[_nextController]->begin();
+    _runningController = _nextController;
+    _nextController = -1;
+  }
+  
+  if (_runningController == -1) {
+    manualLoop();
+  } else if (_runningController >= 0 && _runningController < ((int) _nControllers)) {
+    while (rtcSeconds() <= _rtcPrevious) {
+      delay(1);
+    }
+    if (_controllers[_runningController]->loop()) {
+      _runningController = -1;
+      return;
+    }
+  } else {
+    Serial.println(F("# !!! Unknown supervisor state, returning to manual"));
+    _runningController = -1;
+  }
+}
+
+void Supervisor::manualLoop(void)
 {
   snprintf(outbuf, outbufLen, "# %s setup [%s] > ", _version, _commandChars);
   Serial.write(outbuf);
@@ -77,6 +107,43 @@ void Supervisor::help(void)
   }
 
   Serial.println("# END OF HELP");
+}
+
+int Supervisor::pickController(void)
+{
+  Serial.println("# Controllers:");
+  for (unsigned int i = 0; i < _nControllers; i++) {
+    snprintf(outbuf, outbufLen, "#   %c %25s\r\n", _controllers[i]->letter(), _controllers[i]->name());
+    Serial.write(outbuf);
+  }
+  Serial.print("# Pick a controller: ");
+
+  int ch;
+  while ((ch = Serial.read()) < 0) {
+    delay(1);
+  }
+  Serial.write(ch);
+  
+  for (unsigned int i = 0; i < _nControllers; i++) {
+    if (ch == _controllers[i]->letter()) {
+      Serial.print("=");
+      Serial.println(_controllers[i]->name());
+      return i;
+    }
+  }
+
+  Serial.print(" does not match known controller");
+  return -1;
+}
+
+int Supervisor::startController(int newController)
+{
+  if (newController < 0 || newController >= ((int) _nControllers)) {
+    return -1;
+  } else {
+    _nextController = newController;
+    return 0;
+  }
 }
 
 /* Read a (long) integer from Serial

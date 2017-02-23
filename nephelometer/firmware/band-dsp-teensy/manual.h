@@ -40,6 +40,16 @@ class ManualAnnotate : public ManualCommand
     void run(void);
 };
 
+class ManualController : public ManualCommand
+{
+  public:
+    ManualController(Supervisor &s) : ManualCommand(s) { }
+    const char *name(void) { return "Controller"; }
+    char letter(void) { return 'c'; }
+    const char *help(void) { return "Activate an automatic controller"; }
+    void run(void);
+};
+
 class ManualDelayScan : public ManualCommand
 {
   public:

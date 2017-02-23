@@ -10,6 +10,7 @@ class Turbido : public Controller
 
     int begin(void);
     int loop(void);
+    void end(void) { }
 
     void readEeprom(unsigned int eepromBase);
     void writeEeprom(unsigned int eepromBase);
