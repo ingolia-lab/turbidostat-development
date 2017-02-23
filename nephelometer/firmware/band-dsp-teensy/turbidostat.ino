@@ -3,9 +3,8 @@
 #include "supervisor.h"
 #include "turbidostat.h"
 
-Turbido::Turbido(Nephel &neph, const NephelMeasure &measure, Pump &pump):
+Turbido::Turbido(Nephel &neph, Pump &pump):
   _neph(neph),
-  _measure(measure),
   _pump(pump),
   _pumpOn(0x7fffffff),
   _pumpOff(0),
@@ -28,7 +27,7 @@ int Turbido::begin(void)
 int Turbido::loop(void)
 {
   long sec = rtcSeconds();
-  long m = _neph.measure(_measure);
+  long m = _neph.measure();
 
   if (_pump.isPumping() && m < _pumpOff) {
     _pump.setPumping(0);

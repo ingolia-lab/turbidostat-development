@@ -6,7 +6,7 @@
 class Turbido : public Controller
 {
   public:
-    Turbido(Nephel &neph, const NephelMeasure &measure, Pump &pump);
+    Turbido(Nephel &neph, Pump &pump);
 
     int begin(void);
     int loop(void);
@@ -21,7 +21,6 @@ class Turbido : public Controller
     
   private:
     Nephel &_neph;
-    const NephelMeasure &_measure;
     Pump &_pump;
   
     long _pumpOn;  // Measurement for pump-on

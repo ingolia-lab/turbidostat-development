@@ -3,7 +3,7 @@
 #include "nephelometer.h"
 #include "supervisor.h"
 
-NephelMeasure::NephelMeasure():
+NephelTiming::NephelTiming():
   pga(defaultPga),
   halfCycleUsec(defaultHalfCycleUsec),
   adcDelayUsec(defaultAdcDelayUsec),
@@ -12,7 +12,59 @@ NephelMeasure::NephelMeasure():
 {
 }
 
-long NephelMeasure::pgaScale(void) { return Nephel::pgaScale(pga); }
+long NephelTiming::pgaScale(void) { return Nephel::pgaScale(pga); }
+
+void NephelTiming::readEeprom(unsigned int eepromStart)
+{
+  pga = readEepromLong(eepromStart, 0);
+  halfCycleUsec = readEepromLong(eepromStart, 1);
+  adcDelayUsec = readEepromLong(eepromStart, 2);
+  nEquil = readEepromLong(eepromStart, 3);
+  nMeasure = readEepromLong(eepromStart, 4);
+}
+
+void NephelTiming::writeEeprom(unsigned int eepromStart)
+{
+  writeEepromLong(eepromStart, 0, pga);
+  writeEepromLong(eepromStart, 1, halfCycleUsec);
+  writeEepromLong(eepromStart, 2, adcDelayUsec);
+  writeEepromLong(eepromStart, 3, nEquil);
+  writeEepromLong(eepromStart, 4, nMeasure);
+}
+
+void NephelTiming::formatParams(char *buf, unsigned int buflen)
+{
+  snprintf(buf, buflen, "# PGA %02x = %ldx\r\n# Half cycle %lu usec\r\n# ADC at %lu usec\r\n# Equilibrate %u cycles\r\n# Measure %u cycles\r\n", 
+         pga, pgaScale(), halfCycleUsec, adcDelayUsec, nEquil, nMeasure);
+}
+
+void NephelTiming::manualSetParams(void)
+{
+  serialWriteParams();
+  Serial.print(F("# Hit return to leave a parameter unchanged\r\n"));
+
+  Serial.print(F("# PGA settings: "));
+  for (uint8_t i = 0; i < Nephel::nPgaScales; i++) {
+    if (i > 0) {
+      Serial.print(", ");
+    }
+    Serial.print('0' + ((char) i));
+    Serial.print("=");
+    Serial.write(Nephel::pgaScale(i));
+    Serial.print("x");
+  }
+  Serial.println();
+
+  long pgaTmp;
+  manualReadParam("PGA setting", pgaTmp);
+  pga = (pgaTmp > 0 && pgaTmp < Nephel::nPgaScales) ? ((uint8_t) pgaTmp) : pga;
+  manualReadParam("Half cycle [usec]", halfCycleUsec);
+  manualReadParam("ADC delay [usec]", adcDelayUsec);
+  manualReadParam("Equilibrate [# cycles]", nEquil);
+  manualReadParam("Measure [# cycles]", nMeasure);
+  
+  serialWriteParams();
+}
 
 const long Nephel::pgaScales[] = { 1, 2, 4, 5, 8, 10, 16, 32 };
 
@@ -63,16 +115,16 @@ int Nephel::setPga(uint8_t setting)
   }
 }
 
-long Nephel::measure(const NephelMeasure &measure)
+long Nephel::measure(void)
 {
   long ttlon, ttloff;
   int res;
   
-  if ((res = measurePeaks(measure, &ttlon, &ttloff))) {
+  if ((res = measurePeaks(_timing, &ttlon, &ttloff))) {
     return -1;
   }
 
-  return (((long) 10) * (ttloff - ttlon)) / measure.nMeasure;
+  return (((long) 10) * (ttloff - ttlon)) / _timing.nMeasure;
 }
 
 /* Make a phase-sensitive scattered light measurement
@@ -82,48 +134,48 @@ long Nephel::measure(const NephelMeasure &measure)
  * conf->nMeasure measurements are added, each one is [0,4095] so *ttloff, *ttlon is in [0,4095*conf->nMeasure]
  * In the event of a timing failure, *ttloff and *ttlon are unreliable and a negative value is returned
  */
-int Nephel::measurePeaks(const NephelMeasure &measure, long *ttlon, long *ttloff)
+int Nephel::measurePeaks(const NephelTiming &timing, long *ttlon, long *ttloff)
 {
   *ttlon = 0;
   *ttloff = 0;
 
-  setPga(measure.pga);
+  setPga(timing.pga);
   
   unsigned long tStart = micros();
   
-  for (unsigned int i = 0; i < measure.nEquil; i++) {
+  for (unsigned int i = 0; i < timing.nEquil; i++) {
     digitalWrite(_irLedPin, LOW);
-    if (!Supervisor::delayIfNeeded(tStart + (1 + 2 * i) * measure.halfCycleUsec)) {
+    if (!Supervisor::delayIfNeeded(tStart + (1 + 2 * i) * timing.halfCycleUsec)) {
       return -1;
     }
     digitalWrite(_irLedPin, HIGH);
-    if (!Supervisor::delayIfNeeded(tStart + (2 + 2 * i) * measure.halfCycleUsec)) {
+    if (!Supervisor::delayIfNeeded(tStart + (2 + 2 * i) * timing.halfCycleUsec)) {
       return -2;
     }
   }
 
-  unsigned long tMeasure = tStart + 2 * measure.nEquil * measure.halfCycleUsec;
+  unsigned long tMeasure = tStart + 2 * timing.nEquil * timing.halfCycleUsec;
 
-  for (unsigned int i = 0; i < measure.nMeasure; i++) {
-    unsigned long tCycle = tMeasure + 2 * i * measure.halfCycleUsec;
+  for (unsigned int i = 0; i < timing.nMeasure; i++) {
+    unsigned long tCycle = tMeasure + 2 * i * timing.halfCycleUsec;
     digitalWrite(_irLedPin, LOW);
     
-    if (!Supervisor::delayIfNeeded(tCycle + measure.adcDelayUsec)) {
+    if (!Supervisor::delayIfNeeded(tCycle + timing.adcDelayUsec)) {
       return -3;
     }
     *ttlon += _adc.analogRead(_adcSignalPin);
 
-    if (!Supervisor::delayIfNeeded(tCycle + measure.halfCycleUsec)) {
+    if (!Supervisor::delayIfNeeded(tCycle + timing.halfCycleUsec)) {
       return -4;
     }
     digitalWrite(_irLedPin, HIGH);
 
-    if (!Supervisor::delayIfNeeded(tCycle + measure.halfCycleUsec +measure.adcDelayUsec)) {
+    if (!Supervisor::delayIfNeeded(tCycle + timing.halfCycleUsec +timing.adcDelayUsec)) {
       return -5;
     }
     *ttloff += _adc.analogRead(_adcSignalPin);
 
-    if (!Supervisor::delayIfNeeded(tCycle + 2 * measure.halfCycleUsec)) {
+    if (!Supervisor::delayIfNeeded(tCycle + 2 * timing.halfCycleUsec)) {
       return -6;
     }
   }
@@ -140,7 +192,7 @@ int Nephel::measurePeaks(const NephelMeasure &measure, long *ttlon, long *ttloff
 
 void Nephel::delayScan()
 {
-  NephelMeasure conf;
+  NephelTiming conf;
   conf.pga = DELAY_SCAN_PGA;
   conf.halfCycleUsec = 0;
   conf.adcDelayUsec = 0;

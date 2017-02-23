@@ -1,33 +1,32 @@
 #ifndef _controller_h
 #define _controller_h 1
 
-#include "supervisor.h"
+#include "settings.h"
 
-class Controller {
+/*
+ * A Controller provides an event loop to monitor and manage growth automatically.
+ */
+
+class Controller : public ParamSettings {
   public:
+    Controller() { }
+
+    // Called once when a controller begins to monitor and manage.
+    // Return 0 if all is well and non-zero for a problem indicating that the controller cannot run
     virtual int begin(void);
+
+    // Called once per second to allow the controller to monitor and manage.
+    // Return 0 to continue control and non-zero when control should return to manual
     virtual int loop(void);
 
-    virtual void readEeprom(unsigned int);
-    virtual void writeEeprom(unsigned int);
-    virtual void manualSetParams(void);
-    virtual void formatParams(char *buf, unsigned int buflen);
-    inline void serialWriteParams(void) 
-    { 
-      Serial.print(F("\r\n# Current settings:\r\n"));
-      formatParams(Supervisor::outbuf, Supervisor::outbufLen);
-      Serial.write(Supervisor::outbuf);
-    }
-
+    // Name of the controller algorithm
     virtual const char *name(void);
+
+    // One-letter character for selecting the controller
     virtual char letter(void);
 
-    static const int loopMsec = 1000;
   protected:
-    static void writeEepromLong(unsigned int base, unsigned int slot, long value);
-    static long readEepromLong(unsigned int base, unsigned int slot);
-    static void manualReadParam(const char *desc, long &pval);
-
+    // Returns the time in real-time clock seconds
     static unsigned long rtcSeconds(void) { return millis() / ((unsigned long) 1000); }
 };
 
