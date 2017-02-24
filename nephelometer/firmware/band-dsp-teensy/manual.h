@@ -6,6 +6,7 @@
  */
 
 #include "supervisor.h"
+#include "controller.h"
 
 class ManualCommand
 {
@@ -30,6 +31,31 @@ class ManualCommand
     Supervisor &_supervisor;
 };
 
+class ManualController : public Controller {
+  public:
+    ManualController(Supervisor &s);
+    int begin(void) { return 0; }
+    int loop(void);
+    void end(void) { }
+    const char *name(void) { return "Manual"; }
+    char letter(void) { return 'm'; }
+
+    void serialWriteCommands(void);
+
+    void readEeprom(unsigned int eepromBase) { /* No parameters */ }
+    void writeEeprom(unsigned int eepromBase) { /* No parameters */ }
+    void manualSetParams(void) { /* No parameters */ }
+    void formatParams(char *buf, unsigned int buflen) { buf[0] = 0; }
+
+  private:
+    unsigned int _nCommands;
+    ManualCommand **_commands;
+    char *_commandChars;
+
+    const char *_name = "band-dsp-teensy";
+};
+
+
 class ManualAnnotate : public ManualCommand
 {
   public:
@@ -40,13 +66,13 @@ class ManualAnnotate : public ManualCommand
     void run(void);
 };
 
-class ManualController : public ManualCommand
+class ManualStartController : public ManualCommand
 {
   public:
-    ManualController(Supervisor &s) : ManualCommand(s) { }
-    const char *name(void) { return "Controller"; }
+    ManualStartController(Supervisor &s) : ManualCommand(s) { }
+    const char *name(void) { return "Start Controller"; }
     char letter(void) { return 'c'; }
-    const char *help(void) { return "Activate an automatic controller"; }
+    const char *help(void) { return "Start an automatic controller"; }
     void run(void);
 };
 
@@ -63,11 +89,13 @@ class ManualDelayScan : public ManualCommand
 class ManualHelp : public ManualCommand
 {
   public:
-    ManualHelp(Supervisor &s) : ManualCommand(s) { }
+    ManualHelp(Supervisor &s, ManualController &m) : ManualCommand(s), _manualCtrl(m) { }
     const char *name(void) { return "Help"; }
     char letter(void) { return 'h'; }
     const char *help(void) { return "Print help information"; }
     void run(void);
+  private:
+    ManualController &_manualCtrl;
 };
 
 class ManualMeasure : public ManualCommand

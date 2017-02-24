@@ -1,5 +1,61 @@
+#include "controller.h"
 #include "manual.h"
 #include "supervisor.h"
+
+ManualController::ManualController(Supervisor &s)
+{
+  _nCommands = 8;
+  _commands = new ManualCommand*[_nCommands];
+  _commands[0] = new ManualAnnotate(s);
+  _commands[1] = new ManualStartController(s);
+  _commands[2] = new ManualDelayScan(s);
+  _commands[3] = new ManualHelp(s, *this);
+  _commands[4] = new ManualMeasure(s);
+  _commands[5] = new ManualNephelSettings(s);
+  _commands[6] = new ManualPump(s);
+  _commands[7] = new ManualSetup(s);
+
+  _commandChars = new char[_nCommands + 1];
+  for (unsigned int i = 0; i < _nCommands; i++) {
+    _commandChars[i] = _commands[i]->letter();
+  }
+  _commandChars[_nCommands] = 0;
+}
+
+int ManualController::loop(void)
+{
+  snprintf(Supervisor::outbuf, Supervisor::outbufLen, "# %s manual [%s] > ", _name, _commandChars);
+  Serial.write(Supervisor::outbuf);
+
+  int cmd;  
+  while ((cmd = Serial.read()) < 0) {
+    delay(1);
+  }
+  
+  Serial.write(cmd);
+
+  for (unsigned int i = 0; i < _nCommands; i++) {
+    if (cmd == _commands[i]->letter()) {
+      _commands[i]->run();
+      return 0;
+    }
+  }
+  
+  Serial.print(F("\r\n# Unknown command: "));
+  Serial.write((char) cmd);
+  Serial.println();
+
+  return 0;
+}
+
+void ManualController::serialWriteCommands(void)
+{
+  Serial.println("# COMMANDS:");
+  for (unsigned int i = 0; i < _nCommands; i++) {
+    snprintf(Supervisor::outbuf, Supervisor::outbufLen, "#   %c %25s %s\r\n", _commands[i]->letter(), _commands[i]->name(), _commands[i]->help());
+    Serial.write(Supervisor::outbuf);
+  }
+}
 
 void ManualAnnotate::run(void)
 {
@@ -21,17 +77,10 @@ void ManualAnnotate::run(void)
   } 
 }
 
-void ManualController::run(void)
+void ManualStartController::run(void)
 {
-  Serial.println(F("# Pick a controller to start:"));
-  int next = supervisor().pickController();
-  if (next < 0) {
-    Serial.println(F("# No controller to start"));
-  } else if (supervisor().startController(next)) {
-    Serial.println(F("# Problem starting controller"));
-  } else {
-    Serial.println(F("# Starting controller..."));
-  }
+  Serial.println(F("# Start a manual controller:"));
+  supervisor().pickNextController();
 }
 
 void ManualDelayScan::run(void)
@@ -41,7 +90,8 @@ void ManualDelayScan::run(void)
 
 void ManualHelp::run(void) 
 {
-  supervisor().help();  
+  _manualCtrl.serialWriteCommands();
+  supervisor().serialWriteControllers();  
 }
 
 void ManualMeasure::run(void)
@@ -133,12 +183,7 @@ void ManualPump::run(void)
 
 void ManualSetup::run(void)
 {
-  Serial.println(F("# Pick a controller to set up"));
-  int cno = supervisor().pickController();
-  if (cno < 0) {
-    Serial.println(F("# No controller to setup"));
-  } else {
-    
-  }
+  Serial.println(F("# Manually configure a controller"));
+  supervisor().manualSetupController();
 }
 

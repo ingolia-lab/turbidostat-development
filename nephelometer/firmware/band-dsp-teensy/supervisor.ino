@@ -7,120 +7,61 @@ const unsigned int Supervisor::outbufLen = OUTBUF_LEN;
 char Supervisor::outbuf[OUTBUF_LEN] = "";
 
 Supervisor::Supervisor(void):
-  _neph()
+  _neph(),
+  _defaultController(ManualController(*this)),
+  _runningController(_defaultController),
+  _nextController(_defaultController)
 {
 
-  _nCommands = 8;
-  _commands = new ManualCommand*[_nCommands];
-  _commands[0] = new ManualAnnotate(*this);
-  _commands[1] = new ManualController(*this);
-  _commands[2] = new ManualDelayScan(*this);
-  _commands[3] = new ManualHelp(*this);
-  _commands[4] = new ManualMeasure(*this);
-  _commands[5] = new ManualNephelSettings(*this);
-  _commands[6] = new ManualPump(*this);
-  _commands[7] = new ManualSetup(*this);
-
-  _commandChars = new char[_nCommands + 1];
-  for (unsigned int i = 0; i < _nCommands; i++) {
-    _commandChars[i] = _commands[i]->letter();
-  }
-  _commandChars[_nCommands] = 0;
-
-  _nControllers = 1;
+  _nControllers = 2;
   _controllers = new Controller*[_nControllers];
-  _controllers[0] = new Turbido(_neph, _pumps[0]);
+  _controllers[0] = &_defaultController;
+  _controllers[1] = new Turbido(_neph, _pumps[0]);
+
+  _rtcPrevious = 0;
 }
 
 void Supervisor::begin(void)
 {
-  _runningController = -1;
-  _nextController = -1;
+  _runningController = defaultController();
+  _nextController    = _runningController;
   _rtcPrevious = 0;
 }
 
 void Supervisor::loop(void)
 {
-  if (_nextController >= 0) {
-    if (_runningController >= 0) {
-      _controllers[_runningController]->end();
-      _runningController = -1;
-    }
-    if (_controllers[_nextController]->begin()) {
-      Serial.println(F("# Problem switching to new controller -- entering manual mode"));
+  if (&(_nextController) != &(_runningController)) {
+    _runningController.end();
+    if (_nextController.begin()) {
+      Serial.println(F("# Problem switching to new controller -- entering default mode"));
+      _runningController = defaultController();
     } else {
       _runningController = _nextController;
     }
-    _nextController = -1;
   }
   
-  if (_runningController == -1) {
-    manualLoop();
-  } else if (_runningController >= 0 && _runningController < ((int) _nControllers)) {
-    while (rtcSeconds() <= _rtcPrevious) {
-      delay(1);
-    }
-    if (_controllers[_runningController]->loop()) {
-      _runningController = -1;
-      return;
-    }
-  } else {
-    Serial.println(F("# !!! Unknown supervisor state, returning to manual"));
-    _runningController = -1;
-  }
-}
-
-void Supervisor::manualLoop(void)
-{
-  snprintf(outbuf, outbufLen, "# %s setup [%s] > ", _version, _commandChars);
-  Serial.write(outbuf);
-
-  int cmd;  
-  while ((cmd = Serial.read()) < 0) {
+  while (rtcSeconds() <= _rtcPrevious) {
     delay(1);
   }
-  
-  Serial.write(cmd);
 
-  for (unsigned int i = 0; i < _nCommands; i++) {
-    if (cmd == _commands[i]->letter()) {
-      _commands[i]->run();
-      return;
-    }
-  }
-  
-  Serial.print(F("\r\n# Unknown command: "));
-  Serial.write((char) cmd);
-  Serial.println();
+  if (_runningController.loop()) {
+    _nextController = defaultController();
+  }  
 }
 
-void Supervisor::help(void)
+void Supervisor::serialWriteControllers(void)
 {
-  snprintf(outbuf, outbufLen, "# %s help:\r\n", _version);
-  Serial.write(outbuf);
-
-  Serial.println("# COMMANDS:");
-  for (unsigned int i = 0; i < _nCommands; i++) {
-    snprintf(outbuf, outbufLen, "#   %c %25s %s\r\n", _commands[i]->letter(), _commands[i]->name(), _commands[i]->help());
-    Serial.write(outbuf);
-  }
-
   Serial.println("# CONTROLLERS:");
   for (unsigned int i = 0; i < _nControllers; i++) {
     snprintf(outbuf, outbufLen, "#   %c %25s\r\n", _controllers[i]->letter(), _controllers[i]->name());
     Serial.write(outbuf);
   }
-
-  Serial.println("# END OF HELP");
 }
 
-int Supervisor::pickController(void)
+Controller *Supervisor::pickController(void)
 {
-  Serial.println("# Controllers:");
-  for (unsigned int i = 0; i < _nControllers; i++) {
-    snprintf(outbuf, outbufLen, "#   %c %25s\r\n", _controllers[i]->letter(), _controllers[i]->name());
-    Serial.write(outbuf);
-  }
+  serialWriteControllers();
+
   Serial.print("# Pick a controller: ");
 
   int ch;
@@ -130,33 +71,83 @@ int Supervisor::pickController(void)
   Serial.write(ch);
   
   for (unsigned int i = 0; i < _nControllers; i++) {
-    if (ch == _controllers[i]->letter()) {
+    if (_controllers[i]->letter() == ch) {
       Serial.print("=");
       Serial.println(_controllers[i]->name());
-      return i;
+      return _controllers[i];
     }
   }
 
   Serial.print(" does not match known controller");
-  return -1;
+  return NULL;
 }
 
-void Supervisor::setupController(int cno)
+void Supervisor::manualSetupController(void)
 {
-  if (cno >= 0 && cno < ((int) _nControllers)) {
-    _controllers[cno]->manualSetParams();
-  }
-}
-
-int Supervisor::startController(int newController)
-{
-  if (newController < 0 || newController >= ((int) _nControllers)) {
-    return -1;
+  Serial.print(F("# Pick a controller to configure\r\n"));
+  Controller *c;
+  if ((c = pickController()) != NULL) {
+    c->manualSetParams();
   } else {
-    _nextController = newController;
-    return 0;
+    Serial.print(F("# No controller picked to configure\r\n"));
   }
 }
+
+void Supervisor::pickNextController(void)
+{  
+  Serial.print(F("# Pick a controller to start\r\n"));
+  Controller *c;
+  if ((c = pickController()) != NULL) {
+    _nextController = *c;
+  } else {
+    Serial.print(F("# No controller picked\r\n"));
+  }
+}
+
+void Supervisor::readEeprom(unsigned int eepromBase)
+{
+  long eepromVersion = readEepromLong(eepromBase, versionSlot);
+  if (eepromVersion != version) {
+    snprintf(outbuf, outbufLen, "# !!! Saved state version %ld does not match software version %ld\r\n", eepromVersion, version);
+    Serial.print(outbuf);
+    return;
+  }
+
+  int rc = (int) readEepromLong(eepromBase, runningControllerSlot);
+  _runningController = (rc >= 0 && rc <= ((int) _nControllers)) ? (*_controllers[rc]) : _defaultController;
+
+  NephelTiming nt = NephelTiming();
+  nt.readEeprom(nephelBase);
+  _neph.setTiming(nt);
+
+  _runningController.readEeprom(controllerBase);
+}
+
+void Supervisor::writeEeprom(unsigned int eepromBase)
+{
+  writeEepromLong(eepromBase, versionSlot, version);
+
+  long rcNo = 0;
+  for (unsigned int i = 0; i < _nControllers; i++) {
+    if (&_runningController == _controllers[i]) {
+      rcNo = (long) i;
+    }
+  }
+  writeEepromLong(eepromBase, runningControllerSlot, rcNo);
+  nephelometer().timing().writeEeprom(nephelBase);
+  _runningController.writeEeprom(controllerBase);
+}
+
+void Supervisor::manualSetParams(void)
+{
+  Serial.println(F("# Supervisor: no manual parameters"));
+}
+
+void Supervisor::formatParams(char *buf, unsigned int buflen)
+{
+  snprintf(buf, buflen, "# Supervisor: no parameters\r\n");
+}
+
 
 /* Read a (long) integer from Serial
  * Read digits from serial until enter/return, store the result into *res, and return 1

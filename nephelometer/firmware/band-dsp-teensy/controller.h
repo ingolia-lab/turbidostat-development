@@ -20,7 +20,7 @@ class Controller : public ParamSettings {
     virtual int loop(void);
 
     // Called when control is switched to a different controller while this is running
-    // NOT called after loop() returns non-zero
+    // This IS called after loop() returns non-zero on the next loop
     virtual void end(void);
 
     // Name of the controller algorithm

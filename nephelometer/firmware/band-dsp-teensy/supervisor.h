@@ -10,7 +10,7 @@ class Supervisor;
 #include "settings.h"
 #include "turbidostat.h"
 
-class Supervisor
+class Supervisor : protected ParamSettings
 {
   public:
     Supervisor(void);
@@ -41,14 +41,21 @@ class Supervisor
 
     void begin(void);
     void loop(void);
-    void help(void);
-    
-    int pickController(void);
-    void setupController(int);
-    int startController(int);
+
+    void serialWriteControllers(void);    
+    void pickNextController(void);
+    void manualSetupController(void);
 
     // Returns the time in real-time clock seconds
     static unsigned long rtcSeconds(void) { return millis() / ((unsigned long) 1000); }
+  protected:
+    Controller &defaultController(void) { return _defaultController; }
+    Controller *pickController(void);
+
+    void readEeprom(unsigned int);
+    void writeEeprom(unsigned int);
+    void manualSetParams(void);
+    void formatParams(char *buf, unsigned int buflen);
 
   private:
     Nephel _neph;
@@ -58,23 +65,23 @@ class Supervisor
     static const int motor2Pin = 17;
     Pump _pumps[_nPumps] = { Pump(motor1Pin, 1), Pump(motor2Pin, 1) };
 
-    unsigned int _nCommands;
-    ManualCommand **_commands;
-    char *_commandChars;
-
     unsigned int _nControllers;
-    Controller **_controllers;
+    Controller **_controllers;       
 
-    // Number of running controller, or -1 for manual
-    int _runningController;
-    // Controller to start next time, or -1 for no change
-    int _nextController;
+    ManualController _defaultController;
+    
+    Controller &_runningController;
+    Controller &_nextController;
     // RTC seconds of previous loop
     unsigned long _rtcPrevious;
 
-    const char *_version = "band-dsp-teensy 2017-02-22";
-
     void manualLoop(void);
+
+    static const long version = 10000;
+    static const unsigned int versionSlot = 0;
+    static const unsigned int runningControllerSlot = 1;
+    static const unsigned int nephelBase = 0x10;
+    static const unsigned int controllerBase = 0x30;
 };
 
 
