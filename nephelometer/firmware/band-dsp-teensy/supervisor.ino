@@ -29,11 +29,6 @@ void Supervisor::begin(void)
 
 void Supervisor::loop(void)
 {
-  Serial.print("Running controller ");
-  Serial.println(_runningController->name());
-  Serial.print("Next controller ");
-  Serial.println(_nextController->name());
-  
   if (_nextController != _runningController) {
     _runningController->end();
     if (_nextController->begin()) {

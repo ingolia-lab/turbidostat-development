@@ -92,6 +92,8 @@ Nephel::Nephel(int irLedPin, int pgaCSPin, int pgaSCKPin, int pgaMOSIPin, int ad
   _adc.setResolution(12);
   _adc.setConversionSpeed(ADC_HIGH_SPEED);
   _adc.setSamplingSpeed(ADC_VERY_HIGH_SPEED);
+
+  Serial.println("# Nephelometer initialized");
 }                
 
 /* Set the gain on the programmable gain amplifier (PGA)

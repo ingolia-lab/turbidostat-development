@@ -81,6 +81,7 @@ void ManualAnnotate::run(void)
 
 void ManualStartController::run(void)
 {
+  Serial.println();
   Serial.println(F("# Start a manual controller:"));
   supervisor().pickNextController();
 }
@@ -99,7 +100,7 @@ void ManualHelp::run(void)
 
 void ManualMeasure::run(void)
 {
-  Serial.print(F("\r\n"));
+  Serial.println();
 
   while (1) {
     unsigned long startMsec = millis();
@@ -189,7 +190,7 @@ void ManualPump::run(void)
 
 void ManualSetup::run(void)
 {
-  Serial.println(F("# Manually configure a controller"));
+  Serial.println(F("\r\n# Manually configure a controller"));
   supervisor().manualSetupController();
 }
 

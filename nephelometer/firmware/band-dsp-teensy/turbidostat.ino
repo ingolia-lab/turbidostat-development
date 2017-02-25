@@ -26,16 +26,10 @@ int Turbido::begin(void)
 
 int Turbido::loop(void)
 {
-  Serial.println("Turbido::loop()");
-  
   delayOneSecond();
 
-  Serial.println("  waited 1 second");
-  
   long sec = rtcSeconds();
   long m = _neph.measure();
-
-  Serial.println("  measured");
 
   if (_pump.isPumping() && m < _pumpOff) {
     _pump.setPumping(0);
@@ -43,12 +37,10 @@ int Turbido::loop(void)
     _pump.setPumping(1);
   }
 
-  Serial.println("  set pump");
-
   long ptime = _pump.totalOnMsec();
 
-  snprintf(Supervisor::outbuf, Supervisor::outbufLen, "T\t%lu\t%ld\t%ld.%03ld\r\n", 
-           sec - _startSec, m, 
+  snprintf(Supervisor::outbuf, Supervisor::outbufLen, "T\t%lu\t%ld\t%d\t%ld.%03ld\r\n", 
+           sec - _startSec, m, _pump.isPumping(),
            ptime / ((long) 1000), ptime % ((long) 1000));
   Serial.write(Supervisor::outbuf);
 

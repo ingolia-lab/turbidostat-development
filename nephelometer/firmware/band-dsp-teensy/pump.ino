@@ -10,6 +10,9 @@ Pump::Pump(int pin, int onIsHigh):
   _lastOnMsec = -1;
   _lastOffMsec = millis();
   _cumulativeMsec = 0;
+
+  Serial.print("# Pump initialized on pin ");
+  Serial.println(pin);
 }
 
 long Pump::totalOnMsec(void)
