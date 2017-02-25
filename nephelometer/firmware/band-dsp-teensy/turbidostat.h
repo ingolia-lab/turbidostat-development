@@ -6,7 +6,7 @@
 class Turbido : public Controller
 {
   public:
-    Turbido(Nephel &neph, Pump &pump);
+    Turbido(Supervisor &s, int pumpno);
 
     int begin(void);
     int loop(void);
@@ -23,14 +23,14 @@ class Turbido : public Controller
     long mLower(void) { return _mLower; }
     long mUpper(void) { return _mUpper; }
     
-    long measure(void) { return _neph.measure(); }
+    long measure(void);
 
-    const Pump &pump(void) { return _pump; }
-    void setPumpOn(void)  { _pump.setPumping(1); }
-    void setPumpOff(void) { _pump.setPumping(0); }
+    const Pump &pump(void);
+    void setPumpOn(void);
+    void setPumpOff(void);
   private:
-    Nephel &_neph;
-    Pump &_pump;
+    Supervisor &_s;
+    int _pumpno;
   
     long _mUpper;  // Measurement for pump-on
     long _mLower; // Measurement for pump-off

@@ -3,9 +3,9 @@
 #include "supervisor.h"
 #include "turbidostat.h"
 
-Turbido::Turbido(Nephel &neph, Pump &pump):
-  _neph(neph),
-  _pump(pump),
+Turbido::Turbido(Supervisor &s, int pumpno):
+  _s(s),
+  _pumpno(pumpno),
   _mUpper(0x7fffffff),
   _mLower(0),
   _startSec(0),
@@ -17,9 +17,9 @@ Turbido::Turbido(Nephel &neph, Pump &pump):
 int Turbido::begin(void)
 {
   _startSec = rtcSeconds();
-  _startPumpMsec = _pump.totalOnMsec();
+  _startPumpMsec = pump().totalOnMsec();
 
-  _pump.setPumping(0);
+  setPumpOff();
 
   Serial.println("T\ttime.s\tneph\tgain\tpumpon\tpumptime.s");
 
@@ -35,7 +35,7 @@ int Turbido::loop(void)
 
   if (pump().isPumping() && m < mLower()) {
     setPumpOff();
-  } else if ((!_pump.isPumping()) && m > mUpper()) {
+  } else if ((!pump().isPumping()) && m > mUpper()) {
     setPumpOn();
   }
 
@@ -43,7 +43,7 @@ int Turbido::loop(void)
 
   snprintf(Supervisor::outbuf, Supervisor::outbufLen, 
            "T\t%lu\t%ld\t%ld\t%d\t%ld.%03ld\r\n", 
-           sec - _startSec, m, _neph.pgaScale(), pump().isPumping(),
+           sec - _startSec, m, _s.nephelometer().pgaScale(), pump().isPumping(),
            ptime / ((long) 1000), ptime % ((long) 1000));
   Serial.write(Supervisor::outbuf);
 
@@ -59,6 +59,14 @@ int Turbido::loop(void)
 
   return 0;
 }
+
+long Turbido::measure(void) { return _s.nephelometer().measure(); }
+
+const Pump &Turbido::pump(void) { return _s.pump(_pumpno); }
+
+void Turbido::setPumpOn(void)  { _s.pump(_pumpno).setPumping(1); }
+
+void Turbido::setPumpOff(void) { _s.pump(_pumpno).setPumping(0); }
 
 void Turbido::readEeprom(unsigned int eepromStart)
 {

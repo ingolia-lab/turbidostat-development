@@ -273,20 +273,21 @@ void TestNephel::update(void)
   unsigned long dpumpMsec = pumpMsec - _lastUpdatePumpMsec;
   _lastUpdatePumpMsec = pumpMsec;
 
-  // tdouble ~ 1k to 10k, dt ~1k, gf100k ~ 70 - 700
-  unsigned long growthFactor100k = (dtMsec * ((unsigned long) 6931)) / (doubleSeconds() * 10);
-  unsigned long dg = growthFactor100k * _turbidity / 100000;
+  // tdouble ~ 1k to 10k, dt ~1k, gf1M ~ 70 - 700
+  // N.B. 693 ~ 1000 log(2)
+  unsigned long growthFactor1M = (dtMsec * ((unsigned long) 693)) / doubleSeconds();
+  unsigned long dg = growthFactor1M * _turbidity / 1000000;
 
-  unsigned long dilutionFactor100k = (dpumpMsec * 100) / fillSeconds();
-  unsigned long df = dilutionFactor100k * _turbidity / 100000;
+  unsigned long dilutionFactor1M = (dpumpMsec * 1000) / fillSeconds();
+  unsigned long df = dilutionFactor1M * _turbidity / 1000000;
 
   unsigned long newTurbidity = _turbidity + dg - df;
 
   snprintf(Supervisor::outbuf, Supervisor::outbufLen, 
-           "# Test: T(0) = %lu, dt = %lu.%03lu, dpump = %lu.%03lu, gf = %lu.%05lu, df = %lu.%05lu, dg = %lu, df = %lu, T(f) = %lu",
+           "# Test: T(0) = %lu, dt = %lu.%03lu, dpump = %lu.%03lu, gf = %lu.%06lu, df = %lu.%06lu, dg = %lu, df = %lu, T(f) = %lu",
            _turbidity, dtMsec/1000, dtMsec%1000, dpumpMsec/1000, dpumpMsec%1000, 
-           growthFactor100k/100000, growthFactor100k%100000,
-           dilutionFactor100k/100000, dilutionFactor100k%100000,
+           growthFactor1M/1000000, growthFactor1M%1000000,
+           dilutionFactor1M/1000000, dilutionFactor1M%1000000,
            dg, df, newTurbidity);
   Serial.println(Supervisor::outbuf);
 
