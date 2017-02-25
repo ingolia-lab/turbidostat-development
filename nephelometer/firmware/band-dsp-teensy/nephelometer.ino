@@ -48,14 +48,14 @@ void NephelTiming::manualSetParams(void)
     if (i > 0) {
       Serial.print(", ");
     }
-    Serial.print('0' + ((char) i));
+    Serial.write('0' + ((char) i));
     Serial.print("=");
-    Serial.write(Nephel::pgaScale(i));
+    Serial.print(Nephel::pgaScale(i));
     Serial.print("x");
   }
   Serial.println();
 
-  long pgaTmp;
+  long pgaTmp = pga;
   manualReadParam("PGA setting", pgaTmp);
   pga = (pgaTmp > 0 && pgaTmp < Nephel::nPgaScales) ? ((uint8_t) pgaTmp) : pga;
   manualReadParam("Half cycle [usec]", halfCycleUsec);
@@ -92,8 +92,6 @@ Nephel::Nephel(int irLedPin, int pgaCSPin, int pgaSCKPin, int pgaMOSIPin, int ad
   _adc.setResolution(12);
   _adc.setConversionSpeed(ADC_HIGH_SPEED);
   _adc.setSamplingSpeed(ADC_VERY_HIGH_SPEED);
-
-  setPga(0x00);
 }                
 
 /* Set the gain on the programmable gain amplifier (PGA)
@@ -101,7 +99,7 @@ Nephel::Nephel(int irLedPin, int pgaCSPin, int pgaSCKPin, int pgaMOSIPin, int ad
  */
 int Nephel::setPga(uint8_t setting)
 {
-  if (setting < Nephel::nPgaScales) {
+  if (setting < nPgaScales) {
     SPI.beginTransaction(_pgaSPISettings);
     digitalWrite(_pgaCSPin, LOW);
     SPI.transfer(0x40);

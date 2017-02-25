@@ -20,6 +20,8 @@ ManualController::ManualController(Supervisor &s)
     _commandChars[i] = _commands[i]->letter();
   }
   _commandChars[_nCommands] = 0;
+
+  Serial.println("# ManualController initialized");
 }
 
 int ManualController::loop(void)
@@ -52,7 +54,7 @@ void ManualController::serialWriteCommands(void)
 {
   Serial.println("# COMMANDS:");
   for (unsigned int i = 0; i < _nCommands; i++) {
-    snprintf(Supervisor::outbuf, Supervisor::outbufLen, "#   %c %25s %s\r\n", _commands[i]->letter(), _commands[i]->name(), _commands[i]->help());
+    snprintf(Supervisor::outbuf, Supervisor::outbufLen, "#   %c %22s   %s\r\n", _commands[i]->letter(), _commands[i]->name(), _commands[i]->help());
     Serial.write(Supervisor::outbuf);
   }
 }
@@ -90,6 +92,7 @@ void ManualDelayScan::run(void)
 
 void ManualHelp::run(void) 
 {
+  Serial.println();
   _manualCtrl.serialWriteCommands();
   supervisor().serialWriteControllers();  
 }
@@ -131,8 +134,10 @@ void ManualPump::run(void)
 {
   Serial.print(F("\r\n# Which pump ["));
   for (int pno = 1; pno <= supervisor().nPumps(); pno++) {
-    Serial.print('1' + pno);
-    Serial.print(",");
+    if (pno > 1) {
+      Serial.print(",");
+    }
+    Serial.print(pno);
   }
   Serial.print(F("]: "));
 
@@ -140,6 +145,7 @@ void ManualPump::run(void)
   while ((ch = Serial.read()) < 0) {
     delay(1);
   }
+  Serial.write(ch);
   int pno = ch - '1';
   if (pno >= 0 && pno < supervisor().nPumps()) {
     Pump &p = supervisor().pump(pno);

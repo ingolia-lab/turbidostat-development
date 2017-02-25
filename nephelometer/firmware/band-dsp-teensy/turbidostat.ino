@@ -11,12 +11,12 @@ Turbido::Turbido(Nephel &neph, Pump &pump):
   _startSec(0),
   _startPumpMsec(0)
 {
-
+  Serial.println("# Turbido controller initialized");
 }
 
 int Turbido::begin(void)
 {
-  _startSec = Supervisor::rtcSeconds();
+  _startSec = rtcSeconds();
   _startPumpMsec = _pump.totalOnMsec();
 
   _pump.setPumping(0);
@@ -26,14 +26,24 @@ int Turbido::begin(void)
 
 int Turbido::loop(void)
 {
-  long sec = Supervisor::rtcSeconds();
+  Serial.println("Turbido::loop()");
+  
+  delayOneSecond();
+
+  Serial.println("  waited 1 second");
+  
+  long sec = rtcSeconds();
   long m = _neph.measure();
+
+  Serial.println("  measured");
 
   if (_pump.isPumping() && m < _pumpOff) {
     _pump.setPumping(0);
   } else if ((!_pump.isPumping()) && m > _pumpOn) {
     _pump.setPumping(1);
   }
+
+  Serial.println("  set pump");
 
   long ptime = _pump.totalOnMsec();
 

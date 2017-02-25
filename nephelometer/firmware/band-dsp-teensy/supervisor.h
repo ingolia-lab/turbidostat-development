@@ -45,11 +45,9 @@ class Supervisor : protected ParamSettings
     void serialWriteControllers(void);    
     void pickNextController(void);
     void manualSetupController(void);
-
-    // Returns the time in real-time clock seconds
-    static unsigned long rtcSeconds(void) { return millis() / ((unsigned long) 1000); }
   protected:
     Controller &defaultController(void) { return _defaultController; }
+    Controller &runningController(void) { return *_runningController; }
     Controller *pickController(void);
 
     void readEeprom(unsigned int);
@@ -68,12 +66,11 @@ class Supervisor : protected ParamSettings
     unsigned int _nControllers;
     Controller **_controllers;       
 
+//    TrivialController _defaultController;
     ManualController _defaultController;
     
-    Controller &_runningController;
-    Controller &_nextController;
-    // RTC seconds of previous loop
-    unsigned long _rtcPrevious;
+    Controller *_runningController;
+    Controller *_nextController;
 
     void manualLoop(void);
 

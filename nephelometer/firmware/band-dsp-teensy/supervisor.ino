@@ -9,43 +9,43 @@ char Supervisor::outbuf[OUTBUF_LEN] = "";
 Supervisor::Supervisor(void):
   _neph(),
   _defaultController(ManualController(*this)),
-  _runningController(_defaultController),
-  _nextController(_defaultController)
+  _runningController(&_defaultController),
+  _nextController(&_defaultController)
 {
-
   _nControllers = 2;
   _controllers = new Controller*[_nControllers];
   _controllers[0] = &_defaultController;
   _controllers[1] = new Turbido(_neph, _pumps[0]);
-
-  _rtcPrevious = 0;
+  Serial.println("# Supervisor initialized");
 }
 
 void Supervisor::begin(void)
 {
-  _runningController = defaultController();
+  _runningController = &defaultController();
   _nextController    = _runningController;
-  _rtcPrevious = 0;
+  Serial.print("# Supervisor beginning, with controller ");
+  Serial.println(_runningController->name());
 }
 
 void Supervisor::loop(void)
 {
-  if (&(_nextController) != &(_runningController)) {
-    _runningController.end();
-    if (_nextController.begin()) {
+  Serial.print("Running controller ");
+  Serial.println(_runningController->name());
+  Serial.print("Next controller ");
+  Serial.println(_nextController->name());
+  
+  if (_nextController != _runningController) {
+    _runningController->end();
+    if (_nextController->begin()) {
       Serial.println(F("# Problem switching to new controller -- entering default mode"));
-      _runningController = defaultController();
+      _runningController = &defaultController();
     } else {
       _runningController = _nextController;
     }
   }
   
-  while (rtcSeconds() <= _rtcPrevious) {
-    delay(1);
-  }
-
-  if (_runningController.loop()) {
-    _nextController = defaultController();
+  if (_runningController->loop()) {
+    _nextController = &defaultController();
   }  
 }
 
@@ -98,7 +98,7 @@ void Supervisor::pickNextController(void)
   Serial.print(F("# Pick a controller to start\r\n"));
   Controller *c;
   if ((c = pickController()) != NULL) {
-    _nextController = *c;
+    _nextController = c;
   } else {
     Serial.print(F("# No controller picked\r\n"));
   }
@@ -114,13 +114,13 @@ void Supervisor::readEeprom(unsigned int eepromBase)
   }
 
   int rc = (int) readEepromLong(eepromBase, runningControllerSlot);
-  _runningController = (rc >= 0 && rc <= ((int) _nControllers)) ? (*_controllers[rc]) : _defaultController;
+  _runningController = (rc >= 0 && rc <= ((int) _nControllers)) ? (_controllers[rc]) : &_defaultController;
 
   NephelTiming nt = NephelTiming();
   nt.readEeprom(nephelBase);
   _neph.setTiming(nt);
 
-  _runningController.readEeprom(controllerBase);
+  _runningController->readEeprom(controllerBase);
 }
 
 void Supervisor::writeEeprom(unsigned int eepromBase)
@@ -129,13 +129,13 @@ void Supervisor::writeEeprom(unsigned int eepromBase)
 
   long rcNo = 0;
   for (unsigned int i = 0; i < _nControllers; i++) {
-    if (&_runningController == _controllers[i]) {
+    if (_runningController == _controllers[i]) {
       rcNo = (long) i;
     }
   }
   writeEepromLong(eepromBase, runningControllerSlot, rcNo);
   nephelometer().timing().writeEeprom(nephelBase);
-  _runningController.writeEeprom(controllerBase);
+  _runningController->writeEeprom(controllerBase);
 }
 
 void Supervisor::manualSetParams(void)
