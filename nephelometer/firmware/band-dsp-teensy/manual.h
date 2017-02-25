@@ -140,4 +140,14 @@ class ManualSetup : public ManualCommand
     void run(void);  
 };
 
+class ManualTestNephel : public ManualCommand
+{
+  public:
+    ManualTestNephel(Supervisor &s) : ManualCommand(s) { }
+    const char *name(void) { return "Test Nephelometer"; }
+    char letter(void) { return 'z'; }
+    const char *help(void) { return "Switch to test nephelometer stub"; }
+    void run(void);
+};
+
 #endif /* !defined(_manual_h) */

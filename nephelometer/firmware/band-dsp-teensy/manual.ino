@@ -4,7 +4,7 @@
 
 ManualController::ManualController(Supervisor &s)
 {
-  _nCommands = 8;
+  _nCommands = 9;
   _commands = new ManualCommand*[_nCommands];
   _commands[0] = new ManualAnnotate(s);
   _commands[1] = new ManualStartController(s);
@@ -14,6 +14,7 @@ ManualController::ManualController(Supervisor &s)
   _commands[5] = new ManualNephelSettings(s);
   _commands[6] = new ManualPump(s);
   _commands[7] = new ManualSetup(s);
+  _commands[8] = new ManualTestNephel(s);
 
   _commandChars = new char[_nCommands + 1];
   for (unsigned int i = 0; i < _nCommands; i++) {
@@ -192,5 +193,11 @@ void ManualSetup::run(void)
 {
   Serial.println(F("\r\n# Manually configure a controller"));
   supervisor().manualSetupController();
+}
+
+void ManualTestNephel::run(void)
+{
+  Serial.println(F("\r\n# Switching to test nephelometer!"));
+  supervisor().useTestNephel();
 }
 

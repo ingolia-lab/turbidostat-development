@@ -47,8 +47,8 @@ class Nephel
 {
   public:
     Nephel(int irLedPin = 2, int pgaCSPin = 15, int pgaSCKPin = 13, int pgaMOSIPin = 11, int adcSignalPin = A10, int adcRefPin = A11);
-    long measure();
-    void delayScan();
+    virtual long measure();
+    virtual void delayScan();
 
     NephelTiming timing(void) { return _timing; }
     void setTiming(NephelTiming timing) { _timing = timing; }
@@ -78,7 +78,7 @@ class Nephel
 class TestNephel : public Nephel
 {
   public:
-    TestNephel(unsigned long turbidity, unsigned long doubleSeconds, unsigned long fillSeconds, const Pump &pump);
+    TestNephel(const Pump &pump, unsigned long turbidity = 100000, unsigned long doubleSeconds = 90 * 60, unsigned long fillSeconds = 20 * 60);
     
     long measure(void);
     void delayScan(void);
@@ -86,7 +86,8 @@ class TestNephel : public Nephel
   protected:
     unsigned long doubleSeconds(void) { return _doubleSeconds; }
     unsigned long fillSeconds(void) { return _fillSeconds; }
-    
+
+    void update(void);
   private:
     unsigned long _doubleSeconds;
     unsigned long _fillSeconds;
@@ -95,6 +96,11 @@ class TestNephel : public Nephel
 
     unsigned long _turbidity;
     unsigned long _lastUpdateMsec;
+    unsigned long _lastUpdatePumpMsec;
+
+    const unsigned long _maxTurbidity = 2000000;
+    const long _measureFactor = 1000;
+    const long _maxMeasure = 40000;
 };
 
 #endif /* defined(_nephelometer_h) */

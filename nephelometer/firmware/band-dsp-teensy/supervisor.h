@@ -45,6 +45,8 @@ class Supervisor : protected ParamSettings
     void serialWriteControllers(void);    
     void pickNextController(void);
     void manualSetupController(void);
+
+    void useTestNephel(void) { _neph = new TestNephel(_pumps[0]); }
   protected:
     Controller &defaultController(void) { return _defaultController; }
     Controller &runningController(void) { return *_runningController; }

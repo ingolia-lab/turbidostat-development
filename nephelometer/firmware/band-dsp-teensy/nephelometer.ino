@@ -244,19 +244,53 @@ void Nephel::delayScan()
   }
 }
 
-TestNephel::TestNephel(unsigned long turbidity, unsigned long doubleSeconds, unsigned long fillSeconds, const Pump &pump):
+TestNephel::TestNephel(const Pump &pump, unsigned long turbidity, unsigned long doubleSeconds, unsigned long fillSeconds):
   _doubleSeconds(doubleSeconds),
   _fillSeconds(fillSeconds),
   _fillPump(pump),
   _turbidity(turbidity),
-  _lastUpdateMsec(millis())
+  _lastUpdateMsec(millis()),
+  _lastUpdatePumpMsec(pump.totalOnMsec())
 {
-    
+  Serial.println(F("TestNephel() initialized"));
 }
-    
+
 long TestNephel::measure(void)
 {
-  return 0; 
+  update();
+
+  long rawMeasure = ((long) _turbidity) * pgaScale() / _measureFactor;
+  return (rawMeasure > _maxMeasure) ? _maxMeasure : rawMeasure;
+}
+    
+void TestNephel::update(void)
+{
+  unsigned long nowMsec = millis(), pumpMsec = _fillPump.totalOnMsec();
+
+  unsigned long dtMsec = nowMsec - _lastUpdateMsec;
+  _lastUpdateMsec = nowMsec;
+
+  unsigned long dpumpMsec = pumpMsec - _lastUpdatePumpMsec;
+  _lastUpdatePumpMsec = pumpMsec;
+
+  // tdouble ~ 1k to 10k, dt ~1k, gf100k ~ 70 - 700
+  unsigned long growthFactor100k = (dtMsec * ((unsigned long) 6931)) / (doubleSeconds() * 10);
+  unsigned long dg = growthFactor100k * _turbidity / 100000;
+
+  unsigned long dilutionFactor100k = (dpumpMsec * 100) / fillSeconds();
+  unsigned long df = dilutionFactor100k * _turbidity / 100000;
+
+  unsigned long newTurbidity = _turbidity + dg - df;
+
+  snprintf(Supervisor::outbuf, Supervisor::outbufLen, 
+           "# Test: T(0) = %lu, dt = %lu.%03lu, dpump = %lu.%03lu, gf = %lu.%05lu, df = %lu.%05lu, dg = %lu, df = %lu, T(f) = %lu",
+           _turbidity, dtMsec/1000, dtMsec%1000, dpumpMsec/1000, dpumpMsec%1000, 
+           growthFactor100k/100000, growthFactor100k%100000,
+           dilutionFactor100k/100000, dilutionFactor100k%100000,
+           dg, df, newTurbidity);
+  Serial.println(Supervisor::outbuf);
+
+  _turbidity = (newTurbidity > _maxTurbidity) ? _maxTurbidity : newTurbidity;
 }
 
 void TestNephel::delayScan(void)
