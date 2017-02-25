@@ -30,10 +30,10 @@ class Turbido : public Controller
     void setPumpOff(void);
   private:
     Supervisor &_s;
-    int _pumpno;
   
     long _mUpper;  // Measurement for pump-on
     long _mLower; // Measurement for pump-off
+    long _pumpno;
 
     long _startSec;
     long _startPumpMsec;

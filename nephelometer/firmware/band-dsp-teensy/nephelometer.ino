@@ -244,15 +244,18 @@ void Nephel::delayScan()
   }
 }
 
-TestNephel::TestNephel(const Pump &pump, unsigned long turbidity, unsigned long doubleSeconds, unsigned long fillSeconds):
+TestNephel::TestNephel(const Pump &goodPump, const Pump &badPump, unsigned long turbidity, unsigned long goodness, unsigned long doubleSeconds, unsigned long fillSeconds):
   _doubleSeconds(doubleSeconds),
   _fillSeconds(fillSeconds),
-  _fillPump(pump),
+  _goodPump(goodPump),
+  _badPump(badPump),
   _turbidity(turbidity),
+  _goodness(goodness),
   _lastUpdateMsec(millis()),
-  _lastUpdatePumpMsec(pump.totalOnMsec())
+  _lastUpdateGoodMsec(goodPump.totalOnMsec()),
+  _lastUpdateBadMsec(badPump.totalOnMsec())
 {
-  Serial.println(F("TestNephel() initialized"));
+  Serial.println(F("# TestNephel() initialized"));
 }
 
 long TestNephel::measure(void)
@@ -265,18 +268,25 @@ long TestNephel::measure(void)
     
 void TestNephel::update(void)
 {
-  unsigned long nowMsec = millis(), pumpMsec = _fillPump.totalOnMsec();
+  unsigned long nowMsec = millis(), goodMsec = _goodPump.totalOnMsec(), badMsec = _badPump.totalOnMsec();
 
   unsigned long dtMsec = nowMsec - _lastUpdateMsec;
   _lastUpdateMsec = nowMsec;
 
-  unsigned long dpumpMsec = pumpMsec - _lastUpdatePumpMsec;
-  _lastUpdatePumpMsec = pumpMsec;
+  unsigned long dgoodMsec = goodMsec - _lastUpdateGoodMsec;
+  _lastUpdateGoodMsec = goodMsec;
+
+  unsigned long dbadMsec = badMsec - _lastUpdateBadMsec;
+  _lastUpdateBadMsec = badMsec;
+
+  unsigned long dpumpMsec = dgoodMsec + dbadMsec;
 
   // tdouble ~ 1k to 10k, dt ~1k, gf1M ~ 70 - 700
   // N.B. 693 ~ 1000 log(2)
   unsigned long growthFactor1M = (dtMsec * ((unsigned long) 693)) / doubleSeconds();
-  unsigned long dg = growthFactor1M * _turbidity / 1000000;
+  unsigned long goodnessFactor1k = growthGoodness1k(_goodness);
+  unsigned long goodGrowthFactor1M = growthFactor1M * goodnessFactor1k / 1000;
+  unsigned long dg = goodGrowthFactor1M * _turbidity / 1000000;
 
   unsigned long dilutionFactor1M = (dpumpMsec * 1000) / fillSeconds();
   unsigned long df = dilutionFactor1M * _turbidity / 1000000;
@@ -284,14 +294,33 @@ void TestNephel::update(void)
   unsigned long newTurbidity = _turbidity + dg - df;
 
   snprintf(Supervisor::outbuf, Supervisor::outbufLen, 
-           "# Test: T(0) = %lu, dt = %lu.%03lu, dpump = %lu.%03lu, gf = %lu.%06lu, df = %lu.%06lu, dg = %lu, df = %lu, T(f) = %lu",
+           "# Test: T(0) = %lu, dt = %lu.%03lu, dpump = %lu.%03lu, gf = %lu.%06lu, gg = %lu.%03lu, ggf = %lu.%06lu, df = %lu.%06lu, dg = %lu, df = %lu, T(f) = %lu",
            _turbidity, dtMsec/1000, dtMsec%1000, dpumpMsec/1000, dpumpMsec%1000, 
            growthFactor1M/1000000, growthFactor1M%1000000,
+           goodnessFactor1k/1000, goodnessFactor1k%1000,
+           goodGrowthFactor1M/1000000, goodGrowthFactor1M%1000000,
            dilutionFactor1M/1000000, dilutionFactor1M%1000000,
            dg, df, newTurbidity);
   Serial.println(Supervisor::outbuf);
 
+  unsigned long goodAdded100k = (dgoodMsec * 100) / fillSeconds();
+  unsigned long totalAdded100k = ((dgoodMsec + dbadMsec) * 100) / fillSeconds();
+
+  unsigned long newGoodness = (_goodness * 100000 + 10000 * goodAdded100k) / (100000 + totalAdded100k);
+
+  snprintf(Supervisor::outbuf, Supervisor::outbufLen, 
+           "# Test: G(0) = %lu, g+ = %lu.%05lu, t+ = %lu.%05lu, G(f) = %lu",
+           _goodness, goodAdded100k/100000, goodAdded100k%100000, 
+           totalAdded100k/100000, totalAdded100k%100000, newGoodness);
+  Serial.println(Supervisor::outbuf);
+
   _turbidity = (newTurbidity > _maxTurbidity) ? _maxTurbidity : newTurbidity;
+  _goodness = (newGoodness > _maxGoodness) ? _maxGoodness : newGoodness;
+}
+
+unsigned long TestNephel::growthGoodness1k(unsigned long goodness)
+{
+  return (_goodnessVmax1k * goodness) / (goodness + _goodnessKM);
 }
 
 void TestNephel::delayScan(void)

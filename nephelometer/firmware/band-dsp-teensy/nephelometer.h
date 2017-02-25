@@ -78,7 +78,9 @@ class Nephel
 class TestNephel : public Nephel
 {
   public:
-    TestNephel(const Pump &pump, unsigned long turbidity = 100000, unsigned long doubleSeconds = 90 * 60, unsigned long fillSeconds = 20 * 60);
+    TestNephel(const Pump &goodPump, const Pump &badPump, 
+               unsigned long turbidity = 100000, unsigned long goodness = _maxGoodness, 
+               unsigned long doubleSeconds = 90 * 60, unsigned long fillSeconds = 20 * 60);
     
     long measure(void);
     void delayScan(void);
@@ -88,19 +90,27 @@ class TestNephel : public Nephel
     unsigned long fillSeconds(void) { return _fillSeconds; }
 
     void update(void);
+    unsigned long growthGoodness1k(unsigned long goodness);
   private:
     unsigned long _doubleSeconds;
     unsigned long _fillSeconds;
 
-    const Pump &_fillPump;
+    const Pump &_goodPump;
+    const Pump &_badPump;
 
     unsigned long _turbidity;
+    unsigned long _goodness;
     unsigned long _lastUpdateMsec;
-    unsigned long _lastUpdatePumpMsec;
+    unsigned long _lastUpdateGoodMsec;
+    unsigned long _lastUpdateBadMsec;
 
-    const unsigned long _maxTurbidity = 2000000;
-    const long _measureFactor = 1000;
-    const long _maxMeasure = 40000;
+    static const unsigned long _maxTurbidity = 2000000;
+    static const long _measureFactor = 1000;
+    static const long _maxMeasure = 40000;
+
+    static const unsigned long _maxGoodness  = 10000;
+    static const unsigned long _goodnessKM   =  1000;
+    static const unsigned long _goodnessVmax1k = (1000 * (_maxGoodness + _goodnessKM)) / _maxGoodness;
 };
 
 #endif /* defined(_nephelometer_h) */

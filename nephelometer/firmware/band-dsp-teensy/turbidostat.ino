@@ -5,9 +5,9 @@
 
 Turbido::Turbido(Supervisor &s, int pumpno):
   _s(s),
-  _pumpno(pumpno),
   _mUpper(0x7fffffff),
   _mLower(0),
+  _pumpno(pumpno),
   _startSec(0),
   _startPumpMsec(0)
 {
@@ -72,18 +72,20 @@ void Turbido::readEeprom(unsigned int eepromStart)
 {
   _mUpper = readEepromLong(eepromStart, 0);
   _mLower = readEepromLong(eepromStart, 1);
+  _pumpno = readEepromLong(eepromStart, 2);
 }
 
 void Turbido::writeEeprom(unsigned int eepromStart)
 {
   writeEepromLong(eepromStart, 0, _mUpper);
   writeEepromLong(eepromStart, 1, _mLower);
+  writeEepromLong(eepromStart, 2, _pumpno);
 }
 
 void Turbido::formatParams(char *buf, unsigned int buflen)
 {
-  snprintf(buf, buflen, "# Pump on @ %ld\r\n# Pump off @ %ld\r\n", 
-           _mUpper, _mLower);
+  snprintf(buf, buflen, "# Pump on @ %ld\r\n# Pump off @ %ld\r\n# Pump number %ld\r\n", 
+           _mUpper, _mLower, _pumpno);
 }
 
 void Turbido::manualSetParams(void)
@@ -93,6 +95,7 @@ void Turbido::manualSetParams(void)
 
   manualReadParam("pump on (high) measurement", _mUpper);
   manualReadParam("pump off (low) measurement", _mLower);
+  manualReadParam("pump number               ", _pumpno);
   
   serialWriteParams();
 }
