@@ -71,6 +71,11 @@ const long Nephel::pgaScales[] = { 1, 2, 4, 5, 8, 10, 16, 32 };
 // SPI MODE3 = 1,1 is better so device select pin doesn't clock
 
 Nephel::Nephel(int irLedPin, int pgaCSPin, int pgaSCKPin, int pgaMOSIPin, int adcSignalPin , int adcRefPin):
+  _irLedPin(irLedPin),
+  _pgaCSPin(pgaCSPin),
+  _pgaMOSIPin(pgaMOSIPin),
+  _adcSignalPin(adcSignalPin),
+  _adcRefPin(adcRefPin),
   _pgaSPISettings(4000000 /* 4 MHz */, MSBFIRST, SPI_MODE3),
   _adc()
 { 
@@ -121,10 +126,12 @@ long Nephel::measure(void)
   int res;
   
   if ((res = measurePeaks(_timing, &ttlon, &ttloff))) {
-    return -1;
+    Serial.print("# !!! Nephelometer measurePeaks failed");
+    Serial.println(res);
+    return 0;
   }
 
-  return (((long) 10) * (ttloff - ttlon)) / _timing.nMeasure;
+  return (((long) 10) * (ttloff - ttlon)) / ((long) _timing.nMeasure);
 }
 
 /* Make a phase-sensitive scattered light measurement
@@ -139,7 +146,9 @@ int Nephel::measurePeaks(const NephelTiming &timing, long *ttlon, long *ttloff)
   *ttlon = 0;
   *ttloff = 0;
 
-  setPga(timing.pga);
+  if (setPga(timing.pga) < 0) {
+    return -10;
+  }
   
   unsigned long tStart = micros();
   

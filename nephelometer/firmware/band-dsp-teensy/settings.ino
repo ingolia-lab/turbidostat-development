@@ -70,7 +70,7 @@ void ParamSettings::manualReadParam(const char *desc, unsigned int &pval)
 
 void ParamSettings::serialWriteParams(void)
 { 
-  Serial.print(F("\r\n# Current settings:\r\n"));
+  Serial.print(F("# Current settings:\r\n"));
   formatParams(Supervisor::outbuf, Supervisor::outbufLen);
   Serial.write(Supervisor::outbuf);
 }
