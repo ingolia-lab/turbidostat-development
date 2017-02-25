@@ -35,7 +35,7 @@ class Supervisor : protected ParamSettings
 
     static int blockingReadLong(long *res);
 
-    inline Nephel &nephelometer(void) { return _neph; }
+    inline Nephel &nephelometer(void) { return *_neph; }
     inline int nPumps(void) { return _nPumps; }
     inline Pump &pump(unsigned int pumpno) { if (pumpno >= _nPumps) { return _pumps[0]; } else { return _pumps[pumpno]; } }
 
@@ -56,7 +56,7 @@ class Supervisor : protected ParamSettings
     void formatParams(char *buf, unsigned int buflen);
 
   private:
-    Nephel _neph;
+    Nephel *_neph;
 
     static const unsigned int _nPumps = 2;
     static const int motor1Pin = 16;

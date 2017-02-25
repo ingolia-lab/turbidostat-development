@@ -1,21 +1,24 @@
 #include "controller.h"
 #include "manual.h"
 #include "supervisor.h"
+#include "turbidostat.h"
+#include "trophostat.h"
 
 #define OUTBUF_LEN 512
 const unsigned int Supervisor::outbufLen = OUTBUF_LEN;
 char Supervisor::outbuf[OUTBUF_LEN] = "";
 
 Supervisor::Supervisor(void):
-  _neph(),
+  _neph(new Nephel()),
   _defaultController(ManualController(*this)),
   _runningController(&_defaultController),
   _nextController(&_defaultController)
 {
-  _nControllers = 2;
+  _nControllers = 3;
   _controllers = new Controller*[_nControllers];
   _controllers[0] = &_defaultController;
-  _controllers[1] = new Turbido(_neph, _pumps[0]);
+  _controllers[1] = new Turbido(nephelometer(), _pumps[0]);
+  _controllers[2] = new Tropho(nephelometer(), _pumps[0], _pumps[1]);
   Serial.println("# Supervisor initialized");
 }
 
@@ -113,7 +116,7 @@ void Supervisor::readEeprom(unsigned int eepromBase)
 
   NephelTiming nt = NephelTiming();
   nt.readEeprom(nephelBase);
-  _neph.setTiming(nt);
+  _neph->setTiming(nt);
 
   _runningController->readEeprom(controllerBase);
 }

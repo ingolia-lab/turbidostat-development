@@ -219,6 +219,8 @@ void Nephel::delayScan()
 
       if (res < 0) {
         Serial.write("# ");
+      } else {
+        Serial.write("D\t");
       }
 
       Serial.write('\t');
@@ -241,4 +243,25 @@ void Nephel::delayScan()
     }
   }
 }
+
+TestNephel::TestNephel(unsigned long turbidity, unsigned long doubleSeconds, unsigned long fillSeconds, const Pump &pump):
+  _doubleSeconds(doubleSeconds),
+  _fillSeconds(fillSeconds),
+  _fillPump(pump),
+  _turbidity(turbidity),
+  _lastUpdateMsec(millis())
+{
+    
+}
+    
+long TestNephel::measure(void)
+{
+  return 0; 
+}
+
+void TestNephel::delayScan(void)
+{
+  Serial.println(F("# Test Nephelometer stub -- no delayScan()"));
+}
+
 

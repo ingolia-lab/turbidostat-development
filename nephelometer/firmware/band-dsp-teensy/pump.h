@@ -6,8 +6,8 @@ class Pump
   public:
     Pump(int pin, int onIsHigh);
 
-    int isPumping(void) { return _isPumping; }
-    long totalOnMsec(void);
+    int isPumping(void) const { return _isPumping; }
+    long totalOnMsec(void) const;
 
     void setPumping(int newpump);
 

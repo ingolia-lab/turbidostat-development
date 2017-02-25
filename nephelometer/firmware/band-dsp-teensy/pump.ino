@@ -15,7 +15,7 @@ Pump::Pump(int pin, int onIsHigh):
   Serial.println(pin);
 }
 
-long Pump::totalOnMsec(void)
+long Pump::totalOnMsec(void) const
 {
   return _cumulativeMsec + (_isPumping ? (millis() - _lastOnMsec) : 0);
 }

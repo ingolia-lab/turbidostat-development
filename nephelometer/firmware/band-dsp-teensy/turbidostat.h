@@ -19,13 +19,21 @@ class Turbido : public Controller
 
     const char *name(void) { return "Turbidostat"; }
     char letter(void) { return 't'; }
+  protected:
+    long mLower(void) { return _mLower; }
+    long mUpper(void) { return _mUpper; }
     
+    long measure(void) { return _neph.measure(); }
+
+    const Pump &pump(void) { return _pump; }
+    void setPumpOn(void)  { _pump.setPumping(1); }
+    void setPumpOff(void) { _pump.setPumping(0); }
   private:
     Nephel &_neph;
     Pump &_pump;
   
-    long _pumpOn;  // Measurement for pump-on
-    long _pumpOff; // Measurement for pump-off
+    long _mUpper;  // Measurement for pump-on
+    long _mLower; // Measurement for pump-off
 
     long _startSec;
     long _startPumpMsec;

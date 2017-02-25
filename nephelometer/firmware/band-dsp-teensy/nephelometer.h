@@ -8,6 +8,7 @@
 #include <ADC.h>
 #include <SPI.h>
 
+#include "pump.h"
 #include "settings.h"
 
 /*
@@ -72,6 +73,28 @@ class Nephel
     NephelTiming _timing;
     int setPga(uint8_t setting);
     int measurePeaks(const NephelTiming &, long *ttlon, long *ttloff);
+};
+
+class TestNephel : public Nephel
+{
+  public:
+    TestNephel(unsigned long turbidity, unsigned long doubleSeconds, unsigned long fillSeconds, const Pump &pump);
+    
+    long measure(void);
+    void delayScan(void);
+
+  protected:
+    unsigned long doubleSeconds(void) { return _doubleSeconds; }
+    unsigned long fillSeconds(void) { return _fillSeconds; }
+    
+  private:
+    unsigned long _doubleSeconds;
+    unsigned long _fillSeconds;
+
+    const Pump &_fillPump;
+
+    unsigned long _turbidity;
+    unsigned long _lastUpdateMsec;
 };
 
 #endif /* defined(_nephelometer_h) */
