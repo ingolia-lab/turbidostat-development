@@ -18,7 +18,7 @@ Supervisor::Supervisor(void):
   _controllers = new Controller*[_nControllers];
   _controllers[0] = &_defaultController;
   _controllers[1] = new Turbido(*this, 0);
-  _controllers[2] = new Tropho(nephelometer(), _pumps[0], _pumps[1]);
+  _controllers[2] = new Tropho(*this);
   Serial.println("# Supervisor initialized");
 }
 

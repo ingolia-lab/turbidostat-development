@@ -109,7 +109,7 @@ class TestNephel : public Nephel
     static const long _maxMeasure = 40000;
 
     static const unsigned long _maxGoodness  = 10000;
-    static const unsigned long _goodnessKM   =  1000;
+    static const unsigned long _goodnessKM   =  2000;
     static const unsigned long _goodnessVmax1k = (1000 * (_maxGoodness + _goodnessKM)) / _maxGoodness;
 };
 

@@ -6,7 +6,7 @@
 class Tropho : public Controller
 {
   public:
-    Tropho(Nephel &neph, Pump &pumpGood, Pump &pumpBad);
+    Tropho(Supervisor &s, int goodPumpno = 0, int badPumpno = 1);
 
     int begin(void);
     int loop(void);
@@ -31,17 +31,15 @@ class Tropho : public Controller
     int dutyPump(unsigned long runSeconds);
     unsigned long dutyFractionPercent(void);
 
-    long measure(void) { return _neph.measure(); }
-    void setPumpGood(void) { _pumpGood.setPumping(1); _pumpBad.setPumping(0); }
-    void setPumpBad(void)  { _pumpGood.setPumping(0); _pumpBad.setPumping(1); }
-    void setPumpNone(void) { _pumpGood.setPumping(0); _pumpBad.setPumping(0); }
+    long measure(void) { return _s.nephelometer().measure(); }
+    void setPumpGood(void) { _s.pump(_goodPumpno).setPumping(1); _s.pump(_badPumpno).setPumping(0); }
+    void setPumpBad(void)  { _s.pump(_goodPumpno).setPumping(0); _s.pump(_badPumpno).setPumping(1); }
+    void setPumpNone(void) { _s.pump(_goodPumpno).setPumping(0); _s.pump(_badPumpno).setPumping(0); }
 
-    const Pump &pumpGood(void) { return _pumpGood; }
-    const Pump &pumpBad(void) { return _pumpBad; }
+    const Pump &pumpGood(void) { return _s.pump(_goodPumpno); }
+    const Pump &pumpBad(void) { return _s.pump(_badPumpno); }
   private:
-    Nephel &_neph;
-    Pump &_pumpGood;
-    Pump &_pumpBad;
+    Supervisor &_s;
 
     long _mUpper;
     long _mTarget;
@@ -49,6 +47,9 @@ class Tropho : public Controller
 
     unsigned long _dutyNumer;
     unsigned long _dutyDenom;
+
+    long _goodPumpno;
+    long _badPumpno;
     
     long _startSec;
     long _startPumpGoodMsec;

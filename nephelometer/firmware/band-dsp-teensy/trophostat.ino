@@ -3,15 +3,15 @@
 #include "supervisor.h"
 #include "trophostat.h"
 
-Tropho::Tropho(Nephel &neph, Pump &pumpGood, Pump &pumpBad):
-  _neph(neph),
-  _pumpGood(pumpGood),
-  _pumpBad(pumpBad),
+Tropho::Tropho(Supervisor &s, int goodPumpno, int badPumpno):
+  _s(s),
   _mUpper(0x7fffffff),
   _mTarget(2000),
   _mLower(0),
   _dutyNumer(1),
   _dutyDenom(4),
+  _goodPumpno(goodPumpno),
+  _badPumpno(badPumpno),
   _startSec(0),
   _startPumpGoodMsec(0),
   _startPumpBadMsec(0)
@@ -22,11 +22,10 @@ Tropho::Tropho(Nephel &neph, Pump &pumpGood, Pump &pumpBad):
 int Tropho::begin(void)
 {
   _startSec = rtcSeconds();
-  _startPumpGoodMsec = _pumpGood.totalOnMsec();
-  _startPumpBadMsec =  _pumpBad.totalOnMsec();
+  _startPumpGoodMsec = pumpGood().totalOnMsec();
+  _startPumpBadMsec =  pumpBad().totalOnMsec();
 
-  _pumpGood.setPumping(0);
-  _pumpBad.setPumping(0);
+  setPumpNone();
 
   Serial.println("F\ttime.s\tneph\tgain\tstate\tgoodon\tbadon\tgood.s\tbad.s");
 
@@ -65,7 +64,7 @@ int Tropho::loop(void)
 
   snprintf(Supervisor::outbuf, Supervisor::outbufLen, 
            "F\t%lu\t%ld\t%ld\t%s\t%d\t%d\t%ld.%03ld\t%ld.%03ld\r\n", 
-           sec - _startSec, m, _neph.pgaScale(), mode,
+           sec - _startSec, m, _s.nephelometer().pgaScale(), mode,
            pumpGood().isPumping(), pumpBad().isPumping(),
            ptimeGood / ((long) 1000), ptimeGood % ((long) 1000),
            ptimeBad / ((long) 1000), ptimeBad % ((long) 1000));
