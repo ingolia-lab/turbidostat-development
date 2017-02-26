@@ -80,7 +80,7 @@ class TestNephel : public Nephel
   public:
     TestNephel(const Pump &goodPump, const Pump &badPump, 
                unsigned long turbidity = 100000, unsigned long goodness = _maxGoodness, 
-               unsigned long doubleSeconds = 90 * 60, unsigned long fillSeconds = 20 * 60);
+               unsigned long doubleSeconds = 45 * 60, unsigned long fillSeconds = 10 * 60);
     
     long measure(void);
     void delayScan(void);
@@ -91,6 +91,8 @@ class TestNephel : public Nephel
 
     void update(void);
     unsigned long growthGoodness1k(unsigned long goodness);
+
+    long nephelNoise(void);
   private:
     unsigned long _doubleSeconds;
     unsigned long _fillSeconds;

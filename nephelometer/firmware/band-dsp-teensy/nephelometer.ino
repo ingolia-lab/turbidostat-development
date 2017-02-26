@@ -263,7 +263,19 @@ long TestNephel::measure(void)
   update();
 
   long rawMeasure = ((long) _turbidity) * pgaScale() / _measureFactor;
+  rawMeasure += nephelNoise();
   return (rawMeasure > _maxMeasure) ? _maxMeasure : rawMeasure;
+}
+
+long TestNephel::nephelNoise(void)
+{
+  uint16_t x = random();
+  return -5 + ((x & 0x0001) ? 1 : 0) + ((x & 0x0002) ? 1 : 0)
+    + ((x & 0x0004) ? 1 : 0) + ((x & 0x0008) ? 1 : 0)
+    + ((x & 0x0010) ? 1 : 0) + ((x & 0x0020) ? 1 : 0)
+    + ((x & 0x0040) ? 1 : 0) + ((x & 0x0080) ? 1 : 0)
+    + ((x & 0x0100) ? 1 : 0) + ((x & 0x0200) ? 1 : 0)
+    + ((x & 0x0400) ? 1 : 0);
 }
     
 void TestNephel::update(void)
