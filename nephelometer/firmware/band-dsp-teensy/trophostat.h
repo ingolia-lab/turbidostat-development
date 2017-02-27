@@ -21,7 +21,9 @@ class Tropho : public Controller
     char letter(void) { return 'f'; }
   protected:
     long mUpper(void) { return _mUpper; }
-    long mTarget(void) { return _mTarget; }
+    long mBad(void) { return _mBad; }
+    long midRange(void) { return 1 + _mBad - _mGood; }
+    long mGood(void) { return _mGood; }
     long mLower(void) { return _mLower; }
   
     unsigned long dutyNumer(void) { return _dutyNumer; }
@@ -42,7 +44,8 @@ class Tropho : public Controller
     Supervisor &_s;
 
     long _mUpper;
-    long _mTarget;
+    long _mBad;
+    long _mGood;
     long _mLower;
 
     unsigned long _dutyNumer;

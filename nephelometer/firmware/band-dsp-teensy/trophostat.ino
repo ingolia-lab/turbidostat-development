@@ -6,7 +6,8 @@
 Tropho::Tropho(Supervisor &s, int goodPumpno, int badPumpno):
   _s(s),
   _mUpper(0x7fffffff),
-  _mTarget(2000),
+  _mBad(0x7fffff),
+  _mGood(0),
   _mLower(0),
   _dutyNumer(1),
   _dutyDenom(4),
@@ -48,12 +49,21 @@ int Tropho::loop(void)
     mode = "Upper";
     setPumpBad();
   } else if (dutyPump(sec)) {
-    if (m < mTarget()) {
+    if (m >= mBad()) {
+      mode = "High";
+      setPumpBad();
+    } else if (m <= mGood()) {
       mode = "Low";
       setPumpGood();
     } else {
-      mode = "High";
-      setPumpBad();
+      long cutoff = random(mGood()+1, mBad());
+      if (m <= cutoff) {
+        mode = "MidGood";
+        setPumpGood();
+      } else {
+        mode = "MidBad";
+        setPumpBad();
+      }
     }
   } else {
     mode = "Wait";
@@ -112,26 +122,28 @@ unsigned long Tropho::dutyFractionPercent(void)
 void Tropho::readEeprom(unsigned int eepromStart)
 {
   _mUpper = readEepromLong(eepromStart, 0);
-  _mTarget = readEepromLong(eepromStart, 1);
-  _mLower = readEepromLong(eepromStart, 2);
-  _dutyNumer = (unsigned long) readEepromLong(eepromStart, 3);
-  _dutyDenom = (unsigned long) readEepromLong(eepromStart, 4);
+  _mBad = readEepromLong(eepromStart, 1);
+  _mGood = readEepromLong(eepromStart, 2);
+  _mLower = readEepromLong(eepromStart, 3);
+  _dutyNumer = (unsigned long) readEepromLong(eepromStart, 4);
+  _dutyDenom = (unsigned long) readEepromLong(eepromStart, 5);
 }
 
 void Tropho::writeEeprom(unsigned int eepromStart)
 {
   writeEepromLong(eepromStart, 0, _mUpper);
-  writeEepromLong(eepromStart, 1, _mTarget);
-  writeEepromLong(eepromStart, 2, _mLower);
-  writeEepromLong(eepromStart, 3, (long) _dutyNumer);
-  writeEepromLong(eepromStart, 4, (long) _dutyDenom);
+  writeEepromLong(eepromStart, 1, _mBad);
+  writeEepromLong(eepromStart, 2, _mGood);
+  writeEepromLong(eepromStart, 3, _mLower);
+  writeEepromLong(eepromStart, 4, (long) _dutyNumer);
+  writeEepromLong(eepromStart, 5, (long) _dutyDenom);
 }
 
 void Tropho::formatParams(char *buf, unsigned int buflen)
 {
   unsigned long dutyPct = dutyFractionPercent();
-  snprintf(buf, buflen, "# Upper bound %ld\r\n# Target      %ld\r\n# Lower bound %ld\r\n# Duty %lu / %lu = %lu.%02lu\r\n",
-           _mUpper, _mTarget, _mLower, _dutyNumer, _dutyDenom, dutyPct/100, dutyPct%100);
+  snprintf(buf, buflen, "# Upper bound %ld\r\n# Pump bad    %ld\r\n# Pump good   %ld\r\n # Lower bound %ld\r\n# Duty %lu / %lu = %lu.%02lu\r\n",
+           _mUpper, _mBad, _mGood, _mLower, _dutyNumer, _dutyDenom, dutyPct/100, dutyPct%100);
 }
 
 void Tropho::manualSetParams(void)
@@ -139,12 +151,38 @@ void Tropho::manualSetParams(void)
   serialWriteParams();
   Serial.print(F("# Hit return to leave a parameter unchanged\r\n"));
 
-  manualReadParam("Upper bound measurement", _mUpper);
-  manualReadParam("Target measurement     ", _mTarget);
-  manualReadParam("Lower bound measurement", _mLower);
+  manualReadParam("Upper bound measurement  ", _mUpper);
+  manualReadParam("All-bad pump measurement ", _mBad);
+  manualReadParam("All-good pump measurement", _mGood);
+  manualReadParam("Lower bound measurement  ", _mLower);
+
+  if (_mGood <= _mLower) {
+    Serial.println(F("# Require all-good pump > lower bound, correcting"));
+    _mGood = _mLower + 1;
+  }
+
+  if (_mBad <= _mGood) {
+    Serial.println(F("# Requre all-bad pump > all-good pump, correcting"));
+    _mBad = _mGood + 1;
+  }
+
+  if (_mUpper <= _mBad) {
+    Serial.println(F("# Require upper bound > all-bad pump, correcting"));
+    _mUpper = _mBad + 1;
+  }
 
   manualReadParam("Duty cycle numerator ", _dutyNumer);
   manualReadParam("Duty cycle denomiator", _dutyDenom);
+
+  if (_dutyNumer < 1) {
+    Serial.println(F("# Requre duty cycle >0 i.e. numer >= 1, correcting"));
+    _dutyNumer = 1;
+  }
+
+  if (_dutyDenom <= _dutyNumer) {
+    Serial.println(F("# Require duty cycle <1 i.e. denom > numer, correcting"));
+    _dutyDenom = _dutyNumer + 1;
+  }
   
   serialWriteParams();
 }
