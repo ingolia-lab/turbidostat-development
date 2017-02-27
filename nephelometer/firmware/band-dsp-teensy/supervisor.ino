@@ -1,6 +1,7 @@
 #include "controller.h"
 #include "manual.h"
 #include "supervisor.h"
+#include "turbidomix.h"
 #include "turbidostat.h"
 #include "trophostat.h"
 
@@ -14,11 +15,12 @@ Supervisor::Supervisor(void):
   _runningController(&_defaultController),
   _nextController(&_defaultController)
 {
-  _nControllers = 3;
+  _nControllers = 4;
   _controllers = new Controller*[_nControllers];
   _controllers[0] = &_defaultController;
   _controllers[1] = new Turbido(*this, 0);
   _controllers[2] = new Tropho(*this);
+  _controllers[3] = new TurbidoMix(*this);
   Serial.println("# Supervisor initialized");
 }
 
