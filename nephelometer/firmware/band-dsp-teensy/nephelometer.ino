@@ -78,20 +78,15 @@ Nephel::Nephel(int irLedPin, int pgaCSPin, int pgaSCKPin, int pgaMOSIPin, int ad
   _adcRefPin(adcRefPin),
   _pgaSPISettings(4000000 /* 4 MHz */, MSBFIRST, SPI_MODE3),
   _adc()
-{ 
+{
   pinMode(_irLedPin, OUTPUT);
   digitalWrite(_irLedPin, HIGH);
 
   pinMode(_pgaCSPin, OUTPUT);
   digitalWrite(_pgaCSPin, HIGH);
 
-  pinMode(_pgaSCKPin, OUTPUT);
-  pinMode(_pgaMOSIPin, OUTPUT);
-
   pinMode(_adcSignalPin, INPUT);
   pinMode(_adcRefPin, INPUT);
-
-  SPI.setSCK(_pgaSCKPin);
 
   _adc.setAveraging(1);
   _adc.setResolution(12);
@@ -113,7 +108,7 @@ int Nephel::setPga(uint8_t setting)
     SPI.transfer(setting);
     digitalWrite(_pgaCSPin, HIGH);
     SPI.endTransaction();
-
+    
     return 0;
   } else {
     return -1;

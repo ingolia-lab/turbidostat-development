@@ -66,7 +66,7 @@ class Nephel
 
     int _adcSignalPin;
     int _adcRefPin;  
-    
+
     SPISettings _pgaSPISettings;
     ADC _adc;
 
