@@ -46,7 +46,7 @@ class Supervisor : protected ParamSettings
     void pickNextController(void);
     void manualSetupController(void);
 
-    void useTestNephel(void) { _neph = new TestNephel(_pumps[0], _pumps[1]); }
+    void useTestNephel(void);
   protected:
     Controller &defaultController(void) { return _defaultController; }
     Controller &runningController(void) { return *_runningController; }

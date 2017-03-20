@@ -78,29 +78,31 @@ Controller *Supervisor::pickController(void)
     }
   }
 
-  Serial.print(" does not match known controller");
+  //Serial.print("# Does not match known controller\r\n"); //JBB, 2017_03_20 Not neded (called in pickNextController(), which has a msg if for mistates), and originally poorly formatted. 
   return NULL;
 }
 
 void Supervisor::manualSetupController(void)
 {
-  Serial.print(F("# Pick a controller to configure\r\n"));
+  Serial.print(F("\r\n# Pick a controller to configure\r\n"));
   Controller *c;
   if ((c = pickController()) != NULL) {
     c->manualSetParams();
   } else {
-    Serial.print(F("# No controller picked to configure\r\n"));
+    Serial.println();
+    Serial.print(F("# Input does not match a known controller\r\n# No controller picked to configure\r\n"));
   }
 }
 
 void Supervisor::pickNextController(void)
 {  
-  Serial.print(F("# Pick a controller to start\r\n"));
+  Serial.print(F("# Pick a controller to start:\r\n"));
   Controller *c;
   if ((c = pickController()) != NULL) {
     _nextController = c;
   } else {
-    Serial.print(F("# No controller picked\r\n"));
+    Serial.println();
+    Serial.print(F("# Input does not match a known controller\r\n# No controller picked\r\n"));
   }
 }
 
@@ -146,6 +148,43 @@ void Supervisor::manualSetParams(void)
 void Supervisor::formatParams(char *buf, unsigned int buflen)
 {
   snprintf(buf, buflen, "# Supervisor: no parameters\r\n");
+}
+
+void Supervisor::useTestNephel(void)  //JBB, 2017_03_20. Expanded this function in order to get out of test mode.
+{
+  Serial.println();
+  Serial.print("# To enter Test Mode, press y. To exit Test Mode, press q.\r\n");
+  
+  int ch;
+  while ((ch = Serial.read()) < 0) {
+    delay(1);
+  }
+
+  Serial.print("# ");
+  Serial.write(ch);
+
+  if(ch=='y')
+  {
+    Serial.print("=");
+    Serial.println("Test Mode");
+    _neph = new TestNephel(_pumps[0], _pumps[1]);
+ 
+    return;
+  }
+  
+  if(ch=='q')
+  {
+    Serial.print("=");
+    Serial.println("Normal Mode");
+    _neph = new Nephel();
+
+    return;
+  }
+
+  Serial.println("!= 'y' or 'q'");
+  Serial.print(F("# Test Mode status remains unchanged\r\n"));
+
+  return; 
 }
 
 

@@ -26,6 +26,7 @@ void setup() {
   
   for (int i = 9; i >= 0; i--) {
     delay(500);
+      if (i == 9){Serial.print("# ");} //JBB, 2017_03_20. Put a '#' at the beginning to maintain context with rest of print codes. 
     Serial.print(i);
     Serial.write(' ');
   }

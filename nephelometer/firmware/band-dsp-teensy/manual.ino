@@ -83,7 +83,7 @@ void ManualAnnotate::run(void)
 void ManualStartController::run(void)
 {
   Serial.println();
-  Serial.println(F("# Start a manual controller:"));
+  //Serial.println(F("# Start a manual controller:"));  //JBB, 2017_03_20 Double printing stuff. There is a "pick me" comment in supervisor().pickNextController(). 
   supervisor().pickNextController();
 }
 
@@ -102,12 +102,13 @@ void ManualHelp::run(void)
 void ManualMeasure::run(void)
 {
   Serial.println();
+  Serial.println("M\ttime.s\tneph\tgain");  //JBB, 2017_03_20. Column titles for manual measurements. 
 
   while (1) {
     unsigned long startMsec = millis();
 
     long avg10 = supervisor().nephelometer().measure();
-
+    
     snprintf(Supervisor::outbuf, Supervisor::outbufLen, 
              "M\t%lu.%03lu\t%ld\t%ld",
              startMsec / ((unsigned long) 1000), startMsec % ((unsigned long) 1000),
@@ -191,13 +192,13 @@ void ManualPump::run(void)
 
 void ManualSetup::run(void)
 {
-  Serial.println(F("\r\n# Manually configure a controller"));
+  //Serial.println(F("\r\n# Manually configure a controller")); //JBB, 2017_03_20. manualSetupController() has a printout, this is redundant. 
   supervisor().manualSetupController();
 }
 
 void ManualTestNephel::run(void)
 {
-  Serial.println(F("\r\n# Switching to test nephelometer!"));
+  //Serial.println(F("\r\n# Switching to test nephelometer!")); //JBB, 2017_03_20. added to the useTestNephel() function. 
   supervisor().useTestNephel();
 }
 

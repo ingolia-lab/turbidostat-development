@@ -64,6 +64,7 @@ int TurbidoMix::loop(void)
   int ch;
   while ((ch = Serial.read()) >= 0) {
     if (ch == 'q') {
+      setPumpNone();  //JBB, 2017_03_20. Stop pumps when program is stopped.
       return 1;
       while (Serial.read() >= 0) {
         /* DISCARD */ 
