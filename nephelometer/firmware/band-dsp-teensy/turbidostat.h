@@ -37,6 +37,12 @@ class Turbido : public Controller
 
     long _startSec;
     long _startPumpMsec;
+
+    long  _stepMode;    //JBB, 2017_03_27
+    long  _time; //JBB, 2017_03_27
+    long  _sLower; //JBB, 2017_03_27
+    long  _sUpper; //JBB, 2017_03_27
+    
 };
 
 #endif /* !defined(_turbidostat_h) */

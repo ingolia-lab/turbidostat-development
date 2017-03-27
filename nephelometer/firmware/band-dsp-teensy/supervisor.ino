@@ -165,7 +165,7 @@ void Supervisor::useTestNephel(void)  //JBB, 2017_03_20. Expanded this function 
 
   if(ch=='y')
   {
-    Serial.print("=");
+    Serial.print("= ");
     Serial.println("Test Mode");
     _neph = new TestNephel(_pumps[0], _pumps[1]);
  
@@ -174,7 +174,7 @@ void Supervisor::useTestNephel(void)  //JBB, 2017_03_20. Expanded this function 
   
   if(ch=='q')
   {
-    Serial.print("=");
+    Serial.print("= ");
     Serial.println("Normal Mode");
     _neph = new Nephel();
 
