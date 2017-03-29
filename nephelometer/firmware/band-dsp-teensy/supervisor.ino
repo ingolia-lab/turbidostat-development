@@ -78,7 +78,6 @@ Controller *Supervisor::pickController(void)
     }
   }
 
-  //Serial.print("# Does not match known controller\r\n"); //JBB, 2017_03_20 Not neded (called in pickNextController(), which has a msg if for mistates), and originally poorly formatted. 
   return NULL;
 }
 
@@ -150,7 +149,7 @@ void Supervisor::formatParams(char *buf, unsigned int buflen)
   snprintf(buf, buflen, "# Supervisor: no parameters\r\n");
 }
 
-void Supervisor::useTestNephel(void)  //JBB, 2017_03_20. Expanded this function in order to get out of test mode.
+void Supervisor::useTestNephel(void)
 {
   Serial.println();
   Serial.print("# To enter Test Mode, press y. To exit Test Mode, press q.\r\n");
