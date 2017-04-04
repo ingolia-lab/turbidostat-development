@@ -15,12 +15,13 @@ Supervisor::Supervisor(void):
   _runningController(&_defaultController),
   _nextController(&_defaultController)
 {
-  _nControllers = 4;
+  _nControllers = 5;
   _controllers = new Controller*[_nControllers];
   _controllers[0] = &_defaultController;
   _controllers[1] = new Turbido(*this, 0);
-  _controllers[2] = new Tropho(*this);
-  _controllers[3] = new TurbidoMix(*this);
+  _controllers[2] = new StepTurbido(*this, 0);
+  _controllers[3] = new Tropho(*this);
+  _controllers[4] = new TurbidoMix(*this);
   Serial.println("# Supervisor initialized");
 }
 
