@@ -28,7 +28,7 @@ class Turbido : public Controller
     void setBounds(long nUpper, long nLower) {_mUpper = nUpper, _mLower = nLower;}
     long getPGAScale(void);
     int  getPumpNo(void) { return _pumpno;}
-    int  setPumpNo(int nPumpNo) { return _pumpno = nPumpNo; } 
+    int  setPumpNo(int nPumpNo) { _pumpno = nPumpNo; } 
     
     long measure(void);
 
@@ -47,7 +47,19 @@ class Turbido : public Controller
         
 };
 
-/*Create new Stepping turbidostat class to implement OD stepping.*/
+/******************StepTurbido child class**********************************/
+/*  JBB, 2017_04_05
+ *  StepTurbido is a child class of Turbidostat. It steps through Optical density measurements
+ *  from an initial step to a final OD of 1. 
+ *  Default time is 16,200 seconds. This is 3 generations, assuming a generation time of 1.5 hrs.
+ *  Default step size is 0.1 O.D. 
+ *  The default conversion is 2000. T***his needs to be changed/calibrated every experiment*** 
+ *  The initial step is the next lowest step size.
+ *  ie. You want steps of 0.1 O.D., but you start the culture at 0.137 O.D. When you enter the 
+ *  conversion factor, there is an algorithm to determine what IR to stay between, and the first
+ *  step is determined as 0.2 O.D. This is the next smallest step above where you started, to 
+ *  prevent the Arduino from pumping media initially in an attempt to dilute the culture. 
+ */
 
 class StepTurbido : public Turbido
 {

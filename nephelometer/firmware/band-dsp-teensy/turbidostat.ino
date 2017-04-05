@@ -130,15 +130,15 @@ void Turbido::manualSetParams(void)
 
 
 
-/*define StepTurbido class things down here*/
+/***************************StepTurbido child class********************************************************/
 StepTurbido::StepTurbido(Supervisor &s, int pumpno):
   Turbido(s, pumpno),
-  _stepLength(0),
-  _stepSize(0),
-  _conversion(0),
+  _stepLength(16200),
+  _stepSize(0.1),
+  _conversion(2000),
   _startTime(0),
   _stepMode(0),
-  _step(0)
+  _step(1)
 
 {
   Serial.println("# StepTurbido controller initialized");
@@ -150,9 +150,17 @@ int StepTurbido::begin(void)
 
   _startTime = getStartSec();
   _stepMode = 1;
-  /*Determine the NEXT closest step to start on*/
+  /* The following algorithm determines what the next step is based on step size and conversion.
+   *  This prevents the Arduino from immediately running the pump in an attempt to dilute the culture.
+   *  measure() is an IR measurement, divided by the conversion factor the user must provide. This determines
+   *  the current fractional step of the culture. The casting and +1 turn this into a ceil()
+   *  function, without importaint the math.h(in C++, idk the Arduino version) library
+   */
   _step = _stepSize * (long)(int)(measure() / _conversion + 1); //This is done like this to avoid importing the math.h library.
-
+  /* 1.05 and 0.95 give a +/- 5% range on the IR measurement. 
+   *  at IR=1000, 5% = 50
+   *  at IR = 40,000, 5% = 2000
+   */
   setBounds(1.05 * _step * _conversion, 0.95 * _step * _conversion);
 
   return 0;
@@ -166,10 +174,10 @@ int StepTurbido::loop(void)
   {
     if (sec - _startTime >= _stepLength)
     {
-      _step = _step + _stepSize;
+      _step = _step + _stepSize;    //Set new step as one stepSize bigger than the previous
 
-      setBounds(1.05 * _step * _conversion, 0.95 * _step * _conversion);
-      _startTime = sec;
+      setBounds(1.05 * _step * _conversion, 0.95 * _step * _conversion);    //Set new measurement bounds to run the pump.
+      _startTime = sec;   //reset cycle time.
 
       if (_step * _stepSize >= 1.0) //Stop stepping at OD=1.0
       {
@@ -200,18 +208,18 @@ void StepTurbido::printStatus(long m)
 
 void StepTurbido::readEeprom(unsigned int eepromStart)
 {
-  _stepLength = readEepromLong(eepromStart, 16200);
-  _stepSize = readEepromLong(eepromStart, 0.1);
-  _conversion = readEepromLong(eepromStart, 2000);
-  setPumpNo(readEepromLong(eepromStart, 2));
+  _stepLength = readEepromLong(eepromStart, 0);
+  _stepSize = readEepromLong(eepromStart, 1);
+  _conversion = readEepromLong(eepromStart, 2);
+  setPumpNo(readEepromLong(eepromStart, 3));
 }
 
 void StepTurbido::writeEeprom(unsigned int eepromStart)
 {
-  writeEepromLong(eepromStart, 16200, _stepLength);
-  writeEepromLong(eepromStart, 0.1, _stepSize);
-  writeEepromLong(eepromStart, 2000, _conversion);
-  writeEepromLong(eepromStart, 2, getPumpNo());
+  writeEepromLong(eepromStart, 0, _stepLength);
+  writeEepromLong(eepromStart, 1, _stepSize);
+  writeEepromLong(eepromStart, 2, _conversion);
+  writeEepromLong(eepromStart, 3, getPumpNo());
 }
 
 void StepTurbido::formatParams(char *buf, unsigned int buflen)
