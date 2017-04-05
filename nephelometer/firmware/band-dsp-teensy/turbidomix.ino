@@ -195,6 +195,14 @@ int StepTurbidoMix::loop(void)
   if (sec - _startTime >= _stepLength)
   {
     long newA = (long)(int)(getPumpAShare()*_stepRate);   //Casting should keep pump shares at integer values. 
+
+    //long newA = (long)(int)(getPumpAShare()*_stepRate+0.5);
+    /*  This formula rounds the answer instead of straight truncating. 
+     *  for _stepRate = 0.71, with rounding, we get the series:
+     *  100, 71, 50, 36, 26, 18, 13, 9, 6, 4, 3, 2, 1, 0.
+     *  This series is 1 step longer than the truncated series, adding 
+     *  a step of 4:96 A:B ratio, amongst other slight changes. 
+     */
           
     setPumpShares(newA, pumpCycle()-newA);           
 
