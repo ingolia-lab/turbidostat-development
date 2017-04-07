@@ -101,6 +101,7 @@ public:
     long _stepLength;  //How long, in seconds, of each step
     long _startTime; //beginning time of each step, so we can track length of time
     long _stepRate;  //Rate of decrease in our geometric series. Must input an integer. It is divided by 100 everywhere, so consider it a percentage.  
+    long _stepMode;  //Use to break out of the stepping algorithm
 };
 
 #endif /* !defined(_turbidostat_h) */

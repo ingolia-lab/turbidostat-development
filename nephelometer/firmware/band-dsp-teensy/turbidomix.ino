@@ -168,7 +168,8 @@ StepTurbidoMix::StepTurbidoMix(Supervisor &s):
     TurbidoMix(s),
   _stepLength(16200),   //16200 = 3 doubling times, 1.5 hrs per generation (based on yeast), in units of seconds.
   _startTime(0),
-  _stepRate(71) //a rate of 71/100 gives pumpA shares of: 100, 71, 50, 35, 24, 17, 12, 8, 5, 3, 2, 1, 0.
+  _stepRate(71), //a rate of 71/100 gives pumpA shares of: 100, 71, 50, 35, 24, 17, 12, 8, 5, 3, 2, 1, 0.
+  _stepMode(1)
 {
   setPumpShares(100,0);   //set the pump shares to PumpA=100, pumpB=0. This works out well in the math later.
   Serial.println("# StepTurbidoMix controller initialized");
@@ -177,7 +178,9 @@ StepTurbidoMix::StepTurbidoMix(Supervisor &s):
 int StepTurbidoMix::begin(void)
 {
   TurbidoMix::begin();
-  _startTime = getStartSec();   
+  
+  _startTime = getStartSec();
+  _stepMode = 1;
 
   return 0;
 }
@@ -191,24 +194,28 @@ int StepTurbidoMix::loop(void)
  * Since it steps down, it will quit moving when pumpA is 0, but the loop will continue going. This is effectively
  * a quit, without writing an explicit exit to the stepping. 
  */
-  if (sec - _startTime >= _stepLength)
-  {
-    long newA = (long)(int)(getPumpAShare()*_stepRate/100);   //Casting should keep pump shares at integer values. 
-
-    //long newA = (long)(int)(getPumpAShare()*_stepRate/100+0.5);
-    /*  This formula rounds the answer instead of straight truncating. 
-     *  for _stepRate = 71/100, with rounding, we get the series:
-     *  100, 71, 50, 36, 26, 18, 13, 9, 6, 4, 3, 2, 1, 0.
-     *  This series is 1 step longer than the truncated series, adding 
-     *  a step of 4:96 A:B ratio, amongst other slight changes. 
-     */
-          
-    setPumpShares(newA, pumpCycle()-newA);           
-    
-    if( (newA-_stepRate/100) >= 0) 
+  if(_stepMode==1)
+   {
+    if (sec - _startTime >= _stepLength)
     {
-        _startTime = sec;
-    }  
+      long newA = (long)(int)(getPumpAShare()*_stepRate/100);   //Casting should keep pump shares at integer values. 
+  
+      //long newA = (long)(int)(getPumpAShare()*_stepRate/100+0.5);
+      /*  This formula rounds the answer instead of straight truncating. 
+       *  for _stepRate = 71/100, with rounding, we get the series:
+       *  100, 71, 50, 36, 26, 18, 13, 9, 6, 4, 3, 2, 1, 0.
+       *  This series is 1 step longer than the truncated series, adding 
+       *  a step of 4:96 A:B ratio, amongst other slight changes. 
+       */
+            
+      setPumpShares(newA, pumpCycle()-newA);           
+      _startTime = sec;
+
+      if( (newA-1) < 0)   //When shareA=0, we want the loop to quit, but keep counting time in the final step. 
+      {
+        _stepMode = 0;  //This will quit the step algorithm
+      }  
+    }
   }
 
   return TurbidoMix::loop(); 

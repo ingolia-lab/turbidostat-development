@@ -137,7 +137,7 @@ StepTurbido::StepTurbido(Supervisor &s, int pumpno):
   _stepSize(10),
   _conversion(2000),
   _startTime(0),
-  _stepMode(0),
+  _stepMode(1),
   _step(1)
 {
   Serial.println("# StepTurbido controller initialized");
