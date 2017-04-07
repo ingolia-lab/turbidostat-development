@@ -132,13 +132,13 @@ void Turbido::manualSetParams(void)
 
 /***************************StepTurbido child class********************************************************/
 StepTurbido::StepTurbido(Supervisor &s, int pumpno):
+  Turbido(s, pumpno),
   _stepLength(16200),
   _stepSize(10),
   _conversion(2000),
   _startTime(0),
   _stepMode(0),
-  _step(1),
-  Turbido(s, pumpno)
+  _step(1)
 {
   Serial.println("# StepTurbido controller initialized");
 }
