@@ -165,11 +165,10 @@ void TurbidoMix::manualSetParams(void)
 
 /***************************StepTurbidoMix child class********************************************************/
 StepTurbidoMix::StepTurbidoMix(Supervisor &s):
-  TurbidoMix(s),
+    TurbidoMix(s),
   _stepLength(16200),   //16200 = 3 doubling times, 1.5 hrs per generation (based on yeast), in units of seconds.
   _startTime(0),
-  _stepRate(0.71) //a rate of 0.71 gives pumpA shares of: 100, 71, 50, 35, 24, 17, 12, 8, 5, 3, 2, 1, 0.
-
+  _stepRate(71) //a rate of 71/100 gives pumpA shares of: 100, 71, 50, 35, 24, 17, 12, 8, 5, 3, 2, 1, 0.
 {
   setPumpShares(100,0);   //set the pump shares to PumpA=100, pumpB=0. This works out well in the math later.
   Serial.println("# StepTurbidoMix controller initialized");
@@ -194,19 +193,22 @@ int StepTurbidoMix::loop(void)
  */
   if (sec - _startTime >= _stepLength)
   {
-    long newA = (long)(int)(getPumpAShare()*_stepRate);   //Casting should keep pump shares at integer values. 
+    long newA = (long)(int)(getPumpAShare()*_stepRate/100);   //Casting should keep pump shares at integer values. 
 
-    //long newA = (long)(int)(getPumpAShare()*_stepRate+0.5);
+    //long newA = (long)(int)(getPumpAShare()*_stepRate/100+0.5);
     /*  This formula rounds the answer instead of straight truncating. 
-     *  for _stepRate = 0.71, with rounding, we get the series:
+     *  for _stepRate = 71/100, with rounding, we get the series:
      *  100, 71, 50, 36, 26, 18, 13, 9, 6, 4, 3, 2, 1, 0.
      *  This series is 1 step longer than the truncated series, adding 
      *  a step of 4:96 A:B ratio, amongst other slight changes. 
      */
           
     setPumpShares(newA, pumpCycle()-newA);           
-
-    _startTime = sec;
+    
+    if( (newA-_stepRate/100) >= 0) 
+    {
+        _startTime = sec;
+    }  
   }
 
   return TurbidoMix::loop(); 
@@ -223,8 +225,8 @@ void StepTurbidoMix::printStatus(long m)
   long atime = pumpA().totalOnMsec(), btime = pumpB().totalOnMsec();
 
   snprintf(Supervisor::outbuf, Supervisor::outbufLen, 
-           "V\t%lu\t%ld\t%ld\t%ld\t%lu\t%ld\t%d\t%d\t%ld.%03ld\t%ld.%03ld\r\n", 
-           sec - getStartSec(), m, getPumpAShare(), getPumpAShare()/100, sec - _startTime, getPGAScale(), 
+           "V\t%lu\t%ld\t%ld\t\t%ld.%02ld\t\t%lu\t\t%ld\t%d\t%d\t%ld.%03ld\t%ld.%03ld\r\n", 
+           sec - getStartSec(), m, getPumpAShare(), getPumpAShare()/100, getPumpAShare()%100, sec - _startTime, getPGAScale(), 
            pumpA().isPumping(), pumpB().isPumping(),
            atime / ((long) 1000), atime % ((long) 1000),
            btime / ((long) 1000), btime % ((long) 1000));
@@ -251,20 +253,21 @@ void StepTurbidoMix::formatParams(char *buf, unsigned int buflen)
   long a1k = (1000 * getPumpAShare()) / (getPumpAShare() + getPumpBShare());
   long b1k = (1000 * getPumpBShare()) / (getPumpAShare() + getPumpBShare());
   
-  snprintf(buf, buflen, "# Pump on @ %ld\r\n# Pump off @ %ld\r\n# Pump A %ld share %ld (%ld.%03ld)\r\n# Pump B %ld share %ld (%ld.%03ld)\r\n# Step time %ld\r\n# Step rate %03ld", 
+  snprintf(buf, buflen, "# Pump on @ %ld\r\n# Pump off @ %ld\r\n# Pump A %ld share %ld (%ld.%03ld)\r\n# Pump B %ld share %ld (%ld.%03ld)\r\n# Step time %ld\r\n# Step rate 0.%02ld\r\n", 
            mUpper(), mLower(), 
            getPumpA(), getPumpAShare(), a1k/1000, a1k%1000,
-           getPumpB(), getPumpBShare(), b1k/1000, b1k%1000),
-           _stepLength, _stepRate;
+           getPumpB(), getPumpBShare(), b1k/1000, b1k%1000,
+           _stepLength, _stepRate%100);
 }
 
 void StepTurbidoMix::manualSetParams(void)
 {
-  serialWriteParams();
-  Serial.print(F("# Hit return to leave a parameter unchanged\r\n"));
   Serial.print(F("# PumpA share begins at 100 and steps down\r\n"));  //Tells the user where it begins. Need to change the 100 to a variable? 
                                                                       //It's currently hard coded in two places
   Serial.print(F("# PumpB share begins at 0 and steps up\r\n"));
+  serialWriteParams();
+  Serial.print(F("# Hit return to leave a parameter unchanged\r\n"));
+
 
   long ch = mUpper();
   manualReadParam("pump on (high) measurement", ch);
@@ -283,7 +286,7 @@ void StepTurbidoMix::manualSetParams(void)
   setNumPumpB(ch);
   
   manualReadParam("time spent at each step   ", _stepLength);
-  manualReadParam("geometric rate of decrease", _stepRate);
+  manualReadParam("percent step rate  ", _stepRate);
   
   serialWriteParams();
 }

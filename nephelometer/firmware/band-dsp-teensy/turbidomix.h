@@ -100,7 +100,7 @@ public:
   private:
     long _stepLength;  //How long, in seconds, of each step
     long _startTime; //beginning time of each step, so we can track length of time
-    long _stepRate;  //Rate of decrease in our geometric series. Must be a fraction of 1. 
+    long _stepRate;  //Rate of decrease in our geometric series. Must input an integer. It is divided by 100 everywhere, so consider it a percentage.  
 };
 
 #endif /* !defined(_turbidostat_h) */

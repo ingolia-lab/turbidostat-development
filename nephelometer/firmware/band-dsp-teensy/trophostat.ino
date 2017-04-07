@@ -17,7 +17,7 @@ Tropho::Tropho(Supervisor &s, int goodPumpno, int badPumpno):
   _startPumpGoodMsec(0),
   _startPumpBadMsec(0)
 {
-  Serial.println("# Turbido controller initialized");
+  Serial.println("# Trophostat controller initialized");
 }
 
 int Tropho::begin(void)

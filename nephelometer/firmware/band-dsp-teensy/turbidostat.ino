@@ -132,14 +132,13 @@ void Turbido::manualSetParams(void)
 
 /***************************StepTurbido child class********************************************************/
 StepTurbido::StepTurbido(Supervisor &s, int pumpno):
-  Turbido(s, pumpno),
   _stepLength(16200),
-  _stepSize(0.1),
+  _stepSize(10),
   _conversion(2000),
   _startTime(0),
   _stepMode(0),
-  _step(1)
-
+  _step(1),
+  Turbido(s, pumpno)
 {
   Serial.println("# StepTurbido controller initialized");
 }
@@ -161,7 +160,7 @@ int StepTurbido::begin(void)
    *  at IR=1000, 5% = 50
    *  at IR = 40,000, 5% = 2000
    */
-  setBounds(1.05 * _step * _conversion, 0.95 * _step * _conversion);
+  setBounds(1.05 * _step/100 * _conversion, 0.95 * _step/100 * _conversion);
 
   return 0;
 }
@@ -176,10 +175,10 @@ int StepTurbido::loop(void)
     {
       _step = _step + _stepSize;    //Set new step as one stepSize bigger than the previous
 
-      setBounds(1.05 * _step * _conversion, 0.95 * _step * _conversion);    //Set new measurement bounds to run the pump.
+      setBounds(1.05 * _step/100 * _conversion, 0.95 * _step/100 * _conversion);    //Set new measurement bounds to run the pump.
       _startTime = sec;   //reset cycle time.
 
-      if (_step * _stepSize >= 1.0) //Stop stepping at OD=1.0
+      if ( (_step + _stepSize) > 100) //Stop stepping at OD=1.0
       {
         _stepMode = 0;  //This will quit the stepping.
       }
@@ -200,8 +199,8 @@ void StepTurbido::printStatus(long m)
   long ptime = pump().totalOnMsec();
 
   snprintf(Supervisor::outbuf, Supervisor::outbufLen,
-           "ST\t%lu\t%ld\t%ld\t%lu\t%ld\t%d\t%ld.%03ld\r\n",
-           sec - getStartSec(), m, _step, sec - _startTime, getPGAScale(), pump().isPumping(),
+           "ST\t%lu\t%ld\t\t%ld.%02ld\t\t%lu\t%ld\t%d\t%ld.%03ld\r\n",
+           sec - getStartSec(), m, _step/100, _step%100, sec - _startTime, getPGAScale(), pump().isPumping(),
            ptime / ((long) 1000), ptime % ((long) 1000));
   Serial.write(Supervisor::outbuf);
 }
@@ -224,8 +223,8 @@ void StepTurbido::writeEeprom(unsigned int eepromStart)
 
 void StepTurbido::formatParams(char *buf, unsigned int buflen)
 {
-  snprintf(buf, buflen, "# Step time @ %ld\r\n# Step size @ %ld\r\n# OD->IR Conversion @ %ld\r\n# Pump number %ld\r\n",
-           _stepLength, _stepSize, _conversion, getPumpNo());
+  snprintf(buf, buflen, "# Step time @ %ld\r\n# Step size @ %ld.%02ld\r\n# 0.1 OD->IR Conversion @ %ld\r\n# Pump number %ld\r\n",
+           _stepLength, _stepSize/100, _stepSize%100, _conversion, getPumpNo());
 }
 void StepTurbido::manualSetParams(void)
 {
@@ -233,8 +232,8 @@ void StepTurbido::manualSetParams(void)
   Serial.print(F("# Hit return to leave a parameter unchanged\r\n"));
 
   manualReadParam("time spent at each step   ", _stepLength);
-  manualReadParam("step size                 ", _stepSize);
-  manualReadParam("0.1 OD to __IR conversion ", _conversion);
+  manualReadParam("percent step size         ", _stepSize);
+  manualReadParam("0.1 OD->IR conversion     ", _conversion);
 
   long ch = getPumpNo();
   manualReadParam("pump number               ", ch);
