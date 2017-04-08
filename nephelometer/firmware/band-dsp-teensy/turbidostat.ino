@@ -153,14 +153,14 @@ int StepTurbido::begin(void)
    *  This prevents the Arduino from immediately running the pump in an attempt to dilute the culture.
    *  measure() is an IR measurement, divided by the conversion factor the user must provide. This determines
    *  the current fractional step of the culture. The casting and +1 turn this into a ceil()
-   *  function, without importaint the math.h(in C++, idk the Arduino version) library
+   *  function, without importing the math.h(in C++, idk the Arduino version) library
    */
   _step = _stepSize * (long)(int)(measure() / _conversion + 1); //This is done like this to avoid importing the math.h library.
   /* 1.05 and 0.95 give a +/- 5% range on the IR measurement. 
    *  at IR=1000, 5% = 50
    *  at IR = 40,000, 5% = 2000
    */
-  setBounds(1.05 * _step/100 * _conversion, 0.95 * _step/100 * _conversion);
+  setBounds(1.05 * _step/10 * _conversion, 0.95 * _step/10 * _conversion);    //divide only by ten because the conversion factor is supposed to be for 0.1 od
 
   return 0;
 }
@@ -175,7 +175,7 @@ int StepTurbido::loop(void)
     {
       _step = _step + _stepSize;    //Set new step as one stepSize bigger than the previous
 
-      setBounds(1.05 * _step/100 * _conversion, 0.95 * _step/100 * _conversion);    //Set new measurement bounds to run the pump.
+      setBounds(1.05 * _step/10 * _conversion, 0.95 * _step/10 * _conversion);    //Set new measurement bounds to run the pump. divide by 10 because O.D.-> IR is for 0.1, or 10%
       _startTime = sec;   //reset cycle time.
 
       if ( (_step + _stepSize) > 100) //Stop stepping at OD=1.0
