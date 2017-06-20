@@ -76,16 +76,6 @@ class ManualStartController : public ManualCommand
     void run(void);
 };
 
-class ManualDelayScan : public ManualCommand
-{
-  public:
-    ManualDelayScan(Supervisor &s) : ManualCommand(s) { }
-    const char *name(void) { return "Delay Scan"; }
-    char letter(void) { return 'd'; }
-    const char *help(void) { return "Scan timing parameters for nephelometer measurements"; }
-    void run(void);  
-};
-
 class ManualHelp : public ManualCommand
 {
   public:

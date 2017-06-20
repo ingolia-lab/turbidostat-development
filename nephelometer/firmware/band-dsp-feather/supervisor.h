@@ -4,6 +4,7 @@
 class Supervisor;
 
 #include "controller.h"
+#include "hardware.h"
 #include "manual.h"
 #include "nephelometer.h"
 #include "pump.h"
@@ -34,7 +35,10 @@ class Supervisor : protected ParamSettings
     }
 
     static int blockingReadLong(long *res);
-
+    static int blockingReadPump(uint8_t *res);
+    static char pumpnoToChar(uint8_t pumpno) { return 'A' + ((char) pumpno); }
+    static uint8_t pumpcharToNo(char pumpch);
+    
     inline Nephel &nephelometer(void) { return *_neph; }
     inline int nPumps(void) { return _nPumps; }
     inline Pump &pump(unsigned int pumpno) { if (pumpno >= _nPumps) { return _pumps[0]; } else { return _pumps[pumpno]; } }
@@ -60,10 +64,8 @@ class Supervisor : protected ParamSettings
   private:
     Nephel *_neph;
 
-    static const unsigned int _nPumps = 2;
-    static const int motor1Pin = 16;
-    static const int motor2Pin = 17;
-    Pump _pumps[_nPumps] = { Pump(motor1Pin, 1), Pump(motor2Pin, 1) };
+    static const unsigned int _nPumps = 4;
+    Pump _pumps[_nPumps] = { Pump(motAPin, 1), Pump(motBPin, 1), Pump(motCPin, 1), Pump(motDPin, 1) };
 
     unsigned int _nControllers;
     Controller **_controllers;       

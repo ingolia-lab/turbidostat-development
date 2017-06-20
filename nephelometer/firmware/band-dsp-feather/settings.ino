@@ -1,27 +1,5 @@
-//#include <EEPROM.h>
-
 #include "settings.h"
 #include "supervisor.h"
-
-void ParamSettings::writeEepromLong(unsigned int base, unsigned int slot, long value)
-{
-  base = base + (slot * sizeof(long));
-  const byte *b = (const byte *) (const void *) &value;
-  for (unsigned int i = 0; i < sizeof(long); i++) {
-    EEPROM.write(base + i, b[i]);
-  } 
-}
-
-long ParamSettings::readEepromLong(unsigned int base, unsigned int slot)
-{
-  base = base + (slot * sizeof(long));
-  long x;
-  byte *b = (byte *) (void *) &x;   
-  for (unsigned int i = 0; i < sizeof(long); i++) {
-    b[i] = EEPROM.read(base + i);
-  }
-  return x;
-}
 
 void ParamSettings::manualReadParam(const char *desc, long &pval)
 {
@@ -63,6 +41,39 @@ void ParamSettings::manualReadParam(const char *desc, unsigned int &pval)
   Serial.print("): ");
   if ((Supervisor::blockingReadLong(&vnew) > 0) && (vnew >= 0)) {
     pval = vnew;
+  } else {
+    Serial.print(F("# (not updated)\r\n"));
+  }
+}
+
+void ParamSettings::manualReadPercent(const char *desc, uint8_t &pval)
+{
+  long pnew;
+  Serial.print("# Enter ");
+  Serial.print(desc);
+  Serial.print("(");
+  Serial.print(pval);
+  Serial.print("%): ");
+  if ((Supervisor::blockingReadLong(&pnew) > 0) && (pnew >= 0) && (pnew <= 100)) {
+    pval = pnew;
+  } else {
+    Serial.print(F("# (not updated)\r\n"));
+  }
+
+}
+
+
+void ParamSettings::manualReadPump(const char *desc, uint8_t &pval)
+{
+  uint8_t pnew;
+  Serial.print("# Enter ");
+  Serial.print(desc);
+  Serial.print("(");
+  Serial.print('A' + pval);
+  Serial.print("): ");
+
+  if (Supervisor::blockingReadPump(&pnew) > 0) {
+    pval = pnew;
   } else {
     Serial.print(F("# (not updated)\r\n"));
   }

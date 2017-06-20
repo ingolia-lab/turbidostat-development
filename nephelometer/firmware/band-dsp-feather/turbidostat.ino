@@ -42,8 +42,8 @@ int Turbido::loop(void)
   long ptime = pump().totalOnMsec();
 
   snprintf(Supervisor::outbuf, Supervisor::outbufLen, 
-           "T\t%lu\t%ld\t%ld\t%d\t%ld.%03ld\r\n", 
-           sec - _startSec, m, _s.nephelometer().pgaScale(), pump().isPumping(),
+           "T\t%lu\t%ld.%03ld\t%ld\t%d\t%ld.%03ld\r\n", 
+           sec - _startSec, m/1000, m%1000, _s.nephelometer().pgaScale(), pump().isPumping(),
            ptime / ((long) 1000), ptime % ((long) 1000));
   Serial.write(Supervisor::outbuf);
 
@@ -69,24 +69,10 @@ void Turbido::setPumpOn(void)  { _s.pump(_pumpno).setPumping(1); }
 
 void Turbido::setPumpOff(void) { _s.pump(_pumpno).setPumping(0); }
 
-void Turbido::readEeprom(unsigned int eepromStart)
-{
-  _mUpper = readEepromLong(eepromStart, 0);
-  _mLower = readEepromLong(eepromStart, 1);
-  _pumpno = readEepromLong(eepromStart, 2);
-}
-
-void Turbido::writeEeprom(unsigned int eepromStart)
-{
-  writeEepromLong(eepromStart, 0, _mUpper);
-  writeEepromLong(eepromStart, 1, _mLower);
-  writeEepromLong(eepromStart, 2, _pumpno);
-}
-
 void Turbido::formatParams(char *buf, unsigned int buflen)
 {
-  snprintf(buf, buflen, "# Pump on @ %ld\r\n# Pump off @ %ld\r\n# Pump number %ld\r\n", 
-           _mUpper, _mLower, _pumpno);
+  snprintf(buf, buflen, "# Pump on @ %ld.%03ld\r\n# Pump off @ %ld.%03ld\r\n# Pump %c\r\n", 
+           _mUpper/1000, _mUpper%1000, _mLower/1000, _mLower%1000, Supervisor::pumpnoToChar(_pumpno));
 }
 
 void Turbido::manualSetParams(void)
@@ -96,7 +82,7 @@ void Turbido::manualSetParams(void)
 
   manualReadParam("pump on (high) measurement", _mUpper);
   manualReadParam("pump off (low) measurement", _mLower);
-  manualReadParam("pump number               ", _pumpno);
+  manualReadPump("pump number                ", _pumpno);
   
   serialWriteParams();
 }

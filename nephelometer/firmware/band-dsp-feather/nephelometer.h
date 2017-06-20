@@ -45,7 +45,7 @@ public:
 class Nephel
 {
   public:
-    Nephel(int irLedPin = 17, int pgaCSPin = 5, int adcCSPin = 6, int sckPin = 24, int mosiPin = 23, int misoPin = 22, uint8_t pgaSetting = 0x03);
+    Nephel(uint8_t pgaSetting = 0x03);
     virtual long measure();
 
     static const int nPgaScales = 8;
@@ -54,12 +54,6 @@ class Nephel
     static long pgaScale(uint8_t setting) { return (setting < nPgaScales) ? pgaScales[setting] : -1; }
     long pgaScale(void) { return pgaScale(_pgaSetting); }
   private:
-    int _irLedPin;
-    int _pgaCSPin;
-    int _adcCSPin;
-    int _sckPin;
-    int _mosiPin;
-    int _misoPin;
     uint8_t _pgaSetting;
 
     SPISettings _pgaSPISettings;
@@ -86,7 +80,6 @@ class TestNephel : public Nephel
                unsigned long doubleSeconds = 45 * 60, unsigned long fillSeconds = 10 * 60);
     
     long measure(void);
-    void delayScan(void);
 
   protected:
     unsigned long doubleSeconds(void) { return _doubleSeconds; }

@@ -105,35 +105,6 @@ void Supervisor::pickNextController(void)
   }
 }
 
-void Supervisor::readEeprom(unsigned int eepromBase)
-{
-  long eepromVersion = readEepromLong(eepromBase, versionSlot);
-  if (eepromVersion != version) {
-    snprintf(outbuf, outbufLen, "# !!! Saved state version %ld does not match software version %ld\r\n", eepromVersion, version);
-    Serial.print(outbuf);
-    return;
-  }
-
-  int rc = (int) readEepromLong(eepromBase, runningControllerSlot);
-  _runningController = (rc >= 0 && rc <= ((int) _nControllers)) ? (_controllers[rc]) : &_defaultController;
-
-  _runningController->readEeprom(controllerBase);
-}
-
-void Supervisor::writeEeprom(unsigned int eepromBase)
-{
-  writeEepromLong(eepromBase, versionSlot, version);
-
-  long rcNo = 0;
-  for (unsigned int i = 0; i < _nControllers; i++) {
-    if (_runningController == _controllers[i]) {
-      rcNo = (long) i;
-    }
-  }
-  writeEepromLong(eepromBase, runningControllerSlot, rcNo);
-  _runningController->writeEeprom(controllerBase);
-}
-
 void Supervisor::manualSetParams(void)
 {
   Serial.println(F("# Supervisor: no manual parameters"));
@@ -224,4 +195,27 @@ int Supervisor::blockingReadLong(long *res)
   }
 }
 
+uint8_t Supervisor::pumpcharToNo(char pumpch) 
+{ 
+  uint8_t pno = (pumpch >= 'a') ? (pumpch - 'a') : (pumpch - 'A');
+  return (pno < _nPumps) ? pno : 0xff;
+}
+
+int Supervisor::blockingReadPump(uint8_t *res)
+{
+  int ch;
+  while ((ch = Serial.read()) <= 0) {
+    delay(1);
+  }
+
+  int pno = pumpcharToNo(ch);
+  if (pno >= 0 & pno < _nPumps) {
+    Serial.write(ch);
+    *res = pno;
+    return 1;
+  } else {
+    Serial.write('*');
+    return -1;
+  }
+}
 

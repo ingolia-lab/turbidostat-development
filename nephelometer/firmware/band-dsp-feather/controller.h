@@ -34,6 +34,18 @@ class Controller : public ParamSettings {
     static unsigned long rtcSeconds(void) { return millis() / ((unsigned long) 1000); }
 
     int delayOneSecond(void);
+
+    // Schedule "on" intervals within a [0,99] cycle pretty evenly
+    // percentOn is the percentage of on time, i.e., number of cycle values getting "1"
+    static int schedulePercent(uint8_t percentOn, uint8_t cycle)
+    {
+      cycle = cycle % 100;
+      uint8_t per50 = (percentOn / 2) + ( ((percentOn % 2) > (cycle / 50)) ? 1 : 0);
+      uint8_t per25 = (per50 / 2) + ( ((per50 % 2) > ( (cycle % 50) / 25)) ? 1 : 0);
+      uint8_t per5  = (per25 / 5) + ( ((per25 % 5) > ( (cycle % 25) /  5)) ? 1 : 0);
+
+      return (per5 > (cycle % 5) );
+    }
   private:
     unsigned long _rtcPrevious;
 };
@@ -47,8 +59,6 @@ class TrivialController : public Controller
     void end(void) { Serial.println("TrivialController::loop()"); }
     const char *name(void) { return "Trivial Controller"; }
     char letter(void) { return 'z'; }
-    void readEeprom(unsigned int eepromBase) { /* No parameters */ }
-    void writeEeprom(unsigned int eepromBase) { /* No parameters */ }
     void manualSetParams(void) { /* No parameters */ }
     void formatParams(char *buf, unsigned int buflen) { buf[0] = 0; }
 

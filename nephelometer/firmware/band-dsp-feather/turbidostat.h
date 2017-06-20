@@ -12,8 +12,6 @@ class Turbido : public Controller
     int loop(void);
     void end(void) { }
 
-    void readEeprom(unsigned int eepromBase);
-    void writeEeprom(unsigned int eepromBase);
     void formatParams(char *buf, unsigned int buflen);
     void manualSetParams(void);
 
@@ -33,7 +31,7 @@ class Turbido : public Controller
   
     long _mUpper;  // Measurement for pump-on
     long _mLower; // Measurement for pump-off
-    long _pumpno;
+    uint8_t _pumpno;
 
     long _startSec;
     long _startPumpMsec;

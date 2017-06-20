@@ -1,5 +1,6 @@
 #include <SPI.h>
 
+#include "hardware.h"
 #include "nephelometer.h"
 #include "supervisor.h"
 
@@ -7,25 +8,19 @@ const long Nephel::pgaScales[] = { 1, 2, 4, 5, 8, 10, 16, 32 };
 
 // SPI MODE3 = 1,1 is better so device select pin doesn't clock
 
-Nephel::Nephel(int irLedPin, int pgaCSPin, int adcCSPin, int sckPin, int mosiPin, int misoPin, uint8_t pgaSetting):
-  _irLedPin(irLedPin),
-  _pgaCSPin(pgaCSPin),
-  _adcCSPin(adcCSPin),
-  _sckPin(sckPin),
-  _mosiPin(mosiPin),
-  _misoPin(misoPin),
+Nephel::Nephel(uint8_t pgaSetting):
   _pgaSetting(pgaSetting),
   _pgaSPISettings(4000000 /* 4 MHz */, MSBFIRST, SPI_MODE3),
   _adcSPISettings(2000000 /* 2 MHz */, MSBFIRST, SPI_MODE0)
 {
-  pinMode(_irLedPin, OUTPUT);
-  digitalWrite(_irLedPin, HIGH);
+  pinMode(irLedPin, OUTPUT);
+  digitalWrite(irLedPin, HIGH); // high = off
 
-  pinMode(_pgaCSPin, OUTPUT);
-  digitalWrite(_pgaCSPin, HIGH);
+  pinMode(pgaCSPin, OUTPUT);
+  digitalWrite(pgaCSPin, HIGH);
 
-  pinMode(_adcCSPin, OUTPUT);
-  pinMode(_adcCSPin, HIGH);
+  pinMode(adcCSPin, OUTPUT);
+  digitalWrite(adcCSPin, HIGH);
   
   Serial.println("# Nephelometer initialized");
 }                
@@ -37,10 +32,10 @@ int Nephel::setPga(uint8_t setting)
 {
   if (setting < nPgaScales) {
     SPI.beginTransaction(_pgaSPISettings);
-    digitalWrite(_pgaCSPin, LOW);
+    digitalWrite(pgaCSPin, LOW);
     SPI.transfer(0x40);
     SPI.transfer(setting);
-    digitalWrite(_pgaCSPin, HIGH);
+    digitalWrite(pgaCSPin, HIGH);
     SPI.endTransaction();
     
     return 0;
@@ -56,32 +51,30 @@ long Nephel::measure(void)
   
   unsigned long startUsec = micros();
   for (int i = 0; i < nEquil + nMeasure; i++) {
-    digitalWrite(_irLedPin, LOW);
-    // 7 µs delay before LED turns on
-    // 30 µs delay to peak
+    digitalWrite(irLedPin, LOW);
     Supervisor::delayIfNeeded(startUsec + i*usecTtl + usecAdcOn);
     SPI.beginTransaction(_adcSPISettings);
-    digitalWrite(_adcCSPin, LOW);
+    digitalWrite(adcCSPin, LOW);
     Supervisor::delayIfNeeded(startUsec + i*usecTtl + usecSpiOn);
     long sample = SPI.transfer16(0x0000);
     if (i >= nEquil) {
       ttlon += (sample & 0xfff);
     }
-    digitalWrite(_adcCSPin, HIGH);
+    digitalWrite(adcCSPin, HIGH);
     SPI.endTransaction();
 
     Supervisor::delayIfNeeded(startUsec + i*usecTtl + usecLedOff);    
-    digitalWrite(_irLedPin, HIGH);
+    digitalWrite(irLedPin, HIGH);
 
     Supervisor::delayIfNeeded(startUsec + i*usecTtl + usecAdcOff);
     SPI.beginTransaction(_adcSPISettings);
-    digitalWrite(_adcCSPin, LOW);
+    digitalWrite(adcCSPin, LOW);
     Supervisor::delayIfNeeded(startUsec + i*usecTtl + usecSpiOff);
     sample = SPI.transfer16(0x0000);
     if (i >= nEquil) {
       ttloff += sample & 0xfff;
     }
-    digitalWrite(_adcCSPin, HIGH);
+    digitalWrite(adcCSPin, HIGH);
     SPI.endTransaction();    
     
     Supervisor::delayIfNeeded(startUsec + (i+1)*usecTtl);
@@ -115,7 +108,7 @@ long TestNephel::measure(void)
 
 long TestNephel::nephelNoise(void)
 {
-  uint16_t x = random();
+  uint16_t x = random(micros());
   return -5 + ((x & 0x0001) ? 1 : 0) + ((x & 0x0002) ? 1 : 0)
     + ((x & 0x0004) ? 1 : 0) + ((x & 0x0008) ? 1 : 0)
     + ((x & 0x0010) ? 1 : 0) + ((x & 0x0020) ? 1 : 0)
@@ -179,11 +172,6 @@ void TestNephel::update(void)
 unsigned long TestNephel::growthGoodness1k(unsigned long goodness)
 {
   return (_goodnessVmax1k * goodness) / (goodness + _goodnessKM);
-}
-
-void TestNephel::delayScan(void)
-{
-  Serial.println(F("# Test Nephelometer stub -- no delayScan()"));
 }
 
 

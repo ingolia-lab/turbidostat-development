@@ -1,23 +1,31 @@
 #include "nephelometer.h"
 #include "supervisor.h"
+#include "hardware.h"
  
 Supervisor *sv;
 
 void setup() {
-  pinMode(2, OUTPUT);
-  digitalWrite(2, HIGH);
+  pinMode(irLedPin, OUTPUT);
+  digitalWrite(irLedPin, HIGH); // high = off
 
-  pinMode(15, OUTPUT);
-  digitalWrite(15, HIGH);
+  pinMode(pgaCSPin, OUTPUT);
+  digitalWrite(pgaCSPin, HIGH);
 
-  pinMode(13, OUTPUT);
-  pinMode(11, OUTPUT);
+  pinMode(adcCSPin, OUTPUT);
+  digitalWrite(adcCSPin, HIGH);
 
-//  SPI.setMOSI(11);
-//  SPI.setSCK(13);
+  pinMode(sckPin, OUTPUT);
+  pinMode(mosiPin, OUTPUT);
+  pinMode(misoPin, INPUT);
 
-//  pinMode(A10, INPUT);
-//  pinMode(A11, INPUT);
+  pinMode(motAPin, OUTPUT);
+  digitalWrite(motAPin, HIGH); // high = off
+  pinMode(motBPin, OUTPUT);
+  digitalWrite(motBPin, HIGH); // high = off
+  pinMode(motCPin, OUTPUT);
+  digitalWrite(motCPin, HIGH); // high = off
+  pinMode(motDPin, OUTPUT);
+  digitalWrite(motDPin, HIGH); // high = off
   
   Serial.begin(9600);
   SPI.begin();

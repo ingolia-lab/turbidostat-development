@@ -120,26 +120,6 @@ unsigned long Tropho::dutyFractionPercent(void)
   }
 }
 
-void Tropho::readEeprom(unsigned int eepromStart)
-{
-  _mUpper = readEepromLong(eepromStart, 0);
-  _mBad = readEepromLong(eepromStart, 1);
-  _mGood = readEepromLong(eepromStart, 2);
-  _mLower = readEepromLong(eepromStart, 3);
-  _dutyNumer = (unsigned long) readEepromLong(eepromStart, 4);
-  _dutyDenom = (unsigned long) readEepromLong(eepromStart, 5);
-}
-
-void Tropho::writeEeprom(unsigned int eepromStart)
-{
-  writeEepromLong(eepromStart, 0, _mUpper);
-  writeEepromLong(eepromStart, 1, _mBad);
-  writeEepromLong(eepromStart, 2, _mGood);
-  writeEepromLong(eepromStart, 3, _mLower);
-  writeEepromLong(eepromStart, 4, (long) _dutyNumer);
-  writeEepromLong(eepromStart, 5, (long) _dutyDenom);
-}
-
 void Tropho::formatParams(char *buf, unsigned int buflen)
 {
   unsigned long dutyPct = dutyFractionPercent();

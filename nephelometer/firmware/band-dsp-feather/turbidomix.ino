@@ -7,13 +7,12 @@ TurbidoMix::TurbidoMix(Supervisor &s):
   _s(s),
   _mUpper(0x7fffffff),
   _mLower(0),
-  _pumpA(0),
-  _pumpB(1),
-  _pumpAShare(1),
-  _pumpBShare(1),  
+  _pump1(0),
+  _pump2(1),
+  _pump1Pct(50),
   _startSec(0),
-  _startPumpAMsec(0),
-  _startPumpBMsec(0),
+  _startPump1Msec(0),
+  _startPump2Msec(0),
   _cycleCount(0)
 {
   Serial.println("# TurbidoMix controller initialized");
@@ -22,14 +21,14 @@ TurbidoMix::TurbidoMix(Supervisor &s):
 int TurbidoMix::begin(void)
 {
   _startSec = rtcSeconds();
-  _startPumpAMsec = pumpA().totalOnMsec();
-  _startPumpBMsec = pumpB().totalOnMsec();
+  _startPump1Msec = pump1().totalOnMsec();
+  _startPump2Msec = pump2().totalOnMsec();
 
   setPumpNone();
 
   _cycleCount = 0;
 
-  Serial.println("U\ttime.s\tneph\tgain\tpumpAon\tpumpBon\tpumpA.s\tpumpB.s");
+  Serial.println("U\ttime.s\tneph\tgain\tpump1on\tpump2on\tpump1.s\tpump2.s");
 
   return 0;
 }
@@ -51,14 +50,14 @@ int TurbidoMix::loop(void)
     setPumpOnCycle();    
   }
 
-  long atime = pumpA().totalOnMsec(), btime = pumpB().totalOnMsec();
+  long time1 = pump1().totalOnMsec(), time2 = pump2().totalOnMsec();
 
   snprintf(Supervisor::outbuf, Supervisor::outbufLen, 
            "U\t%lu\t%ld\t%ld\t%d\t%d\t%ld.%03ld\t%ld.%03ld\r\n", 
            sec - _startSec, m, _s.nephelometer().pgaScale(), 
-           pumpA().isPumping(), pumpB().isPumping(),
-           atime / ((long) 1000), atime % ((long) 1000),
-           btime / ((long) 1000), btime % ((long) 1000));
+           pump1().isPumping(), pump2().isPumping(),
+           time1 / ((long) 1000), time1 % ((long) 1000),
+           time2 / ((long) 1000), time2 % ((long) 1000));
   Serial.write(Supervisor::outbuf);
 
   int ch;
@@ -77,52 +76,28 @@ int TurbidoMix::loop(void)
 
 long TurbidoMix::measure(void) { return _s.nephelometer().measure(); }
 
-const Pump &TurbidoMix::pumpA(void) { return _s.pump(_pumpA); }
-const Pump &TurbidoMix::pumpB(void) { return _s.pump(_pumpB); }
+const Pump &TurbidoMix::pump1(void) { return _s.pump(_pump1); }
+const Pump &TurbidoMix::pump2(void) { return _s.pump(_pump2); }
 
-void TurbidoMix::setPumpA(void)     { _s.pump(_pumpA).setPumping(1); _s.pump(_pumpB).setPumping(0); }
-void TurbidoMix::setPumpB(void)     { _s.pump(_pumpA).setPumping(0); _s.pump(_pumpB).setPumping(1); }
-void TurbidoMix::setPumpNone(void)  { _s.pump(_pumpA).setPumping(0); _s.pump(_pumpB).setPumping(0); }
+void TurbidoMix::setPump1(void)     { _s.pump(_pump1).setPumping(1); _s.pump(_pump2).setPumping(0); }
+void TurbidoMix::setPump2(void)     { _s.pump(_pump1).setPumping(0); _s.pump(_pump2).setPumping(1); }
+void TurbidoMix::setPumpNone(void)  { _s.pump(_pump1).setPumping(0); _s.pump(_pump2).setPumping(0); }
 
 void TurbidoMix::setPumpOnCycle(void)
 {
   unsigned long count = pumpCountIncr();
-  if ((count % pumpCycle()) < ((unsigned long) _pumpAShare)) {
-    setPumpA();
+
+  if (schedulePercent(_pump1Pct, (uint8_t) (count % 100))) {  
+    setPump1();
   } else {
-    setPumpB();
+    setPump2();
   }
-}
-
-void TurbidoMix::readEeprom(unsigned int eepromStart)
-{
-  _mUpper = readEepromLong(eepromStart, 0);
-  _mLower = readEepromLong(eepromStart, 1);
-  _pumpA = readEepromLong(eepromStart, 2);
-  _pumpB = readEepromLong(eepromStart, 3);
-  _pumpAShare = readEepromLong(eepromStart, 4);
-  _pumpBShare = readEepromLong(eepromStart, 5);
-}
-
-void TurbidoMix::writeEeprom(unsigned int eepromStart)
-{
-  writeEepromLong(eepromStart, 0, _mUpper);
-  writeEepromLong(eepromStart, 1, _mLower);
-  writeEepromLong(eepromStart, 2, _pumpA);
-  writeEepromLong(eepromStart, 3, _pumpB);
-  writeEepromLong(eepromStart, 4, _pumpAShare);
-  writeEepromLong(eepromStart, 5, _pumpBShare);
 }
 
 void TurbidoMix::formatParams(char *buf, unsigned int buflen)
 {
-  long a1k = (1000 * _pumpAShare) / (_pumpAShare + _pumpBShare);
-  long b1k = (1000 * _pumpBShare) / (_pumpAShare + _pumpBShare);
-  
-  snprintf(buf, buflen, "# Pump on @ %ld\r\n# Pump off @ %ld\r\n# Pump A %ld share %ld (%ld.%03ld)\r\n# Pump B %ld share %ld (%ld.%03ld)\r\n", 
-           _mUpper, _mLower, 
-           _pumpA, _pumpAShare, a1k/1000, a1k%1000,
-           _pumpB, _pumpBShare, b1k/1000, b1k%1000);
+  snprintf(buf, buflen, "# Pump on @ %ld\r\n# Pump off @ %ld\r\n# Pump #1 %d%% share\r\n", 
+           _mUpper, _mLower, _pump1Pct);
 }
 
 void TurbidoMix::manualSetParams(void)
@@ -132,10 +107,9 @@ void TurbidoMix::manualSetParams(void)
 
   manualReadParam("pump on (high) measurement", _mUpper);
   manualReadParam("pump off (low) measurement", _mLower);
-  manualReadParam("pump A number             ", _pumpA);
-  manualReadParam("pump B number             ", _pumpB);
-  manualReadParam("pump A share              ", _pumpAShare);
-  manualReadParam("pump B share              ", _pumpBShare);
+  manualReadPump("pump #1                    ", _pump1);
+  manualReadPump("pump #2                    ", _pump2);
+  manualReadPercent("pump #1 percentage      ", _pump1Pct);
   
   serialWriteParams();
 }

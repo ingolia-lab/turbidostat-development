@@ -4,16 +4,15 @@
 
 ManualController::ManualController(Supervisor &s)
 {
-  _nCommands = 9;
+  _nCommands = 7;
   _commands = new ManualCommand*[_nCommands];
   _commands[0] = new ManualAnnotate(s);
   _commands[1] = new ManualStartController(s);
-  _commands[2] = new ManualDelayScan(s);
-  _commands[3] = new ManualHelp(s, *this);
-  _commands[4] = new ManualMeasure(s);
-  _commands[5] = new ManualPump(s);
-  _commands[6] = new ManualSetup(s);
-  _commands[7] = new ManualTestNephel(s);
+  _commands[2] = new ManualHelp(s, *this);
+  _commands[3] = new ManualMeasure(s);
+  _commands[4] = new ManualPump(s);
+  _commands[5] = new ManualSetup(s);
+  _commands[6] = new ManualTestNephel(s);
 
   _commandChars = new char[_nCommands + 1];
   for (unsigned int i = 0; i < _nCommands; i++) {
@@ -121,11 +120,11 @@ void ManualMeasure::run(void)
 void ManualPump::run(void)
 {
   Serial.print(F("\r\n# Which pump ["));
-  for (int pno = 1; pno <= supervisor().nPumps(); pno++) {
+  for (int pno = 0; pno < supervisor().nPumps(); pno++) {
     if (pno > 1) {
       Serial.print(",");
     }
-    Serial.print(pno);
+    Serial.print('A' + pno);
   }
   Serial.print(F("]: "));
 
@@ -134,7 +133,7 @@ void ManualPump::run(void)
     delay(1);
   }
   Serial.write(ch);
-  int pno = ch - '1';
+  int pno = (ch >= 'a') ? (ch - 'a') : (ch - 'A');
   if (pno >= 0 && pno < supervisor().nPumps()) {
     Pump &p = supervisor().pump(pno);
 
@@ -171,8 +170,6 @@ void ManualPump::run(void)
   } else {
     Serial.print(F("\r\n# Manual pump cancelled\r\n"));
   }
-  
-
 }
 
 void ManualSetup::run(void)

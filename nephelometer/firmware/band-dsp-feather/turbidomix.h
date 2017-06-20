@@ -13,8 +13,6 @@ class TurbidoMix : public Controller
     int loop(void);
     void end(void) { }
 
-    void readEeprom(unsigned int eepromBase);
-    void writeEeprom(unsigned int eepromBase);
     void formatParams(char *buf, unsigned int buflen);
     void manualSetParams(void);
 
@@ -26,15 +24,14 @@ class TurbidoMix : public Controller
     
     long measure(void);
 
-    const Pump &pumpA(void);
-    const Pump &pumpB(void);
-    int eitherPumping(void) { return pumpA().isPumping() || pumpB().isPumping(); }
-    void setPumpA(void);
-    void setPumpB(void);
+    const Pump &pump1(void);
+    const Pump &pump2(void);
+    int eitherPumping(void) { return pump1().isPumping() || pump2().isPumping(); }
+    void setPump1(void);
+    void setPump2(void);
     void setPumpNone(void);
 
     unsigned long pumpCountIncr(void) { return _cycleCount++; }
-    unsigned long pumpCycle(void) { return _pumpAShare + _pumpBShare; }
     void setPumpOnCycle(void);
   private:
     Supervisor &_s;
@@ -42,14 +39,13 @@ class TurbidoMix : public Controller
     long _mUpper;  // Measurement for pump-on
     long _mLower; // Measurement for pump-off
 
-    long _pumpA;
-    long _pumpB;
-    long _pumpAShare;
-    long _pumpBShare;
-
+    uint8_t _pump1;
+    uint8_t _pump2;
+    uint8_t _pump1Pct;
+    
     long _startSec;
-    long _startPumpAMsec;
-    long _startPumpBMsec;
+    long _startPump1Msec;
+    long _startPump2Msec;
     unsigned long _cycleCount;
 };
 
