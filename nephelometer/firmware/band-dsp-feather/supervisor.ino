@@ -1,8 +1,8 @@
 #include "controller.h"
 #include "manual.h"
 #include "supervisor.h"
-#include "turbidogradient.h"
 #include "turbidomix.h"
+#include "turbidoschedule.h"
 #include "turbidostat.h"
 
 #define OUTBUF_LEN 512
@@ -15,12 +15,13 @@ Supervisor::Supervisor(void):
   _runningController(&_defaultController),
   _nextController(&_defaultController)
 {
-  _nControllers = 4;
+  _nControllers = 5;
   _controllers = new Controller*[_nControllers];
   _controllers[0] = &_defaultController;
   _controllers[1] = new Turbidostat(*this);
   _controllers[2] = new TurbidoMixFixed(*this);
   _controllers[3] = new TurbidoGradient(*this);
+  _controllers[4] = new TurbidoCycle(*this);
   Serial.println("# Supervisor initialized");
 }
 
