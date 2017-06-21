@@ -42,3 +42,32 @@ void Pump::reset(void)
   _cumulativeMsec = 0;
 }
 
+SyringePump::SyringePump(int pinA, int pinB, long stepMsec):
+  _pinA(pinA),
+  _pinB(pinB),
+  _stepMsec(stepMsec),
+  _currStep(0)
+{
+  pinMode(_pinA, OUTPUT);
+  pinMode(_pinB, OUTPUT);
+  setPins();
+  Serial.print("# Syringe pump initialized on pins A ");
+  Serial.print(_pinA);
+  Serial.print(", B ");
+  Serial.println(_pinB);
+}
+
+void SyringePump::stepN(int nstep)
+{
+  if (nstep >= 0) {
+    for (int j = 0; j < nstep; j++) {
+      step1Forward();
+    }
+  } else {
+    for (int j = 0; j > nstep; j--) {
+      step1Backward();
+    }
+  }
+}
+
+
