@@ -5,10 +5,10 @@
 #include "pump.h"
 #include "turbidobase.h"
 
-class TurbidoMix : public TurbidoBase
+class TurbidoMixBase : public TurbidoBase
 {
   public:
-    TurbidoMix(Supervisor &s);
+    TurbidoMixBase(Supervisor &s);
 
     int begin(void);
 
@@ -18,8 +18,6 @@ class TurbidoMix : public TurbidoBase
     void formatParams(char *buf, unsigned int buflen);
     void manualReadParams(void);
 
-    const char *name(void) { return "Turbidostat Mix"; }
-    char letter(void) { return 'u'; }
   protected:
     Pump &pump1(void);
     Pump &pump2(void);
@@ -31,13 +29,32 @@ class TurbidoMix : public TurbidoBase
 
     uint8_t pumpCountIncr(void) { unsigned long cycle = _cycleCount++; return (uint8_t) (cycle % 100); }
 
-    virtual uint8_t pump1Percent() { return _pump1Pct; }
+    virtual uint8_t pump1Percent() = 0;
   private:
     uint8_t _pump1;
     uint8_t _pump2;
-    uint8_t _pump1Pct;
 
     unsigned long _cycleCount;
+};
+
+class TurbidoMixFixed : public TurbidoMixBase
+{
+  public:
+    TurbidoMixFixed(Supervisor &s);
+
+    void formatHeader(char *buf, unsigned int buflen);
+    void formatLine(char *buf, unsigned int buflen, long currMeasure);
+
+    void formatParams(char *buf, unsigned int buflen);
+    void manualReadParams(void);
+
+    const char *name(void) { return "Turbidostat Mix Fixed Ratio"; }
+    char letter(void) { return 'm'; }
+  protected:
+    uint8_t pump1Percent() { return _pump1Pct; }
+
+  private:
+    uint8_t _pump1Pct;
 };
 
 #endif /* !defined(_turbidomix_h) */

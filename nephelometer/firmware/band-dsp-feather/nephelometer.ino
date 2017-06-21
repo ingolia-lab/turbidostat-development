@@ -49,7 +49,6 @@ int Nephel::setPga(uint8_t setting)
 long Nephel::measure(void)
 {
   long ttlon = 0, ttloff = 0;
-  int res;
   
   unsigned long startUsec = micros();
   for (int i = 0; i < nEquil + nMeasure; i++) {

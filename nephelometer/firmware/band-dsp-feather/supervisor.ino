@@ -1,6 +1,7 @@
 #include "controller.h"
 #include "manual.h"
 #include "supervisor.h"
+#include "turbidogradient.h"
 #include "turbidomix.h"
 #include "turbidostat.h"
 
@@ -14,11 +15,12 @@ Supervisor::Supervisor(void):
   _runningController(&_defaultController),
   _nextController(&_defaultController)
 {
-  _nControllers = 3;
+  _nControllers = 4;
   _controllers = new Controller*[_nControllers];
   _controllers[0] = &_defaultController;
   _controllers[1] = new Turbidostat(*this);
-  _controllers[2] = new TurbidoMix(*this);
+  _controllers[2] = new TurbidoMixFixed(*this);
+  _controllers[3] = new TurbidoGradient(*this);
   Serial.println("# Supervisor initialized");
 }
 
@@ -196,8 +198,8 @@ int Supervisor::blockingReadPump(uint8_t *res)
     delay(1);
   }
 
-  int pno = pumpcharToNo(ch);
-  if (pno >= 0 & pno < _nPumps) {
+  uint8_t pno = pumpcharToNo(ch);
+  if (pno < _nPumps) {
     Serial.write(ch);
     *res = pno;
     return 1;

@@ -21,7 +21,7 @@ void Turbidostat::formatLine(char *buf, unsigned int buflen, long m)
   long sec = rtcSeconds();
   long ptime = pump().totalOnMsec();
 
-  snprintf(buf, buflen, "T\t%lu\t%ld.%03ld\t%ld\t%d\t%ld.%03ld\r\n", 
+  snprintf(buf, buflen, "T\t%lu\t%ld.%03ld\t%ld\t%d\t%ld.%03ld", 
            sec - startSec(), m/1000, m%1000, s().nephelometer().pgaScale(), pump().isPumping(),
            ptime / ((long) 1000), ptime % ((long) 1000));
 }

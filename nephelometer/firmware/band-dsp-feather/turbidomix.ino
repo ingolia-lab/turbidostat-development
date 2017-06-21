@@ -3,44 +3,43 @@
 #include "supervisor.h"
 #include "turbidomix.h"
 
-TurbidoMix::TurbidoMix(Supervisor &s):
+TurbidoMixBase::TurbidoMixBase(Supervisor &s):
   TurbidoBase(s),
   _pump1(0),
   _pump2(0),
-  _pump1Pct(50),
   _cycleCount(0)
 {
 
 }
 
-void TurbidoMix::formatHeader(char *buf, unsigned int buflen)
+void TurbidoMixBase::formatHeader(char *buf, unsigned int buflen)
 {
-  strncpy(buf, "M\ttime.s\tneph\tgain\tpump1on\tpump2on\tpump1.s\tpump2.s", buflen);
+  strncpy(buf, "\ttime.s\tneph\tgain\tpump1on\tpump2on\tpump1.s\tpump2.s", buflen);
 }
 
-int TurbidoMix::begin(void)
+int TurbidoMixBase::begin(void)
 {
   _cycleCount = 0;
   return TurbidoBase::begin();
 }
 
-void TurbidoMix::formatLine(char *buf, unsigned int buflen, long m)
+void TurbidoMixBase::formatLine(char *buf, unsigned int buflen, long m)
 {
   long sec = rtcSeconds();
   long time1 = pump1().totalOnMsec(), time2 = pump2().totalOnMsec();
 
   snprintf(buf, buflen, 
-           "U\t%lu\t%ld.%03ld\t%ld\t%d\t%d\t%ld.%03ld\t%ld.%03ld\r\n", 
+           "\t%lu\t%ld.%03ld\t%ld\t%d\t%d\t%ld.%03ld\t%ld.%03ld", 
            sec - startSec(), m / 1000, m % 1000, s().nephelometer().pgaScale(), 
            pump1().isPumping(), pump2().isPumping(),
            time1 / ((long) 1000), time1 % ((long) 1000),
            time2 / ((long) 1000), time2 % ((long) 1000));
 }
 
-Pump &TurbidoMix::pump1(void) { return s().pump(_pump1); }
-Pump &TurbidoMix::pump2(void) { return s().pump(_pump2); }
+Pump &TurbidoMixBase::pump1(void) { return s().pump(_pump1); }
+Pump &TurbidoMixBase::pump2(void) { return s().pump(_pump2); }
 
-void TurbidoMix::setPumpOn(void)
+void TurbidoMixBase::setPumpOn(void)
 {
   uint8_t count = pumpCountIncr();
 
@@ -51,22 +50,55 @@ void TurbidoMix::setPumpOn(void)
   }
 }
 
-void TurbidoMix::setPump1On(void)  { pump1().setPumping(1); pump2().setPumping(0); }
-void TurbidoMix::setPump2On(void)  { pump1().setPumping(0); pump2().setPumping(1); }
-void TurbidoMix::setPumpOff(void)  { pump1().setPumping(0); pump2().setPumping(0); }
+void TurbidoMixBase::setPump1On(void)  { pump1().setPumping(1); pump2().setPumping(0); }
+void TurbidoMixBase::setPump2On(void)  { pump1().setPumping(0); pump2().setPumping(1); }
+void TurbidoMixBase::setPumpOff(void)  { pump1().setPumping(0); pump2().setPumping(0); }
 
-void TurbidoMix::formatParams(char *buf, unsigned int buflen)
+void TurbidoMixBase::formatParams(char *buf, unsigned int buflen)
 {
   TurbidoBase::formatParams(buf, buflen);
   snprintf(buf + strlen(buf), buflen - strlen(buf),
-           "# Pump #1 %c\r\n# Pump #2 %c\r\n# Pump #1 %d%% share\r\n", 
-           Supervisor::pumpnoToChar(_pump1), Supervisor::pumpnoToChar(_pump2), _pump1Pct);
+           "# Pump #1 %c\r\n# Pump #2 %c\r\n", 
+           Supervisor::pumpnoToChar(_pump1), Supervisor::pumpnoToChar(_pump2));
 }
 
-void TurbidoMix::manualReadParams(void)
+void TurbidoMixBase::manualReadParams(void)
 {
+  TurbidoBase::manualReadParams();
   manualReadPump("pump #1", _pump1);
   manualReadPump("pump #2", _pump2);
+}
+
+TurbidoMixFixed::TurbidoMixFixed(Supervisor &s):
+  TurbidoMixBase(s),
+  _pump1Pct(50)
+{
+
+}
+
+void TurbidoMixFixed::formatHeader(char *buf, unsigned int buflen)
+{
+  buf[0] = 'M';
+  TurbidoMixBase::formatHeader(buf + 1, buflen - 1);
+}
+
+void TurbidoMixFixed::formatLine(char *buf, unsigned int buflen, long m)
+{
+  buf[0] = 'M';
+  TurbidoMixBase::formatLine(buf, buflen, m);
+}
+
+void TurbidoMixFixed::formatParams(char *buf, unsigned int buflen)
+{
+  TurbidoMixBase::formatParams(buf, buflen);
+  snprintf(buf + strlen(buf), buflen - strlen(buf),
+           "# Pump #1 percentage %d%%\r\n", 
+           _pump1Pct);
+}
+
+void TurbidoMixFixed::manualReadParams(void)
+{
+  TurbidoMixBase::manualReadParams();
   manualReadPercent("pump #1 percentage", _pump1Pct);
 }
 

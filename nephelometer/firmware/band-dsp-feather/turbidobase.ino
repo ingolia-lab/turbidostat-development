@@ -11,8 +11,8 @@ TurbidoBase::TurbidoBase(Supervisor &s):
   _s(s),
   _mUpper(0x7fffffff),
   _mLower(0),
-  _startSec(0),
-  _pumping(0)
+  _pumping(0),
+  _startSec(0)
 {
 
 }
@@ -25,7 +25,7 @@ int TurbidoBase::begin(void)
   setPumpOff();
 
   formatHeader(linebuf, linebufLen);
-  Serial.write(linebuf);
+  Serial.println(linebuf);
 
   return 0;
 }
@@ -34,7 +34,6 @@ int TurbidoBase::loop(void)
 {
   delayOneSecond();
 
-  long sec = rtcSeconds();
   long m = measure();
 
   if (m < mLower()) {
@@ -46,7 +45,7 @@ int TurbidoBase::loop(void)
   }
 
   formatLine(linebuf, linebufLen, m);
-  Serial.write(Supervisor::outbuf);
+  Serial.println(Supervisor::outbuf);
 
   int ch;
   while ((ch = Serial.read()) >= 0) {
