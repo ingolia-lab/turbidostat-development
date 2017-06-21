@@ -3,7 +3,6 @@
 #include "supervisor.h"
 #include "turbidomix.h"
 #include "turbidostat.h"
-#include "trophostat.h"
 
 #define OUTBUF_LEN 512
 const unsigned int Supervisor::outbufLen = OUTBUF_LEN;
@@ -15,12 +14,11 @@ Supervisor::Supervisor(void):
   _runningController(&_defaultController),
   _nextController(&_defaultController)
 {
-  _nControllers = 4;
+  _nControllers = 3;
   _controllers = new Controller*[_nControllers];
   _controllers[0] = &_defaultController;
-  _controllers[1] = new Turbido(*this, 0);
-  _controllers[2] = new Tropho(*this);
-  _controllers[3] = new TurbidoMix(*this);
+  _controllers[1] = new Turbidostat(*this);
+  _controllers[2] = new TurbidoMix(*this);
   Serial.println("# Supervisor initialized");
 }
 
@@ -105,16 +103,6 @@ void Supervisor::pickNextController(void)
   }
 }
 
-void Supervisor::manualSetParams(void)
-{
-  Serial.println(F("# Supervisor: no manual parameters"));
-}
-
-void Supervisor::formatParams(char *buf, unsigned int buflen)
-{
-  snprintf(buf, buflen, "# Supervisor: no parameters\r\n");
-}
-
 void Supervisor::useTestNephel(void)
 {
   Serial.println();
@@ -160,7 +148,7 @@ void Supervisor::useTestNephel(void)
  */
 int Supervisor::blockingReadLong(long *res)
 {
-  const int buflen = 12;
+  const int buflen = 16;
   char buffer[buflen];
   int bufpos = 0;
 
@@ -218,4 +206,57 @@ int Supervisor::blockingReadPump(uint8_t *res)
     return -1;
   }
 }
+
+int Supervisor::blockingReadFixed(long *res, int fractDigits)
+{
+  const int buflen = 16;
+  char buffer[buflen];
+  int bufpos = 0, seenpoint = 0;
+
+  int ch;
+  
+  do {
+    ch = Serial.read();
+    if (ch <= 0) {
+       delay(1);
+    } else if (ch == '\n' || ch == '\r') {
+       Serial.println();
+       break;
+    } else if ((ch < '0' || ch > '9') && (bufpos != 0 || ch != '-') && (seenpoint || ch != '.')) {
+       Serial.write('*');
+       return -1;
+    } else {
+      buffer[bufpos] = (char) ch;
+      seenpoint |= (ch == '.');
+      Serial.write(ch);
+      bufpos++;
+      if (bufpos == (buflen - 1)) {
+        break;
+      } 
+    }
+  } while(1);
+  
+  if (bufpos > 0) {  
+    buffer[bufpos] = '\0';
+    char *next;
+    long x = strtol(buffer, &next, 10);
+    if ( (*next) == '.') { 
+      next++;
+    }
+    for (int i = 0; i < fractDigits; i++) {
+      x *= 10;
+      if ((*next) != 0) {
+        x += ( (*next) - '0' );
+        next++;
+      } 
+    }
+
+    *res = x;
+    
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
 

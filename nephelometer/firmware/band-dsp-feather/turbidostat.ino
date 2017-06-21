@@ -1,89 +1,48 @@
 #include "controller.h"
 #include "pump.h"
 #include "supervisor.h"
+#include "turbidobase.h"
 #include "turbidostat.h"
 
-Turbido::Turbido(Supervisor &s, int pumpno):
-  _s(s),
-  _mUpper(0x7fffffff),
-  _mLower(0),
-  _pumpno(pumpno),
-  _startSec(0),
-  _startPumpMsec(0)
+Turbidostat::Turbidostat(Supervisor &s):
+  TurbidoBase(s),
+  _pumpno(0)
 {
-  Serial.println("# Turbido controller initialized");
+
 }
 
-int Turbido::begin(void)
+void Turbidostat::formatHeader(char *buf, unsigned int buflen)
 {
-  _startSec = rtcSeconds();
-  _startPumpMsec = pump().totalOnMsec();
-
-  setPumpOff();
-
-  Serial.println("T\ttime.s\tneph\tgain\tpumpon\tpumptime.s");
-
-  return 0;
+  strncpy(buf, "T\ttime.s\tneph\tgain\tpumpon\tpumptime.s", buflen);
 }
 
-int Turbido::loop(void)
+void Turbidostat::formatLine(char *buf, unsigned int buflen, long m)
 {
-  delayOneSecond();
-
   long sec = rtcSeconds();
-  long m = measure();
-
-  if (pump().isPumping() && m < mLower()) {
-    setPumpOff();
-  } else if ((!pump().isPumping()) && m > mUpper()) {
-    setPumpOn();
-  }
-
   long ptime = pump().totalOnMsec();
 
-  snprintf(Supervisor::outbuf, Supervisor::outbufLen, 
-           "T\t%lu\t%ld.%03ld\t%ld\t%d\t%ld.%03ld\r\n", 
-           sec - _startSec, m/1000, m%1000, _s.nephelometer().pgaScale(), pump().isPumping(),
+  snprintf(buf, buflen, "T\t%lu\t%ld.%03ld\t%ld\t%d\t%ld.%03ld\r\n", 
+           sec - startSec(), m/1000, m%1000, s().nephelometer().pgaScale(), pump().isPumping(),
            ptime / ((long) 1000), ptime % ((long) 1000));
-  Serial.write(Supervisor::outbuf);
-
-  int ch;
-  while ((ch = Serial.read()) >= 0) {
-    if (ch == 'q') {
-      setPumpOff();
-      return 1;
-      while (Serial.read() >= 0) {
-        /* DISCARD */ 
-      }
-    } 
-  }
-
-  return 0;
 }
 
-long Turbido::measure(void) { return _s.nephelometer().measure(); }
+Pump &Turbidostat::pump(void) { return s().pump(_pumpno); }
 
-const Pump &Turbido::pump(void) { return _s.pump(_pumpno); }
+void Turbidostat::setPumpOn(void)  { pump().setPumping(1); }
 
-void Turbido::setPumpOn(void)  { _s.pump(_pumpno).setPumping(1); }
+void Turbidostat::setPumpOff(void) { pump().setPumping(0); }
 
-void Turbido::setPumpOff(void) { _s.pump(_pumpno).setPumping(0); }
-
-void Turbido::formatParams(char *buf, unsigned int buflen)
+void Turbidostat::formatParams(char *buf, unsigned int buflen)
 {
-  snprintf(buf, buflen, "# Pump on @ %ld.%03ld\r\n# Pump off @ %ld.%03ld\r\n# Pump %c\r\n", 
-           _mUpper/1000, _mUpper%1000, _mLower/1000, _mLower%1000, Supervisor::pumpnoToChar(_pumpno));
+  TurbidoBase::formatParams(buf, buflen);
+  snprintf(buf + strlen(buf), buflen - strlen(buf),
+           "# Pump %c\r\n", 
+           Supervisor::pumpnoToChar(_pumpno));
 }
 
-void Turbido::manualSetParams(void)
+void Turbidostat::manualReadParams(void)
 {
-  serialWriteParams();
-  Serial.print(F("# Hit return to leave a parameter unchanged\r\n"));
-
-  manualReadParam("pump on (high) measurement", _mUpper);
-  manualReadParam("pump off (low) measurement", _mLower);
-  manualReadPump("pump number                ", _pumpno);
-  
-  serialWriteParams();
+  TurbidoBase::manualReadParams();
+  manualReadPump("media pump", _pumpno);
 }
 

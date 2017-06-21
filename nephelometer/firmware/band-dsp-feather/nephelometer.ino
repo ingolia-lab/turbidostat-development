@@ -6,7 +6,9 @@
 
 const long Nephel::pgaScales[] = { 1, 2, 4, 5, 8, 10, 16, 32 };
 
-// SPI MODE3 = 1,1 is better so device select pin doesn't clock
+// PGA SPI MODE3 = 1,1 is better so device select pin doesn't clock
+// ADC SPI MODE0 = 0,0 begin transaction before select pin low
+//  => external clock (i.e., SCK clocks ADC)
 
 Nephel::Nephel(uint8_t pgaSetting):
   _pgaSetting(pgaSetting),
@@ -46,7 +48,7 @@ int Nephel::setPga(uint8_t setting)
 
 long Nephel::measure(void)
 {
-  long ttlon, ttloff;
+  long ttlon = 0, ttloff = 0;
   int res;
   
   unsigned long startUsec = micros();

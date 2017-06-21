@@ -42,9 +42,7 @@ class ManualController : public Controller {
 
     void serialWriteCommands(void);
 
-    void readEeprom(unsigned int eepromBase) { /* No parameters */ }
-    void writeEeprom(unsigned int eepromBase) { /* No parameters */ }
-    void manualSetParams(void) { /* No parameters */ }
+    void manualReadParams(void) { /* No parameters */ }
     void formatParams(char *buf, unsigned int buflen) { buf[0] = 0; }
 
   private:

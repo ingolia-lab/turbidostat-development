@@ -8,39 +8,6 @@
 #include <SPI.h>
 
 #include "pump.h"
-#include "settings.h"
-
-/*
- * Timing and other software-configured settings for turbidity measurements
- */
-class NephelTiming : public ParamSettings {
-public:
-  // Create a new timing parameter set with compiled default values
-  NephelTiming();
-
-  void readEeprom(unsigned int eepromBase);
-  void writeEeprom(unsigned int eepromBase);
-  void formatParams(char *buf, unsigned int buflen);
-  void manualSetParams(void);
-
-  // Setting byte for the programmable-gain amplifier
-  uint8_t pga;
-  // Microseconds per half cycle of LED blinking
-  unsigned long halfCycleUsec;
-  // Delay from LED 
-  unsigned long adcDelayUsec;
-  
-  unsigned int nEquil;
-  unsigned int nMeasure;
-
-  long pgaScale(void);
-
-  static const uint8_t defaultPga = 0x03;
-  static const long defaultHalfCycleUsec = 52;
-  static const long defaultAdcDelayUsec = 25;
-  static const int defaultNEquil = 16;
-  static const int defaultNMeasure = 4096;
-};
 
 class Nephel
 {

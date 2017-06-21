@@ -9,7 +9,6 @@ class Supervisor;
 #include "nephelometer.h"
 #include "pump.h"
 #include "settings.h"
-#include "turbidostat.h"
 
 class Supervisor : protected ParamSettings
 {
@@ -36,6 +35,8 @@ class Supervisor : protected ParamSettings
 
     static int blockingReadLong(long *res);
     static int blockingReadPump(uint8_t *res);
+    static int blockingReadFixed(long *res, int fractDigits);
+    
     static char pumpnoToChar(uint8_t pumpno) { return 'A' + ((char) pumpno); }
     static uint8_t pumpcharToNo(char pumpch);
     
@@ -56,10 +57,8 @@ class Supervisor : protected ParamSettings
     Controller &runningController(void) { return *_runningController; }
     Controller *pickController(void);
 
-    void readEeprom(unsigned int);
-    void writeEeprom(unsigned int);
-    void manualSetParams(void);
-    void formatParams(char *buf, unsigned int buflen);
+    void manualReadParams(void) { /* No parameters */ }
+    void formatParams(char *buf, unsigned int buflen) { *buf = 0; /* No parameters */ }
 
   private:
     Nephel *_neph;
