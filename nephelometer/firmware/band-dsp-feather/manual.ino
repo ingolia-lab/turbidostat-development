@@ -102,9 +102,11 @@ void ManualMeasure::run(void)
     long avg10 = supervisor().nephelometer().measure();
     
     snprintf(Supervisor::outbuf, Supervisor::outbufLen, 
-             "M\t%lu.%03lu\t%ld\t%ld",
-             startMsec / ((unsigned long) 1000), startMsec % ((unsigned long) 1000),
-             avg10, supervisor().nephelometer().pgaScale());
+             "M\t%lu.%01lu\t%2ld.%03ld\t%ld",
+             startMsec / ((unsigned long) 1000), 
+             (startMsec / ((unsigned long) 100)) % ((unsigned long) 10),
+             avg10 / ((long) 1000), avg10 % ((long) 1000),
+             supervisor().nephelometer().pgaScale());
     Serial.println(Supervisor::outbuf);
 
     if (Serial.read() > 0) {
@@ -121,10 +123,10 @@ void ManualPump::run(void)
 {
   Serial.print(F("\r\n# Which pump ["));
   for (int pno = 0; pno < supervisor().nPumps(); pno++) {
-    if (pno > 1) {
+    if (pno > 0) {
       Serial.print(",");
     }
-    Serial.print('A' + pno);
+    Serial.print((char) ('A' + pno));
   }
   Serial.print(F("]: "));
 

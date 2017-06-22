@@ -9,7 +9,7 @@ char TurbidoBase::linebuf[LINEBUF_LEN];
 
 TurbidoBase::TurbidoBase(Supervisor &s):
   _s(s),
-  _mUpper(0x7fffffff),
+  _mUpper(40950),
   _mLower(0),
   _pumping(0),
   _startSec(0)
@@ -45,7 +45,7 @@ int TurbidoBase::loop(void)
   }
 
   formatLine(linebuf, linebufLen, m);
-  Serial.println(Supervisor::outbuf);
+  Serial.println(linebuf);
 
   int ch;
   while ((ch = Serial.read()) >= 0) {

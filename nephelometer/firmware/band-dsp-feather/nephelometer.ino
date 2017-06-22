@@ -80,7 +80,7 @@ long Nephel::measure(void)
     
     Supervisor::delayIfNeeded(startUsec + (i+1)*usecTtl);
   }
-  
+
   return (((long) 10) * (ttloff - ttlon)) / ((long) nMeasure);
 }
 

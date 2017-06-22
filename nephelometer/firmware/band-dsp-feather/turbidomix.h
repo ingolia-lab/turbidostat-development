@@ -48,8 +48,8 @@ class TurbidoMixFixed : public TurbidoMixBase
     void formatParams(char *buf, unsigned int buflen);
     void manualReadParams(void);
 
-    const char *name(void) { return "Turbidostat Mix Fixed Ratio"; }
-    char letter(void) { return 'm'; }
+    const char *name(void) { return "Turbidostat Ratio"; }
+    char letter(void) { return 'r'; }
   protected:
     uint8_t pump1Percent() { return _pump1Pct; }
 

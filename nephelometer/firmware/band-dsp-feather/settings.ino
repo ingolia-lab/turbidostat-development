@@ -88,14 +88,15 @@ void ParamSettings::manualReadPump(const char *desc, uint8_t &pval)
   uint8_t pnew;
   Serial.print("# Enter ");
   Serial.print(desc);
-  Serial.print("(");
-  Serial.print('A' + pval);
+  Serial.print(" (");
+  Serial.print((char) ('A' + pval));
   Serial.print("): ");
 
   if (Supervisor::blockingReadPump(&pnew) > 0) {
     pval = pnew;
+    Serial.println();
   } else {
-    Serial.print(F("# (not updated)\r\n"));
+    Serial.print(F("\r\n# (not updated)\r\n"));
   }
 }
 

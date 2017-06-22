@@ -17,7 +17,7 @@ TurbidoGradient::TurbidoGradient(Supervisor &s):
 uint8_t TurbidoGradient::pump1Percent()
 {
   long runningSecs = rtcSeconds() - startSec();
-  long stepno = runningSecs % _stepTime;
+  long stepno = runningSecs / _stepTime;
   stepno = (stepno >= _nSteps) ? (_nSteps - 1) : stepno;
   long pctl = ((long) _pump1StartPct) + stepno * ((long) _pump1StepPct);
   return (pctl < 0) ? 0 : ((pctl > 100) ? 100 : ( (uint8_t) pctl ));

@@ -12,7 +12,7 @@
 class Nephel
 {
   public:
-    Nephel(uint8_t pgaSetting = 0x03);
+    Nephel(uint8_t pgaSetting = 0x01);
     virtual long measure();
 
     static const int nPgaScales = 8;
@@ -28,7 +28,7 @@ class Nephel
 
     int setPga(uint8_t setting);
 
-    static const int nMeasure = 1024;
+    static const int nMeasure = 512;
     static const int nEquil = 16;
 
     static const unsigned long usecAdcOn = 25;
