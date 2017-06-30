@@ -13103,9 +13103,9 @@ http://www.st.com&lt;p&gt;
 <attribute name="MANF#" value="CF14JT680R"/>
 </part>
 <part name="D109" library="diode" deviceset="ZENER-DIODE" device="F126-10">
-<attribute name="DIGIKEY#" value="SA12CALFCT-ND"/>
+<attribute name="DIGIKEY#" value="SA12ALFCT-ND"/>
 <attribute name="MANF" value="Littelfuse Inc."/>
-<attribute name="MANF#" value="SA12CA"/>
+<attribute name="MANF#" value="SA12A"/>
 </part>
 <part name="Q103" library="ingolia" deviceset="IRLB8721" device="">
 <attribute name="DIGIKEY#" value="IRLB8721PBF-ND"/>

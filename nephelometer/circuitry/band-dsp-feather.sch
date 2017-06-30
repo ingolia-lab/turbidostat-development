@@ -8,20 +8,20 @@
 </settings>
 <grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
-<layer number="1" name="Top" color="4" fill="1" visible="yes" active="no"/>
-<layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="no"/>
-<layer number="17" name="Pads" color="2" fill="1" visible="yes" active="no"/>
-<layer number="18" name="Vias" color="2" fill="1" visible="yes" active="no"/>
-<layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="no"/>
-<layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="no"/>
-<layer number="21" name="tPlace" color="7" fill="1" visible="yes" active="no"/>
-<layer number="22" name="bPlace" color="7" fill="1" visible="yes" active="no"/>
-<layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="no"/>
-<layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="no"/>
-<layer number="25" name="tNames" color="7" fill="1" visible="yes" active="no"/>
-<layer number="26" name="bNames" color="7" fill="1" visible="yes" active="no"/>
-<layer number="27" name="tValues" color="7" fill="1" visible="yes" active="no"/>
-<layer number="28" name="bValues" color="7" fill="1" visible="yes" active="no"/>
+<layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
+<layer number="16" name="Bottom" color="1" fill="1" visible="no" active="no"/>
+<layer number="17" name="Pads" color="2" fill="1" visible="no" active="no"/>
+<layer number="18" name="Vias" color="2" fill="1" visible="no" active="no"/>
+<layer number="19" name="Unrouted" color="6" fill="1" visible="no" active="no"/>
+<layer number="20" name="Dimension" color="15" fill="1" visible="no" active="no"/>
+<layer number="21" name="tPlace" color="7" fill="1" visible="no" active="no"/>
+<layer number="22" name="bPlace" color="7" fill="1" visible="no" active="no"/>
+<layer number="23" name="tOrigins" color="15" fill="1" visible="no" active="no"/>
+<layer number="24" name="bOrigins" color="15" fill="1" visible="no" active="no"/>
+<layer number="25" name="tNames" color="7" fill="1" visible="no" active="no"/>
+<layer number="26" name="bNames" color="7" fill="1" visible="no" active="no"/>
+<layer number="27" name="tValues" color="7" fill="1" visible="no" active="no"/>
+<layer number="28" name="bValues" color="7" fill="1" visible="no" active="no"/>
 <layer number="29" name="tStop" color="7" fill="3" visible="no" active="no"/>
 <layer number="30" name="bStop" color="7" fill="6" visible="no" active="no"/>
 <layer number="31" name="tCream" color="7" fill="4" visible="no" active="no"/>
@@ -30,8 +30,8 @@
 <layer number="34" name="bFinish" color="6" fill="6" visible="no" active="no"/>
 <layer number="35" name="tGlue" color="7" fill="4" visible="no" active="no"/>
 <layer number="36" name="bGlue" color="7" fill="5" visible="no" active="no"/>
-<layer number="37" name="tTest" color="7" fill="1" visible="yes" active="no"/>
-<layer number="38" name="bTest" color="7" fill="1" visible="yes" active="no"/>
+<layer number="37" name="tTest" color="7" fill="1" visible="no" active="no"/>
+<layer number="38" name="bTest" color="7" fill="1" visible="no" active="no"/>
 <layer number="39" name="tKeepout" color="4" fill="11" visible="no" active="no"/>
 <layer number="40" name="bKeepout" color="1" fill="11" visible="no" active="no"/>
 <layer number="41" name="tRestrict" color="4" fill="10" visible="no" active="no"/>
@@ -39,19 +39,19 @@
 <layer number="43" name="vRestrict" color="2" fill="10" visible="no" active="no"/>
 <layer number="44" name="Drills" color="7" fill="1" visible="no" active="no"/>
 <layer number="45" name="Holes" color="7" fill="1" visible="no" active="no"/>
-<layer number="46" name="Milling" color="3" fill="1" visible="yes" active="no"/>
-<layer number="47" name="Measures" color="7" fill="1" visible="yes" active="no"/>
-<layer number="48" name="Document" color="7" fill="1" visible="yes" active="no"/>
-<layer number="49" name="Reference" color="7" fill="1" visible="yes" active="no"/>
-<layer number="50" name="dxf" color="7" fill="1" visible="yes" active="no"/>
-<layer number="51" name="tDocu" color="7" fill="1" visible="yes" active="no"/>
-<layer number="52" name="bDocu" color="7" fill="1" visible="yes" active="no"/>
-<layer number="53" name="tGND_GNDA" color="7" fill="9" visible="yes" active="no"/>
-<layer number="54" name="bGND_GNDA" color="1" fill="9" visible="yes" active="no"/>
-<layer number="56" name="wert" color="7" fill="1" visible="yes" active="no"/>
-<layer number="57" name="tCAD" color="7" fill="1" visible="yes" active="no"/>
-<layer number="59" name="tCarbon" color="7" fill="1" visible="yes" active="no"/>
-<layer number="60" name="bCarbon" color="7" fill="1" visible="yes" active="no"/>
+<layer number="46" name="Milling" color="3" fill="1" visible="no" active="no"/>
+<layer number="47" name="Measures" color="7" fill="1" visible="no" active="no"/>
+<layer number="48" name="Document" color="7" fill="1" visible="no" active="no"/>
+<layer number="49" name="Reference" color="7" fill="1" visible="no" active="no"/>
+<layer number="50" name="dxf" color="7" fill="1" visible="no" active="no"/>
+<layer number="51" name="tDocu" color="7" fill="1" visible="no" active="no"/>
+<layer number="52" name="bDocu" color="7" fill="1" visible="no" active="no"/>
+<layer number="53" name="tGND_GNDA" color="7" fill="9" visible="no" active="no"/>
+<layer number="54" name="bGND_GNDA" color="1" fill="9" visible="no" active="no"/>
+<layer number="56" name="wert" color="7" fill="1" visible="no" active="no"/>
+<layer number="57" name="tCAD" color="7" fill="1" visible="no" active="no"/>
+<layer number="59" name="tCarbon" color="7" fill="1" visible="no" active="no"/>
+<layer number="60" name="bCarbon" color="7" fill="1" visible="no" active="no"/>
 <layer number="90" name="Modules" color="5" fill="1" visible="yes" active="yes"/>
 <layer number="91" name="Nets" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="92" name="Busses" color="1" fill="1" visible="yes" active="yes"/>
@@ -12304,27 +12304,27 @@ Extended by Federico Battaglin &lt;author&gt;&amp;lt;federico.rd@fdpinternationa
 </part>
 <part name="SUPPLY15" library="supply2" deviceset="GND" device=""/>
 <part name="D3" library="diode" deviceset="ZENER-DIODE" device="F126-10" value="12V">
-<attribute name="DIGIKEY#" value="SA12CALFCT-ND"/>
+<attribute name="DIGIKEY#" value="SA12ALFCT-ND"/>
 <attribute name="MANF" value="Littelfuse Inc."/>
-<attribute name="MANF#" value="SA12CA"/>
+<attribute name="MANF#" value="SA12A"/>
 </part>
 <part name="SUPPLY17" library="supply2" deviceset="GND" device=""/>
 <part name="D4" library="diode" deviceset="ZENER-DIODE" device="F126-10" value="12V">
-<attribute name="DIGIKEY#" value="SA12CALFCT-ND"/>
+<attribute name="DIGIKEY#" value="SA12ALFCT-ND"/>
 <attribute name="MANF" value="Littelfuse Inc."/>
-<attribute name="MANF#" value="SA12CA"/>
+<attribute name="MANF#" value="SA12A"/>
 </part>
 <part name="SUPPLY18" library="supply2" deviceset="GND" device=""/>
 <part name="D6" library="diode" deviceset="ZENER-DIODE" device="F126-10" value="12V">
-<attribute name="DIGIKEY#" value="SA12CALFCT-ND"/>
+<attribute name="DIGIKEY#" value="SA12ALFCT-ND"/>
 <attribute name="MANF" value="Littelfuse Inc."/>
-<attribute name="MANF#" value="SA12CA"/>
+<attribute name="MANF#" value="SA12A"/>
 </part>
 <part name="SUPPLY20" library="supply2" deviceset="GND" device=""/>
 <part name="D5" library="diode" deviceset="ZENER-DIODE" device="F126-10" value="12V">
-<attribute name="DIGIKEY#" value="SA12CALFCT-ND"/>
+<attribute name="DIGIKEY#" value="SA12ALFCT-ND"/>
 <attribute name="MANF" value="Littelfuse Inc."/>
-<attribute name="MANF#" value="SA12CA"/>
+<attribute name="MANF#" value="SA12A"/>
 </part>
 <part name="SUPPLY19" library="supply2" deviceset="GND" device=""/>
 <part name="R26" library="adafruit" deviceset="R-US_" device="0207/9" value="8.2R">
@@ -12346,8 +12346,8 @@ Extended by Federico Battaglin &lt;author&gt;&amp;lt;federico.rd@fdpinternationa
 <wire x1="167.64" y1="71.12" x2="111.76" y2="71.12" width="0.1524" layer="97"/>
 <wire x1="111.76" y1="22.86" x2="167.64" y2="22.86" width="0.1524" layer="97"/>
 <wire x1="167.64" y1="71.12" x2="167.64" y2="22.86" width="0.1524" layer="97"/>
-<text x="144.78" y="66.04" size="1.778" layer="97">Bandpass Filter
-10 kHz / Butterworth</text>
+<text x="112.268" y="23.876" size="1.778" layer="97">Bandpass Filter
+10 kHz / -10x / Q = 5</text>
 <wire x1="45.72" y1="134.62" x2="45.72" y2="73.66" width="0.1524" layer="97"/>
 <wire x1="45.72" y1="73.66" x2="99.06" y2="73.66" width="0.1524" layer="97"/>
 <wire x1="99.06" y1="73.66" x2="99.06" y2="134.62" width="0.1524" layer="97"/>

@@ -16,10 +16,10 @@
 "D$11";"BPV10NF";"BPV10NF";"LED5MM";"";"751-1002-ND";"";"";"Vishay Semiconductor Opto Division";"BPV10NF";"";"";"";"";"";"";"";"";
 "D1";"5V";"ZENER-DIODEF126-10";"F126Z10";"Z-Diode";"SA5.0ALFCT-ND";"";"";"Littelfuse Inc.";"SA5.0A";"";"";"";"";"";"";"";"";
 "D2";"1N5817-T";"1N5817-T";"DO41-7.6";"1.0A SCHOTTKY BARRIER RECTIFIER";"1N5817FSCT-ND";"";"";"Fairchild Semiconductor";"1N5817";"";"";"";"";"";"";"";"";
-"D3";"12V";"ZENER-DIODEF126-10";"F126Z10";"Z-Diode";"SA12CALFCT-ND";"";"";"Littelfuse Inc.";"SA12CA";"";"";"";"";"";"";"";"";
-"D4";"12V";"ZENER-DIODEF126-10";"F126Z10";"Z-Diode";"SA12CALFCT-ND";"";"";"Littelfuse Inc.";"SA12CA";"";"";"";"";"";"";"";"";
-"D5";"12V";"ZENER-DIODEF126-10";"F126Z10";"Z-Diode";"SA12CALFCT-ND";"";"";"Littelfuse Inc.";"SA12CA";"";"";"";"";"";"";"";"";
-"D6";"12V";"ZENER-DIODEF126-10";"F126Z10";"Z-Diode";"SA12CALFCT-ND";"";"";"Littelfuse Inc.";"SA12CA";"";"";"";"";"";"";"";"";
+"D3";"12V";"ZENER-DIODEF126-10";"F126Z10";"Z-Diode";"SA12ALFCT-ND";"";"";"Littelfuse Inc.";"SA12A";"";"";"";"";"";"";"";"";
+"D4";"12V";"ZENER-DIODEF126-10";"F126Z10";"Z-Diode";"SA12ALFCT-ND";"";"";"Littelfuse Inc.";"SA12A";"";"";"";"";"";"";"";"";
+"D5";"12V";"ZENER-DIODEF126-10";"F126Z10";"Z-Diode";"SA12ALFCT-ND";"";"";"Littelfuse Inc.";"SA12A";"";"";"";"";"";"";"";"";
+"D6";"12V";"ZENER-DIODEF126-10";"F126Z10";"Z-Diode";"SA12ALFCT-ND";"";"";"Littelfuse Inc.";"SA12A";"";"";"";"";"";"";"";"";
 "IC1";"LP2950ACZ-3.3";"LP2950ACZ-3.3";"TO92";"Source: http://cache.national.com/ds/LP/LP2950.pdf";"LP2950ACZ-3.3/NOPB-ND";"";"";"Texas Instruments";"LP2950ACZ-3.3/NOPB";"";"";"";"";"";"";"";"";
 "IC2";"LM4041CILP";"LM4041CILP";"LP_O-PBCY-W3";"PRECISION MICROPOWER SHUNT VOLTAGE REFERENCE Adjustable Output";"296-22173-1-ND";"";"";"Texas Instruments";"LM4041CILPR";"";"";"";"";"";"LM4041CILP";"1673945";"50M8856";
 "IC3";"AD822N";"AD822N";"DIL08";"Single-Supply, Rail-to-Rail Low Power FET-Input Op Amp";"AD823ANZ-ND";"";"";"Analog Devices Inc.";"AD823ANZ";"";"";"";"";"";"";"1438581";"unknown";

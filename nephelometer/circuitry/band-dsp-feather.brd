@@ -146,40 +146,35 @@
 <wire x1="0" y1="60" x2="0" y2="5" width="0" layer="20"/>
 <text x="45.5" y="16" size="0.8" layer="21" font="vector" rot="R180">band-dsp-feather
 ingolia@berkeley.edu
-17-06-06</text>
+17-06-22</text>
 <text x="91.5" y="16.5" size="0.5" layer="21" rot="R90">VIN</text>
-<wire x1="0.6" y1="24.3" x2="4.3" y2="30" width="0.25" layer="29"/>
-<wire x1="4.3" y1="30" x2="6" y2="30" width="0.25" layer="29"/>
-<wire x1="6" y1="30" x2="6.5" y2="29" width="0.25" layer="29"/>
-<wire x1="6.5" y1="29" x2="6.5" y2="27.5" width="0.25" layer="29"/>
-<wire x1="6.5" y1="27.5" x2="3.5" y2="25" width="0.25" layer="29"/>
-<wire x1="3.5" y1="25" x2="3.5" y2="21" width="0.25" layer="29"/>
-<wire x1="3.5" y1="21" x2="3" y2="20.5" width="0.25" layer="29"/>
-<wire x1="3" y1="20.5" x2="3" y2="18" width="0.25" layer="29"/>
-<wire x1="3" y1="18" x2="4.5" y2="16.5" width="0.25" layer="29"/>
-<wire x1="4.5" y1="16.5" x2="8.5" y2="16.5" width="0.25" layer="29"/>
+<wire x1="0.5" y1="24.3" x2="3.8" y2="30" width="0.25" layer="29"/>
+<wire x1="3.8" y1="30" x2="7" y2="30" width="0.25" layer="29"/>
+<wire x1="7" y1="30" x2="7" y2="27.5" width="0.25" layer="29"/>
+<wire x1="7" y1="27.5" x2="3" y2="20.7" width="0.25" layer="29"/>
+<wire x1="3" y1="20.7" x2="3" y2="17.1" width="0.25" layer="29"/>
+<wire x1="3" y1="17.1" x2="4.7" y2="16.5" width="0.25" layer="29"/>
+<wire x1="4.7" y1="16.5" x2="8.5" y2="16.5" width="0.25" layer="29"/>
 <wire x1="8.5" y1="16.5" x2="9.5" y2="15.5" width="0.25" layer="29"/>
 <wire x1="9.5" y1="15.5" x2="9.5" y2="14.5" width="0.25" layer="29"/>
 <wire x1="9.5" y1="14.5" x2="8" y2="13" width="0.25" layer="29"/>
 <wire x1="8" y1="13" x2="5.5" y2="13" width="0.25" layer="29"/>
-<wire x1="5.5" y1="13" x2="0.6" y2="17.9" width="0.25" layer="29"/>
-<wire x1="0.6" y1="17.9" x2="0.6" y2="24.3" width="0.25" layer="29"/>
-<wire x1="0.6" y1="24.3" x2="4.3" y2="30" width="0.25" layer="30"/>
-<wire x1="4.3" y1="30" x2="6" y2="30" width="0.25" layer="30"/>
-<wire x1="6" y1="30" x2="6.5" y2="29" width="0.25" layer="30"/>
-<wire x1="6.5" y1="29" x2="6.5" y2="27.5" width="0.25" layer="30"/>
-<wire x1="6.5" y1="27.5" x2="3.5" y2="23" width="0.25" layer="30"/>
-<wire x1="3.5" y1="23" x2="3.5" y2="21" width="0.25" layer="30"/>
-<wire x1="3.5" y1="21" x2="3" y2="20.5" width="0.25" layer="30"/>
-<wire x1="3" y1="20.5" x2="3" y2="17.9" width="0.25" layer="30"/>
-<wire x1="3" y1="17.9" x2="4.4" y2="16.5" width="0.25" layer="30"/>
-<wire x1="4.4" y1="16.5" x2="8.5" y2="16.5" width="0.25" layer="30"/>
+<wire x1="5.5" y1="13" x2="0.5" y2="17.4" width="0.25" layer="29"/>
+<wire x1="0.5" y1="17.4" x2="0.5" y2="24.3" width="0.25" layer="29"/>
+<wire x1="0.5" y1="24.4" x2="3.8" y2="30" width="0.2032" layer="30"/>
+<wire x1="3.8" y1="30" x2="7" y2="30" width="0.25" layer="30"/>
+<wire x1="7" y1="30" x2="7" y2="29" width="0.2032" layer="30"/>
+<wire x1="7" y1="29" x2="7" y2="27.5" width="0.25" layer="30"/>
+<wire x1="7" y1="27.5" x2="3" y2="20.7" width="0.25" layer="30"/>
+<wire x1="3" y1="20.7" x2="3" y2="17.1" width="0.25" layer="30"/>
+<wire x1="3" y1="17.1" x2="4.7" y2="16.5" width="0.25" layer="30"/>
+<wire x1="4.7" y1="16.5" x2="8.5" y2="16.5" width="0.25" layer="30"/>
 <wire x1="8.5" y1="16.5" x2="9.5" y2="15.5" width="0.25" layer="30"/>
 <wire x1="9.5" y1="15.5" x2="9.5" y2="14.5" width="0.25" layer="30"/>
 <wire x1="9.5" y1="14.5" x2="8" y2="13" width="0.25" layer="30"/>
 <wire x1="8" y1="13" x2="5.5" y2="13" width="0.25" layer="30"/>
-<wire x1="5.5" y1="13" x2="0.6" y2="17.9" width="0.25" layer="30"/>
-<wire x1="0.6" y1="17.9" x2="0.6" y2="24.3" width="0.25" layer="30"/>
+<wire x1="5.5" y1="13" x2="0.5" y2="17.4" width="0.25" layer="30"/>
+<wire x1="0.5" y1="17.4" x2="0.5" y2="24.4" width="0.25" layer="30"/>
 <text x="74.5" y="52.5" size="1.33" layer="21">A(+)</text>
 <wire x1="32.5" y1="16.5" x2="45.5" y2="16.5" width="0.4064" layer="21"/>
 <wire x1="45.5" y1="16.5" x2="46" y2="16" width="0.4064" layer="21"/>
@@ -1279,30 +1274,30 @@ Please make sure your boards conform to these design rules.</description>
 <attribute name="MANF#" value="RNMF14FTC330R" x="20.5" y="37" size="1.778" layer="27" rot="R270" display="off"/>
 </element>
 <element name="D3" library="diode" package="F126Z10" value="12V" x="66.5" y="19" smashed="yes" rot="R90">
-<attribute name="DIGIKEY#" value="SA12CALFCT-ND" x="66.5" y="19" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="DIGIKEY#" value="SA12ALFCT-ND" x="66.5" y="19" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="MANF" value="Littelfuse Inc." x="66.5" y="19" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="MANF#" value="SA12CA" x="66.5" y="19" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="MANF#" value="SA12A" x="66.5" y="19" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="NAME" x="67.222" y="9.325" size="1.27" layer="25" ratio="10" rot="R90"/>
 <attribute name="VALUE" x="69.548" y="15.825" size="1.27" layer="27" ratio="10" rot="R90"/>
 </element>
 <element name="D4" library="diode" package="F126Z10" value="12V" x="59.5" y="19" smashed="yes" rot="R90">
-<attribute name="DIGIKEY#" value="SA12CALFCT-ND" x="59.5" y="19" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="DIGIKEY#" value="SA12ALFCT-ND" x="59.5" y="19" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="MANF" value="Littelfuse Inc." x="59.5" y="19" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="MANF#" value="SA12CA" x="59.5" y="19" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="MANF#" value="SA12A" x="59.5" y="19" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="NAME" x="60.222" y="9.325" size="1.27" layer="25" ratio="10" rot="R90"/>
 <attribute name="VALUE" x="62.548" y="15.825" size="1.27" layer="27" ratio="10" rot="R90"/>
 </element>
 <element name="D6" library="diode" package="F126Z10" value="12V" x="56" y="19" smashed="yes" rot="R90">
-<attribute name="DIGIKEY#" value="SA12CALFCT-ND" x="56" y="19" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="DIGIKEY#" value="SA12ALFCT-ND" x="56" y="19" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="MANF" value="Littelfuse Inc." x="56" y="19" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="MANF#" value="SA12CA" x="56" y="19" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="MANF#" value="SA12A" x="56" y="19" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="NAME" x="56.722" y="9.825" size="1.27" layer="25" ratio="10" rot="R90"/>
 <attribute name="VALUE" x="59.048" y="15.825" size="1.27" layer="27" ratio="10" rot="R90"/>
 </element>
 <element name="D5" library="diode" package="F126Z10" value="12V" x="63" y="19" smashed="yes" rot="R90">
-<attribute name="DIGIKEY#" value="SA12CALFCT-ND" x="63" y="19" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="DIGIKEY#" value="SA12ALFCT-ND" x="63" y="19" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="MANF" value="Littelfuse Inc." x="63" y="19" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="MANF#" value="SA12CA" x="63" y="19" size="1.778" layer="27" rot="R90" display="off"/>
+<attribute name="MANF#" value="SA12A" x="63" y="19" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="NAME" x="63.722" y="9.325" size="1.27" layer="25" ratio="10" rot="R90"/>
 <attribute name="VALUE" x="66.048" y="15.825" size="1.27" layer="27" ratio="10" rot="R90"/>
 </element>
@@ -1376,26 +1371,24 @@ Please make sure your boards conform to these design rules.</description>
 <contactref element="IC4" pad="3"/>
 <contactref element="R7" pad="2"/>
 <contactref element="IC3" pad="5"/>
-<wire x1="6" y1="30" x2="6.5" y2="29.5" width="0.4064" layer="16"/>
-<wire x1="6.5" y1="29.5" x2="6.5" y2="27.5" width="0.4064" layer="16"/>
-<wire x1="6.5" y1="27.5" x2="3.2" y2="22.7" width="0.4064" layer="16"/>
-<wire x1="3.2" y1="22.7" x2="3.2" y2="18" width="0.4064" layer="16"/>
-<wire x1="3.2" y1="18" x2="4.7" y2="16.5" width="0.4064" layer="16"/>
-<wire x1="4.7" y1="16.5" x2="8.5" y2="16.5" width="0.4064" layer="16"/>
-<wire x1="8.5" y1="16.5" x2="9.5" y2="15.5" width="0.4064" layer="16"/>
-<wire x1="9.5" y1="15.5" x2="9.5" y2="14.5" width="0.4064" layer="16"/>
-<wire x1="9.5" y1="14.5" x2="8" y2="13" width="0.4064" layer="16"/>
-<wire x1="8" y1="13" x2="5.5" y2="13" width="0.4064" layer="16"/>
-<wire x1="5.5" y1="13" x2="0.6" y2="17.9" width="0.4064" layer="16"/>
-<wire x1="0.6" y1="17.9" x2="0.6" y2="24.3" width="0.4064" layer="16"/>
-<wire x1="4.3" y1="30" x2="6" y2="30" width="0.4064" layer="16"/>
-<wire x1="0.6" y1="24.3" x2="4.3" y2="30" width="0.4064" layer="16"/>
-<wire x1="0.6" y1="24.3" x2="4.3" y2="30" width="0.4064" layer="1"/>
-<wire x1="4.3" y1="30" x2="6" y2="30" width="0.4064" layer="1"/>
-<wire x1="6" y1="30" x2="6.5" y2="29.5" width="0.4064" layer="1"/>
-<wire x1="6.5" y1="29.5" x2="6.5" y2="27.5" width="0.4064" layer="1"/>
-<wire x1="6.5" y1="27.5" x2="3.2" y2="22.7" width="0.4064" layer="1"/>
-<wire x1="3.2" y1="22.7" x2="3.2" y2="18" width="0.4064" layer="1"/>
+<wire x1="7" y1="30" x2="7" y2="27.5" width="0.2032" layer="16"/>
+<wire x1="7" y1="27.5" x2="3.2" y2="21.7" width="0.2032" layer="16"/>
+<wire x1="3.2" y1="21.7" x2="3.2" y2="18" width="0.2032" layer="16"/>
+<wire x1="3.2" y1="18" x2="4.7" y2="16.5" width="0.2032" layer="16"/>
+<wire x1="4.7" y1="16.5" x2="8.5" y2="16.5" width="0.2032" layer="16"/>
+<wire x1="8.5" y1="16.5" x2="9.5" y2="15.5" width="0.2032" layer="16"/>
+<wire x1="9.5" y1="15.5" x2="9.5" y2="14.5" width="0.2032" layer="16"/>
+<wire x1="9.5" y1="14.5" x2="8" y2="13" width="0.2032" layer="16"/>
+<wire x1="8" y1="13" x2="5.5" y2="13" width="0.2032" layer="16"/>
+<wire x1="5.5" y1="13" x2="0.6" y2="17.9" width="0.2032" layer="16"/>
+<wire x1="0.6" y1="17.9" x2="0.6" y2="24.3" width="0.2032" layer="16"/>
+<wire x1="3.8" y1="30" x2="7" y2="30" width="0.2032" layer="16"/>
+<wire x1="0.6" y1="24.3" x2="3.8" y2="30" width="0.2032" layer="16"/>
+<wire x1="0.6" y1="24.3" x2="3.8" y2="30" width="0.2032" layer="1"/>
+<wire x1="3.8" y1="30" x2="7" y2="30" width="0.4064" layer="1"/>
+<wire x1="7" y1="30" x2="7" y2="27.5" width="0.2032" layer="1"/>
+<wire x1="7" y1="27.5" x2="3.2" y2="21.7" width="0.2032" layer="1"/>
+<wire x1="3.2" y1="21.7" x2="3.2" y2="18" width="0.4064" layer="1"/>
 <wire x1="3.2" y1="18" x2="4.7" y2="16.5" width="0.4064" layer="1"/>
 <wire x1="4.7" y1="16.5" x2="8.5" y2="16.5" width="0.4064" layer="1"/>
 <wire x1="8.5" y1="16.5" x2="9.5" y2="15.5" width="0.4064" layer="1"/>
@@ -1404,20 +1397,20 @@ Please make sure your boards conform to these design rules.</description>
 <wire x1="8" y1="13" x2="5.5" y2="13" width="0.4064" layer="1"/>
 <wire x1="5.5" y1="13" x2="0.6" y2="17.9" width="0.4064" layer="1"/>
 <wire x1="0.6" y1="17.9" x2="0.6" y2="24.3" width="0.4064" layer="1"/>
-<polygon width="0.4064" layer="1">
-<vertex x="0.5" y="18"/>
-<vertex x="0.5" y="30"/>
-<vertex x="9" y="30"/>
+<polygon width="0.2032" layer="1">
+<vertex x="0.2" y="17.6"/>
+<vertex x="0.3" y="32"/>
+<vertex x="9" y="32"/>
 <vertex x="9" y="20"/>
 <vertex x="10" y="19"/>
 <vertex x="10" y="15"/>
 <vertex x="8" y="13"/>
 <vertex x="5.5" y="13"/>
 </polygon>
-<polygon width="0.4064" layer="16">
-<vertex x="0.5" y="18"/>
-<vertex x="0.5" y="30"/>
-<vertex x="9" y="30"/>
+<polygon width="0.2032" layer="16">
+<vertex x="0.2" y="17.6"/>
+<vertex x="0.3" y="32"/>
+<vertex x="9" y="32"/>
 <vertex x="9" y="20"/>
 <vertex x="10" y="19"/>
 <vertex x="10" y="15"/>
@@ -1429,7 +1422,7 @@ Please make sure your boards conform to these design rules.</description>
 <wire x1="23" y1="20.072" x2="23" y2="28.04" width="0.4064" layer="1"/>
 <wire x1="23" y1="28.04" x2="24.69" y2="29.73" width="0.4064" layer="1"/>
 <wire x1="11.27" y1="34" x2="11.27" y2="33.77" width="0.4064" layer="1"/>
-<wire x1="11.27" y1="33.77" x2="6.5" y2="29.5" width="0.4064" layer="1"/>
+<wire x1="11.27" y1="33.77" x2="7" y2="30" width="0.4064" layer="1"/>
 <wire x1="12.5" y1="50.5" x2="12.5" y2="50" width="0.4064" layer="1"/>
 <wire x1="12.5" y1="50" x2="8" y2="45.5" width="0.4064" layer="1"/>
 <wire x1="8" y1="45.5" x2="8" y2="42.428" width="0.4064" layer="1"/>

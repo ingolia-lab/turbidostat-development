@@ -161,7 +161,7 @@
 <text x="59.5" y="16.5" size="0.75" layer="21" font="vector" rot="R180">band-motor-feather
 ingolia@
       berkeley.edu
-17-06-06</text>
+17-06-22</text>
 </plain>
 <libraries>
 <library name="adafruit">
@@ -1048,9 +1048,9 @@ Please make sure your boards conform to these design rules.</description>
 <attribute name="VALUE" x="47.7606" y="43.635" size="1.27" layer="27" ratio="10" rot="R180"/>
 </element>
 <element name="D109" library="diode" package="F126Z10" value="" x="87" y="7" smashed="yes">
-<attribute name="DIGIKEY#" value="SA12CALFCT-ND" x="87" y="7" size="1.778" layer="27" display="off"/>
+<attribute name="DIGIKEY#" value="SA12ALFCT-ND" x="87" y="7" size="1.778" layer="27" display="off"/>
 <attribute name="MANF" value="Littelfuse Inc." x="87" y="7" size="1.778" layer="27" display="off"/>
-<attribute name="MANF#" value="SA12CA" x="87" y="7" size="1.778" layer="27" display="off"/>
+<attribute name="MANF#" value="SA12A" x="87" y="7" size="1.778" layer="27" display="off"/>
 <attribute name="NAME" x="82.722" y="8.325" size="1.27" layer="25" ratio="10" rot="R90"/>
 <attribute name="VALUE" x="83.825" y="3.952" size="1.27" layer="27" ratio="10"/>
 </element>
@@ -1264,7 +1264,7 @@ Please make sure your boards conform to these design rules.</description>
 <attribute name="DIGIKEY#" value="CF14JT10K0CT-ND" x="40" y="18.5" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="MANF" value="Stackpole Electronics Inc" x="40" y="18.5" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="MANF#" value="CF14JT10K0" x="40" y="18.5" size="1.778" layer="27" rot="R90" display="off"/>
-<attribute name="NAME" x="24.476" y="15.452" size="1.27" layer="25" ratio="10" rot="R90"/>
+<attribute name="NAME" x="29.976" y="14.452" size="1.27" layer="25" ratio="10" rot="R90"/>
 <attribute name="VALUE" x="28.135" y="16.2394" size="1.27" layer="27" ratio="10" rot="R90"/>
 </element>
 <element name="R124" library="adafruit" package="0207/10" value="10K" x="61.5" y="12.5" smashed="yes" rot="R90">
@@ -1365,7 +1365,7 @@ Please make sure your boards conform to these design rules.</description>
 <attribute name="DIGIKEY#" value="CF14JT1K50CT-ND" x="28" y="17" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="MANF" value="Stackpole Electronics Inc" x="28" y="17" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="MANF#" value="CF14JT330R" x="28" y="17" size="1.778" layer="27" rot="R270" display="off"/>
-<attribute name="NAME" x="29.024" y="18.048" size="1.27" layer="25" ratio="10" rot="R270"/>
+<attribute name="NAME" x="23.524" y="11.048" size="1.27" layer="25" ratio="10" rot="R270"/>
 <attribute name="VALUE" x="23.365" y="19.2606" size="1.27" layer="27" ratio="10" rot="R270"/>
 </element>
 <element name="LED101" library="adafruit" package="LED3MM" value="" x="17" y="7.5" smashed="yes">

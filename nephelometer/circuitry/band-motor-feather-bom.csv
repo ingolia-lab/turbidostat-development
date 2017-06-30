@@ -13,7 +13,7 @@
 "D106";"";"ZENER-DIODEF126-10";"F126Z10";"Z-Diode";"SA5.0ALFCT-ND";"Littelfuse Inc.";"SA5.0A";"";"";"";"";
 "D107";"";"ZENER-DIODEF126-10";"F126Z10";"Z-Diode";"SA5.0ALFCT-ND";"Littelfuse Inc.";"SA5.0A";"";"";"";"";
 "D108";"";"ZENER-DIODEF126-10";"F126Z10";"Z-Diode";"SA5.0ALFCT-ND";"Littelfuse Inc.";"SA5.0A";"";"";"";"";
-"D109";"";"ZENER-DIODEF126-10";"F126Z10";"Z-Diode";"SA12CALFCT-ND";"Littelfuse Inc.";"SA12CA";"";"";"";"";
+"D109";"";"ZENER-DIODEF126-10";"F126Z10";"Z-Diode";"SA12ALFCT-ND";"Littelfuse Inc.";"SA12A";"";"";"";"";
 "D110";"1N5817-T";"1N5817-T";"DO41-7.6";"1.0A SCHOTTKY BARRIER RECTIFIER";"1N5817FSCT-ND";"Fairchild Semiconductor";"1N5817";"";"";"";"";
 "IC101";"7805TV";"7805TV";"TO220V";"Positive VOLTAGE REGULATOR";"LM7805CT-ND ";"Fairchild Semiconductor";"LM7805CT";"";"";"";"";
 "IC102";"L293D";"L293D";"DIL16";"PUSH-PULL 4 CHANNEL DRIVER";"296-9518-5-ND";"Texas Instruments";"L293DNE";"";"L293D";"9589619";"56P8249";
