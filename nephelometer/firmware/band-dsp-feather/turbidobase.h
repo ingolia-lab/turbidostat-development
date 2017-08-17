@@ -41,6 +41,13 @@ class TurbidoBase : public Controller
 
     static const unsigned int linebufLen;
     static char linebuf[];
+
+    static const int _nMeasure = 11;
+    long _measures[_nMeasure];
+    int _currMeasure;
+
+    int isLow(void);
+    int isHigh(void); 
 };
 
 #endif /* !defined(_turbidobase_h) */

@@ -18,8 +18,10 @@ class Nephel : public ParamSettings
     // Measure turbidity and return the measurement
     // This function blocks and takes quite a while (~ nMeasure * 100 µs) to run
     // The returned value is 10x the difference between two 12-bit values
-    //   It should generally be positive, but formally it can take any value between [-4096, 4096].
+    //   It should generally be positive, but formally it can take any value between [-4096, 4095].
     virtual long measure();
+
+    static const long maxMeasure = 4095 * 10;
 
     // The nephelometer has a programmable gain amplifier (PGA)
     // The PGA setting must fall in [0, nPgaScales-1]

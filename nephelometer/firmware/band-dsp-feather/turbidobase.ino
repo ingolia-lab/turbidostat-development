@@ -9,7 +9,7 @@ char TurbidoBase::linebuf[LINEBUF_LEN];
 
 TurbidoBase::TurbidoBase(Supervisor &s):
   _s(s),
-  _mUpper(40950),
+  _mUpper(Nephel::maxMeasure + 1),
   _mLower(0),
   _pumping(0),
   _startSec(0)
@@ -27,6 +27,11 @@ int TurbidoBase::begin(void)
   formatHeader(linebuf, linebufLen);
   Serial.println(linebuf);
 
+  for (int i = 0; i < _nMeasure; i++) {
+    _measures[i] = Nephel::maxMeasure + 1;
+  }
+  _currMeasure = 0;
+
   return 0;
 }
 
@@ -36,10 +41,16 @@ int TurbidoBase::loop(void)
 
   long m = measure();
 
-  if (m < mLower()) {
+  _currMeasure++;
+  if (_currMeasure > _nMeasure) {
+    _currMeasure = 0;
+  }
+  _measures[_currMeasure] = m;
+
+  if (isLow()) {
     _pumping = 0;
     setPumpOff();
-  } else if (m > mUpper() || _pumping) {
+  } else if (isHigh()) {
     _pumping = 1;
     setPumpOn();
   }
@@ -59,6 +70,28 @@ int TurbidoBase::loop(void)
   }
 
   return 0;
+}
+
+int TurbidoBase::isLow(void)
+{
+  int nLow = 0;
+  for (int i = 0; i < _nMeasure; i++) {
+    if (_measures[i] < mLower()) {
+      nLow++;      
+    }
+  }
+  return (nLow * 2) > _nMeasure;
+}
+
+int TurbidoBase::isHigh(void)
+{
+  int nHigh = 0;
+  for (int i = 0; i < _nMeasure; i++) {
+    if (_measures[i] > mUpper()) {
+      nHigh++;      
+    }
+  }
+  return (nHigh * 2) > _nMeasure;
 }
 
 void TurbidoBase::formatHeader(char *buf, unsigned int buflen)
@@ -86,6 +119,8 @@ void TurbidoBase::formatParams(char *buf, unsigned int buflen)
 void TurbidoBase::manualReadParams(void)
 {
   manualReadMeasure("pump on (high) measurement", _mUpper);
-  manualReadMeasure("pump off (low) measurement", _mLower);
+  do {
+    manualReadMeasure("pump off (low) measurement", _mLower);
+  } while (_mLower > _mUpper);
 }
 
