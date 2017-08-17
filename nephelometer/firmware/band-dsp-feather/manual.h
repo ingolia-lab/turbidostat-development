@@ -74,6 +74,16 @@ class ManualStartController : public ManualCommand
     void run(void);
 };
 
+class ManualGain : public ManualCommand
+{
+  public:
+    ManualGain(Supervisor &s) : ManualCommand(s) { }
+    const char *name(void) { return "Set Gain"; }
+    char letter(void) { return 'g'; }
+    const char *help(void) { return "Set nephelometer gain"; }
+    void run(void);
+};
+
 class ManualHelp : public ManualCommand
 {
   public:

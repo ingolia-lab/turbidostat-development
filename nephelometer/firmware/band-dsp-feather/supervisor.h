@@ -64,7 +64,7 @@ class Supervisor : protected ParamSettings
     Nephel *_neph;
 
     static const unsigned int _nPumps = 4;
-    Pump _pumps[_nPumps] = { Pump(motAPin, 1), Pump(motBPin, 1), Pump(motCPin, 1), Pump(motDPin, 1) };
+    Pump _pumps[_nPumps] = { Pump(motAPin, 0), Pump(motBPin, 0), Pump(motCPin, 0), Pump(motDPin, 0) };
 
     unsigned int _nControllers;
     Controller **_controllers;       

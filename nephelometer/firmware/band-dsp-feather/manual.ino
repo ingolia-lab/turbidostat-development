@@ -4,15 +4,16 @@
 
 ManualController::ManualController(Supervisor &s)
 {
-  _nCommands = 7;
+  _nCommands = 8;
   _commands = new ManualCommand*[_nCommands];
   _commands[0] = new ManualAnnotate(s);
   _commands[1] = new ManualStartController(s);
-  _commands[2] = new ManualHelp(s, *this);
-  _commands[3] = new ManualMeasure(s);
-  _commands[4] = new ManualPump(s);
-  _commands[5] = new ManualSetup(s);
-  _commands[6] = new ManualTestNephel(s);
+  _commands[2] = new ManualGain(s);
+  _commands[3] = new ManualHelp(s, *this);
+  _commands[4] = new ManualMeasure(s);
+  _commands[5] = new ManualPump(s);
+  _commands[6] = new ManualSetup(s);
+  _commands[7] = new ManualTestNephel(s);
 
   _commandChars = new char[_nCommands + 1];
   for (unsigned int i = 0; i < _nCommands; i++) {
@@ -82,6 +83,12 @@ void ManualStartController::run(void)
 {
   Serial.println();
   supervisor().pickNextController();
+}
+
+void ManualGain::run(void)
+{
+  Serial.println();
+  supervisor().nephelometer().manualSetParams();
 }
 
 void ManualHelp::run(void) 

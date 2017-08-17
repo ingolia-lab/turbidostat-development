@@ -1,6 +1,7 @@
 #include "controller.h"
 #include "manual.h"
 #include "supervisor.h"
+#include "turbidoconc.h"
 #include "turbidomix.h"
 #include "turbidoschedule.h"
 #include "turbidostat.h"
@@ -15,13 +16,17 @@ Supervisor::Supervisor(void):
   _runningController(&_defaultController),
   _nextController(&_defaultController)
 {
-  _nControllers = 5;
+  _nControllers = 9;
   _controllers = new Controller*[_nControllers];
   _controllers[0] = &_defaultController;
   _controllers[1] = new Turbidostat(*this);
-  _controllers[2] = new TurbidoMixFixed(*this);
+  _controllers[2] = new TurbidoRatioFixed(*this);
   _controllers[3] = new TurbidoGradient(*this);
   _controllers[4] = new TurbidoCycle(*this);
+  _controllers[5] = new TurbidoConcFixed(*this);
+  _controllers[6] = new TurbidoConcCycle(*this);
+  _controllers[7] = new TurbidoConcGradient(*this);
+  _controllers[8] = new TurbidoConcLogGradient(*this);
   Serial.println("# Supervisor initialized");
 }
 

@@ -10,8 +10,6 @@ class TurbidoMixBase : public TurbidoBase
   public:
     TurbidoMixBase(Supervisor &s);
 
-    int begin(void);
-
     void formatHeader(char *buf, unsigned int buflen);
     void formatLine(char *buf, unsigned int buflen, long currMeasure);
 
@@ -19,28 +17,39 @@ class TurbidoMixBase : public TurbidoBase
     void manualReadParams(void);
 
   protected:
-    Pump &pump1(void);
-    Pump &pump2(void);
+    Pump &pump1(void) { return s().pump(_pump1); }
+    Pump &pump2(void) { return s().pump(_pump2); }
 
-    void setPumpOn(void);
-    void setPump1On(void);
-    void setPump2On(void);
-    void setPumpOff(void);
+    void setPump1On(void) { pump1().setPumping(1); pump2().setPumping(0); }
+    void setPump2On(void) { pump1().setPumping(0); pump2().setPumping(1); }
+    void setPumpOff(void) { pump1().setPumping(0); pump2().setPumping(0); }
 
-    uint8_t pumpCountIncr(void) { unsigned long cycle = _cycleCount++; return (uint8_t) (cycle % 100); }
-
-    virtual uint8_t pump1Percent() = 0;
+    int whichPumpOn(void) { return pump1().isPumping() ? 1 : (pump2().isPumping() ? 2 : 0); }
   private:
     uint8_t _pump1;
     uint8_t _pump2;
+};
 
+class TurbidoRatioBase : public TurbidoMixBase
+{
+  public:
+    TurbidoRatioBase(Supervisor &s);
+
+    int begin(void);
+  protected:
+    uint8_t pumpCountIncr(void) { unsigned long cycle = _cycleCount++; return (uint8_t) (cycle % 100); }
+
+    virtual void setPumpOn(void);
+
+    virtual uint8_t pump1Percent() = 0;
+  private:
     unsigned long _cycleCount;
 };
 
-class TurbidoMixFixed : public TurbidoMixBase
+class TurbidoRatioFixed : public TurbidoRatioBase
 {
   public:
-    TurbidoMixFixed(Supervisor &s);
+    TurbidoRatioFixed(Supervisor &s);
 
     void formatHeader(char *buf, unsigned int buflen);
     void formatLine(char *buf, unsigned int buflen, long currMeasure);

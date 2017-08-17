@@ -61,6 +61,20 @@ int TurbidoBase::loop(void)
   return 0;
 }
 
+void TurbidoBase::formatHeader(char *buf, unsigned int buflen)
+{
+  strncpy(buf, "\ttime.s\tneph\tgain", buflen);    
+}
+
+void TurbidoBase::formatLine(char *buf, unsigned int buflen, long m)
+{
+  long sec = rtcSeconds();
+
+  snprintf(buf, buflen, 
+           "\t%lu\t%ld.%03ld\t%ld", 
+           sec - startSec(), m / 1000, m % 1000, s().nephelometer().pgaScale());
+}
+
 long TurbidoBase::measure(void) { return _s.nephelometer().measure(); }
 
 void TurbidoBase::formatParams(char *buf, unsigned int buflen)

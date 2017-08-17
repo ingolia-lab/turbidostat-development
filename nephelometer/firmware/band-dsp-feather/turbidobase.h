@@ -12,8 +12,8 @@ class TurbidoBase : public Controller
     int loop(void);
     void end(void) { }
 
-    virtual void formatHeader(char *buf, unsigned int buflen) = 0;
-    virtual void formatLine(char *buf, unsigned int buflen, long currMeasure) = 0;
+    virtual void formatHeader(char *buf, unsigned int buflen);
+    virtual void formatLine(char *buf, unsigned int buflen, long currMeasure);
 
     void formatParams(char *buf, unsigned int buflen);
     void manualReadParams(void);
