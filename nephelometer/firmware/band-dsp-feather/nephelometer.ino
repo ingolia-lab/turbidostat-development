@@ -27,6 +27,23 @@ Nephel::Nephel(uint8_t pgaSetting):
   Serial.println("# Nephelometer initialized");
 }                
 
+void Nephel::manualReadParams(void)
+{
+  unsigned long newsetting = _pgaSetting;
+  manualReadULong("Nephelometer setting ", newsetting);
+  if (newsetting < nPgaScales) {
+    _pgaSetting = (uint8_t) newsetting;
+  } else {
+    Serial.print(F("# (not updated)\r\n"));      
+  }
+}
+
+void Nephel::formatParams(char *buf, unsigned int buflen)
+{
+  snprintf(buf, buflen, "# Gain setting %ldx (%u)\r\n", pgaScale(), pgaSetting());
+}
+
+
 /* Set the gain on the programmable gain amplifier (PGA)
  * Use SPI to set the gain
  */
@@ -49,6 +66,8 @@ int Nephel::setPga(uint8_t setting)
 long Nephel::measure(void)
 {
   long ttlon = 0, ttloff = 0;
+
+  setPga(_pgaSetting);
   
   unsigned long startUsec = micros();
   for (int i = 0; i < nEquil + nMeasure; i++) {

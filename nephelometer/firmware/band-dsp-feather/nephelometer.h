@@ -8,18 +8,37 @@
 #include <SPI.h>
 
 #include "pump.h"
+#include "settings.h"
 
-class Nephel
+class Nephel : public ParamSettings
 {
   public:
     Nephel(uint8_t pgaSetting = 0x01);
+
+    // Measure turbidity and return the measurement
+    // This function blocks and takes quite a while (~ nMeasure * 100 µs) to run
+    // The returned value is 10x the difference between two 12-bit values
+    //   It should generally be positive, but formally it can take any value between [-4096, 4096].
     virtual long measure();
 
+    // The nephelometer has a programmable gain amplifier (PGA)
+    // The PGA setting must fall in [0, nPgaScales-1]
     static const int nPgaScales = 8;
+
+    // Look up the multiplicative scale factor for a PGA setting
+    static long pgaScale(uint8_t setting) { return (setting < nPgaScales) ? pgaScales[setting] : -1; }
+
+    // Return the  multiplicative scaling factor for the current PGA setting
+    long pgaScale(void) { return pgaScale(_pgaSetting); }
+
+    virtual void manualReadParams(void);
+    virtual void formatParams(char *buf, unsigned int buflen);  
+  protected:
+    // Array of multiplicative scale factors for different PGA settings
     static const long pgaScales[];
 
-    static long pgaScale(uint8_t setting) { return (setting < nPgaScales) ? pgaScales[setting] : -1; }
-    long pgaScale(void) { return pgaScale(_pgaSetting); }
+    // Current PGA setting used for turbidity measurements
+    uint8_t pgaSetting() { return _pgaSetting; }
   private:
     uint8_t _pgaSetting;
 
@@ -31,6 +50,10 @@ class Nephel
     static const int nMeasure = 512;
     static const int nEquil = 16;
 
+    // Timing factors for one measurement cycle, all in microseconds
+    // Calibrated based on asymmetric delays between pin switching and LED changing,
+    //   group delays in the analog signal processing circuit, and
+    //   ADC sampling time.
     static const unsigned long usecAdcOn = 25;
     static const unsigned long usecSpiOn = 30;
     static const unsigned long usecLedOff = 57;
