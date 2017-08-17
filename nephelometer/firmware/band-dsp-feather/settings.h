@@ -1,12 +1,22 @@
 #ifndef _settings_h
 #define _settings_h 1
 
+
 class ParamSettings
 {
   public:
+    // Display current parameter values using `serialWriteParams()`,
+    //   interactively read new values with `manualReadParams()`, and
+    //   display the new values. Blocking.
     virtual void manualSetParams(void);
+
+    // Interactively read parameter values over Serial. Blocking.
     virtual void manualReadParams(void) = 0;
+
+    // Write current parameter values into a character buffer.
     virtual void formatParams(char *buf, unsigned int buflen) = 0;
+
+    // 
     virtual void serialWriteParams(void);
 
   protected:

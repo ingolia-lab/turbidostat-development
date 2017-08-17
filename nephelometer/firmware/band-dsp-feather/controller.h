@@ -35,7 +35,7 @@ class Controller : public ParamSettings {
 
     int delayOneSecond(void);
 
-    // Schedule "on" intervals within a [0,99] cycle pretty evenly
+    // Schedule "on" intervals within a [0,99] cycle roughly evenly
     // percentOn is the percentage of on time, i.e., number of cycle values getting "1"
     static int schedulePercent(uint8_t percentOn, uint8_t cycle)
     {

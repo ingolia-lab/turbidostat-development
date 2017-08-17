@@ -4,13 +4,21 @@
 class Pump
 {
   public:
+    // Pump controller drives a `pin`
+    // If `onIsHigh` is true, then the pump is "on" for a high value of the pin and "off" for a low value
+    //   If `onIsHigh` is false, then the pump is "on" for a low value of the pin
     Pump(int pin, int onIsHigh);
 
+    // Is the pump currently running
     int isPumping(void) const { return _isPumping; }
+
+    // Total milliseconds of pumping since initialization or the last call to `reset()`
     long totalOnMsec(void) const;
 
+    // Set the pumping "on" or "off"
     void setPumping(int newpump);
 
+    // Reset the pump: switch it off and reset the counter of total time pumped
     void reset(void);
   private:
     int _pin;
