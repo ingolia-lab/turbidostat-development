@@ -28,7 +28,7 @@ int TurbidoBase::begin(void)
   Serial.println(linebuf);
 
   for (int i = 0; i < _nMeasure; i++) {
-    _measures[i] = Nephel::maxMeasure + 1;
+    _measures[i] = 0;
   }
   _currMeasure = 0;
 
