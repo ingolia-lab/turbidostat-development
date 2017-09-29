@@ -99,7 +99,7 @@ void loop() {
     delayIfNeeded(startUsec + (i+1)*100);
   }
   
-  if (0) {
+  if (1) {
     for (int step = 0; step < 50; step++) {
       for (int cycle = 0; cycle < 4; cycle++) {
         digitalWrite(mot3Pin, (cycle < 2) ? HIGH : LOW);
@@ -115,7 +115,7 @@ void loop() {
     ttlOff += samplesOff[i];
   }
 
-  long avg1000 = (1000 * (ttlOff - ttlOn)) / (NSAMP * 1024);
+  long avg1000 = (10 * (ttlOff - ttlOn)) / NSAMP;
   
   snprintf(buffer, BUFLEN, "%ld.%03ld\t%ld\t%ld\r\n", (avg1000 / 1000), (avg1000 % 1000), ttlOn, ttlOff);
   Serial.write(buffer);
