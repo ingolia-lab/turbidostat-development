@@ -1,0 +1,52 @@
+5 kHz => 100 µs on and 100 µs off
+
+LTR-4206E turn-on and turn-off times are 10-15 µs at 1KOhm load, affine w.r.t. load
+Other ptrans (e.g. teft4300) - roughly reciprocal time as a function of current
+Other ptrans - very flat I as a function of V_CE over 1V - 10V
+
+LMC6484 = typical 110 µV offset voltage, maximum 750 µV
+Input current 20 fA typical, 4 pA maximum
+
+1 KOhm feedback resistor => 100 µV offset voltage ~ 100 nA measurement error
+Plus pico-amp level currents
+
+1 KOhm feedback resistor and 2 nF feedback cap => ~2 µs time constant, faster than ptrans
+
+10 KOhm input resistor with 20 nF input cap => 200 µs time constant (5 kHz)
+100 KOhm feedback resistor with 50 pF feedback cap => 5 µs time constant (200 kHz)
+
+Re-work
+
+a1 = 1.4142, b1 = 1
+a1 = 1.4142 = (2 * pi * f_C) C_1 (R_1 + R_2) = (2 * pi * 10 Hz) C_1 (R_1 + R_2)
+Pick C_1 = 0.05µ, C_2 >= 4 * b_1 / a_1 so C_2 = 0.2 µ
+R_1 = (1.4142 * 1e-6 - sqrt((1.4142 * 1e-6)^2 - 4 * 1 * 1e-7 * 1e-6)) / (4 * pi * 10 * 1e-7 * 1e-6) ~ 12K
+R_2 = (1.4142 * 1e-6 + sqrt((1.4142 * 1e-6)^2 - 4 * 1 * 1e-7 * 1e-6)) / (4 * pi * 10 * 1e-7 * 1e-6) ~ 220K
+OR R_1 = R_2 = 470K, C_1 = 22nF, C_2 = 50nF
+(1.4142 * 50 nanofarads - sqrt((1.4142 * 50 nanofarads) ^ 2 - 4 * 1 * 22 nanofarads * 50 nanofarads)) / (4 * pi * 10 Hz * 22 nanofarads * 50 nanofarads) = 330 kOhm
+(1.4142 * 50 nanofarads + sqrt((1.4142 * 50 nanofarads) ^ 2 - 4 * 1 * 22 nanofarads * 50 nanofarads)) / (4 * pi * 10 Hz * 22 nanofarads * 50 nanofarads) = 680 kOhm
+
+Signal polarity:
+5 kHz clock low		
+	=> LED on
+		=> TIA output higher than Vref
+			=> 10x band-pass lower than Vref
+				=> Inverter higher than Vref
+	=> N.C. connection (10x band-pass) made
+5 kHz clock high
+	=> LED off
+		=> TIA output lower than Vref
+			=> 10x band-pass higher than Vref
+				=> Inverter lower than Vref
+	=> N.O. connection (Inverter) made
+
+5kHz clock low
+=> LED ON
+=> TIA output higher to raise (-) voltage
+=> 10x BP output lower to reduce (-) voltage
+=> inverter output higher to raise (-) voltage
+5kHz low => N.C. [lower in LED ON] selected
+5kHz higher => N.O. [lower in LED OFF] selected
+SO output always lower
+
+
