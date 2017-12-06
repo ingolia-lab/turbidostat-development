@@ -16,17 +16,18 @@ Supervisor::Supervisor(void):
   _runningController(&_defaultController),
   _nextController(&_defaultController)
 {
-  _nControllers = 9;
+  _nControllers = 10;
   _controllers = new Controller*[_nControllers];
   _controllers[0] = &_defaultController;
   _controllers[1] = new Turbidostat(*this);
   _controllers[2] = new TurbidoRatioFixed(*this);
-  _controllers[3] = new TurbidoGradient(*this);
-  _controllers[4] = new TurbidoCycle(*this);
-  _controllers[5] = new TurbidoConcFixed(*this);
-  _controllers[6] = new TurbidoConcCycle(*this);
-  _controllers[7] = new TurbidoConcGradient(*this);
-  _controllers[8] = new TurbidoConcLogGradient(*this);
+  _controllers[3] = new TurbidoInduce(*this);
+  _controllers[4] = new TurbidoGradient(*this);
+  _controllers[5] = new TurbidoCycle(*this);
+  _controllers[6] = new TurbidoConcFixed(*this);
+  _controllers[7] = new TurbidoConcCycle(*this);
+  _controllers[8] = new TurbidoConcGradient(*this);
+  _controllers[9] = new TurbidoConcLogGradient(*this);
   Serial.println("# Supervisor initialized");
 }
 

@@ -4,6 +4,50 @@
 #include "turbidomix.h"
 #include "turbidoschedule.h"
 
+TurbidoInduce::TurbidoInduce(Supervisor &s):
+  TurbidoRatioBase(s),
+  _induceTime(60)
+{
+  
+}
+
+void TurbidoInduce::formatHeader(char *buf, unsigned int buflen)
+{
+  strncpy(buf, "IT", buflen);
+  TurbidoRatioBase::formatHeader(buf + strlen(buf), buflen - strlen(buf));
+  strncpy(buf + strlen(buf), "\tpump1pct", buflen - strlen(buf));
+}
+
+void TurbidoInduce::formatLine(char *buf, unsigned int buflen, long m)
+{
+  strncpy(buf, "IT", buflen);
+  TurbidoRatioBase::formatLine(buf + strlen(buf), buflen - strlen(buf), m);
+  snprintf(buf + strlen(buf), buflen - strlen(buf),
+           "\t%2d", pump1Percent());  
+}
+
+void TurbidoInduce::formatParams(char *buf, unsigned int buflen)
+{
+  TurbidoRatioBase::formatParams(buf, buflen);
+  snprintf(buf + strlen(buf), buflen - strlen(buf),
+           "# Induction time (seconds) %ld\r\n", 
+           _induceTime);
+     
+}
+
+void TurbidoInduce::manualReadParams(void)
+{
+  TurbidoRatioBase::manualReadParams();
+  manualReadLong("induction time (seconds)", _induceTime);
+}
+
+uint8_t TurbidoInduce::pump1Percent()
+{
+  long runningSecs = rtcSeconds() - startSec();
+  return (runningSecs >= _induceTime) ? 0 : 100;
+}
+
+
 TurbidoGradient::TurbidoGradient(Supervisor &s):
   TurbidoRatioBase(s),
   _pump1StartPct(50),

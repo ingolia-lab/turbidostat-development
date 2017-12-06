@@ -7,6 +7,30 @@
 #include "turbidoconc.h"
 #include "turbidomix.h"
 
+/* IT
+ *  Induce, at a specified Time
+ */
+class TurbidoInduce : public TurbidoRatioBase
+{
+  public:
+    TurbidoInduce(Supervisor &s);
+
+    void formatHeader(char *buf, unsigned int buflen);
+    void formatLine(char *buf, unsigned int buflen, long currMeasure);
+
+    void formatParams(char *buf, unsigned int buflen);
+    void manualReadParams(void);
+
+    const char *name(void) { return "Turbidostat Induce"; }
+    char letter(void) { return 'i'; }
+    
+  protected:
+    uint8_t pump1Percent();
+    
+  private:
+    long _induceTime;
+};
+
 /* GTR
  * Gradient, steps by Time, for media Ratio
  */
