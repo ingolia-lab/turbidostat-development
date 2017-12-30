@@ -133,6 +133,7 @@ class TurbidoConcLogGradient : public TurbidoConcBase
     unsigned long _stepPct;
     long _nSteps;
     long _stepTime;
+    long _initTime;
 };
 
 /* CTC = Cycle, steps by Time, for media Concentration */

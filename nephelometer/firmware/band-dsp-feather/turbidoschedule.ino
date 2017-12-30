@@ -211,7 +211,8 @@ TurbidoConcLogGradient::TurbidoConcLogGradient(Supervisor &s):
   _startTargetPpm1(1000000),
   _stepPct(50),
   _nSteps(10),
-  _stepTime(3600)
+  _stepTime(3600),
+  _initTime(3600)
 {
 
 }
@@ -219,13 +220,17 @@ TurbidoConcLogGradient::TurbidoConcLogGradient(Supervisor &s):
 unsigned long TurbidoConcLogGradient::targetPpm1()
 {
   long runningSecs = rtcSeconds() - startSec();
-  long stepno = runningSecs / _stepTime;
-  stepno = (stepno >= _nSteps) ? (_nSteps - 1) : stepno;
 
   long pctl = (long) _startTargetPpm1;
+
+  if (runningSecs > _initTime) {
+    long steppingSecs = runningSecs - _initTime;     
+    long stepno = steppingSecs / _stepTime;
+    stepno = (stepno >= _nSteps) ? (_nSteps - 1) : stepno;
   
-  for (long i = 0; i < stepno; i++) {
-    pctl = (pctl * ((long) _stepPct)) / 100;
+    for (long i = 0; i < stepno; i++) {
+      pctl = (pctl * ((long) _stepPct)) / 100;
+    }
   }
   
   if (pctl < 0) {
@@ -254,8 +259,8 @@ void TurbidoConcLogGradient::formatParams(char *buf, unsigned int buflen)
 {
   TurbidoConcBase::formatParams(buf, buflen);
   snprintf(buf + strlen(buf), buflen - strlen(buf),
-           "# Start fraction media #1 [ppm]: %07lu\r\n# Step factor %lu%%\r\n# Number of steps %ld\r\n# Step time (seconds) %ld\r\n", 
-           _startTargetPpm1, _stepPct, _nSteps, _stepTime);
+           "# Start fraction media #1 [ppm]: %07lu\r\n# Step factor %lu%%\r\n# Number of steps %ld\r\n# Step time (seconds) %ld\r\n# Init time (seconds) %ld\r\n", 
+           _startTargetPpm1, _stepPct, _nSteps, _stepTime, _initTime);
 }
 
 void TurbidoConcLogGradient::manualReadParams(void)
@@ -268,6 +273,7 @@ void TurbidoConcLogGradient::manualReadParams(void)
   }
   manualReadLong("number of steps", _nSteps);
   manualReadLong("time per step (seconds)", _stepTime);
+  manualReadLong("initial time (seconds)", _initTime);
 }
 
 TurbidoConcCycle::TurbidoConcCycle(Supervisor &s):
