@@ -37,8 +37,6 @@ int TurbidoBase::begin(void)
 
 int TurbidoBase::loop(void)
 {
-  delayOneSecond();
-
   long m = measure();
 
   _currMeasure++;
@@ -57,6 +55,8 @@ int TurbidoBase::loop(void)
 
   formatLine(linebuf, linebufLen, m);
   Serial.println(linebuf);
+
+  delayOneSecond();
 
   int ch;
   while ((ch = Serial.read()) >= 0) {

@@ -276,6 +276,10 @@ void TurbidoConcLogGradient::manualReadParams(void)
   manualReadLong("initial time (seconds)", _initTime);
 }
 
+//TurbidoConcPulse::TurbidoConcPulse(Supervisor &s):
+//  TurbidoConcBase(s),
+//  _
+
 TurbidoConcCycle::TurbidoConcCycle(Supervisor &s):
   TurbidoConcBase(s),
   _firstTargetPpm1(1000000),
