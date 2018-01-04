@@ -16,7 +16,7 @@ Supervisor::Supervisor(void):
   _runningController(&_defaultController),
   _nextController(&_defaultController)
 {
-  _nControllers = 10;
+  _nControllers = 11;
   _controllers = new Controller*[_nControllers];
   _controllers[0] = &_defaultController;
   _controllers[1] = new Turbidostat(*this);
@@ -28,6 +28,7 @@ Supervisor::Supervisor(void):
   _controllers[7] = new TurbidoConcCycle(*this);
   _controllers[8] = new TurbidoConcGradient(*this);
   _controllers[9] = new TurbidoConcLogGradient(*this);
+  _controllers[10] = new TurbidoConcPulse(*this);
   Serial.println("# Supervisor initialized");
 }
 
