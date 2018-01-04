@@ -126,7 +126,7 @@ class TurbidoConcLogGradient : public TurbidoConcBase
     char letter(void) { return 'l'; }
     
   protected:
-    unsigned long targetPpm1();
+    unsigned long targetPpm1(void);
     
   private:
     unsigned long _startTargetPpm1;
@@ -134,6 +134,35 @@ class TurbidoConcLogGradient : public TurbidoConcBase
     long _nSteps;
     long _stepTime;
     long _initTime;
+};
+
+/* PTC = Pulse, steps by Time, for media Concentration */
+class TurbidoConcPulse: public TurbidoConcBase
+{
+  public:
+    TurbidoConcPulse(Supervisor &s);
+
+    void formatHeader(char *buf, unsigned int buflen);
+    void formatLine(char *buf, unsigned int buflen, long currMeasure);
+
+    void formatParams(char *buf, unsigned int buflen);
+    void manualReadParams(void);
+
+    const char *name(void) { return "Turbidostat Pulse Time Conc"; }
+    char letter(void) { return 'p'; }
+
+  protected:
+    unsigned long targetPpm1() { return _targetPpm1; }
+
+    int pumpMeasureOverride(void);
+
+    long cycleNo(void);
+    uint8_t inPulse(void);
+
+  private:
+    unsigned long _targetPpm1;
+    long _pulseTime;
+    long _cycleTime;
 };
 
 /* CTC = Cycle, steps by Time, for media Concentration */

@@ -276,9 +276,68 @@ void TurbidoConcLogGradient::manualReadParams(void)
   manualReadLong("initial time (seconds)", _initTime);
 }
 
-//TurbidoConcPulse::TurbidoConcPulse(Supervisor &s):
-//  TurbidoConcBase(s),
-//  _
+TurbidoConcPulse::TurbidoConcPulse(Supervisor &s):
+  TurbidoConcBase(s),
+  _targetPpm1(100000),
+  _pulseTime(300),
+  _cycleTime(3600)
+{
+    
+}
+
+void TurbidoConcPulse::formatHeader(char *buf, unsigned int buflen)
+{
+  strncpy(buf, "PTC", buflen);
+  TurbidoConcBase::formatHeader(buf + strlen(buf), buflen - strlen(buf));
+  strncpy(buf + strlen(buf), "\tcycleNo\tinPulse", buflen - strlen(buf));
+}
+
+void TurbidoConcPulse::formatLine(char *buf, unsigned int buflen, long m)
+{
+  strncpy(buf, "PTC", buflen);
+  TurbidoConcBase::formatLine(buf + strlen(buf), buflen - strlen(buf), m);
+  snprintf(buf + strlen(buf), buflen - strlen(buf), "\t%ld\t%u", this->cycleNo(), this->inPulse());
+}
+
+void TurbidoConcPulse::formatParams(char *buf, unsigned int buflen)
+{
+  TurbidoConcBase::formatParams(buf, buflen);
+  snprintf(buf + strlen(buf), buflen - strlen(buf),
+           "# Target %07lu ppm media #1\r\n# Pulse time (seconds) %ld\r\n# Cycle time (seconds) %ld\r\n", 
+           _targetPpm1, _pulseTime, _cycleTime);
+}
+
+void TurbidoConcPulse::manualReadParams(void)
+{
+  TurbidoConcBase::manualReadParams();
+  manualReadULong("media #1 target [ppm]", _targetPpm1);
+  manualReadLong("pulse of #1 time [seconds]", _pulseTime);
+  manualReadLong("total cycle time [seconds]", _cycleTime);
+}
+
+int TurbidoConcPulse::pumpMeasureOverride(void)
+{
+  if (this->inPulse()) {
+    setPump1On();
+    return true;  
+  } else {
+    return false;
+  }
+}
+
+
+long TurbidoConcPulse::cycleNo(void)
+{
+  long runningSecs = rtcSeconds() - startSec();
+  return (runningSecs / _cycleTime);
+}
+
+uint8_t TurbidoConcPulse::inPulse(void)
+{
+  long runningSecs = rtcSeconds() - startSec();
+  return ((runningSecs % _cycleTime) <= _pulseTime);
+}
+
 
 TurbidoConcCycle::TurbidoConcCycle(Supervisor &s):
   TurbidoConcBase(s),
