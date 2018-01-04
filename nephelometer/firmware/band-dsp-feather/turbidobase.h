@@ -25,6 +25,9 @@ class TurbidoBase : public Controller
     
     long measure(void);
 
+    // Returns `true` when measurement-dependent pump control is overridden.
+    virtual int pumpMeasureOverride(void) { return false; }
+
     virtual void setPumpOn(void) = 0;
     virtual void setPumpOff(void) = 0;
 
@@ -34,8 +37,6 @@ class TurbidoBase : public Controller
   
     long _mUpper;  // Measurement for pump-on
     long _mLower; // Measurement for pump-off
-
-    uint8_t _pumping;
 
     long _startSec;
 

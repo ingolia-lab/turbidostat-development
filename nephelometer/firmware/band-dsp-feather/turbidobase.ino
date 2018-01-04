@@ -11,7 +11,6 @@ TurbidoBase::TurbidoBase(Supervisor &s):
   _s(s),
   _mUpper(Nephel::maxMeasure + 1),
   _mLower(0),
-  _pumping(0),
   _startSec(0)
 {
 
@@ -21,7 +20,6 @@ int TurbidoBase::begin(void)
 {
   _startSec = rtcSeconds();
 
-  _pumping = 0;
   setPumpOff();
 
   formatHeader(linebuf, linebufLen);
@@ -45,11 +43,11 @@ int TurbidoBase::loop(void)
   }
   _measures[_currMeasure] = m;
 
-  if (isLow()) {
-    _pumping = 0;
+  if (pumpMeasureOverride()) {
+    // Density-dependent pumping overridden
+  } else if (isLow()) {
     setPumpOff();
   } else if (isHigh()) {
-    _pumping = 1;
     setPumpOn();
   }
 
