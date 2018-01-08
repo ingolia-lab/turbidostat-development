@@ -58,6 +58,39 @@ class TurbidoGradient : public TurbidoRatioBase
     long _stepTime;
 };
 
+/* GTD
+ * Gradient, steps by Time, for cell Density
+ */
+class TurbidoDensityGradient: public TurbidoRatioBase
+{
+  public:
+    TurbidoDensityGradient(Supervisor &s);
+
+    void formatHeader(char *buf, unsigned int buflen);
+    void formatLine(char *buf, unsigned int buflen, long currMeasure);
+
+    void formatParams(char *buf, unsigned int buflen);
+    void manualReadParams(void);
+
+    const char *name(void) { return "Turbidostat Density Gradient"; }
+    char letter(void) { return 'd'; }
+    
+  protected:
+    uint8_t pump1Percent() { return _pump1Pct; }
+    
+    long mLower(void) { return mTarget(); }
+    long mUpper(void) { return mTarget(); }
+
+    long mTarget(void);
+  private:
+    long _mTargetStart;
+    long _mTargetStep;
+    long _nSteps;
+    long _stepTime;
+
+    uint8_t _pump1Pct;
+};
+
 /* CTR
  * Cycle, steps by Time, for media Ratio
  */
@@ -74,7 +107,7 @@ class TurbidoCycle : public TurbidoRatioBase
     void manualReadParams(void);
 
     const char *name(void) { return "Turbidostat Cycle Time Ratio"; }
-    char letter(void) { return 'd'; }
+    char letter(void) { return 'b'; }
     
   protected:
     uint8_t pump1Percent();

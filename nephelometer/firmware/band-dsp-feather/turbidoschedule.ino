@@ -67,7 +67,6 @@ uint8_t TurbidoGradient::pump1Percent()
   return (pctl < 0) ? 0 : ((pctl > 100) ? 100 : ( (uint8_t) pctl ));
 }
 
-
 void TurbidoGradient::formatHeader(char *buf, unsigned int buflen)
 {
   strncpy(buf, "GTR", buflen);
@@ -99,6 +98,61 @@ void TurbidoGradient::manualReadParams(void)
   manualReadLong("number of steps", _nSteps);
   manualReadLong("time per step (seconds)", _stepTime);
 }
+
+TurbidoDensityGradient::TurbidoDensityGradient(Supervisor &s):
+  TurbidoRatioBase(s),
+  _mTargetStart(Nephel::maxMeasure / 2),
+  _mTargetStep(Nephel::maxMeasure / 10),
+  _nSteps(4),
+  _stepTime(3600),
+  _pump1Pct(100)
+{
+
+}
+
+void TurbidoDensityGradient::formatHeader(char *buf, unsigned int buflen)
+{
+  strncpy(buf, "GTD", buflen);
+  TurbidoRatioBase::formatHeader(buf + strlen(buf), buflen - strlen(buf));
+  strncpy(buf + strlen(buf), "\ttarget", buflen - strlen(buf));
+}
+
+void TurbidoDensityGradient::formatLine(char *buf, unsigned int buflen, long m)
+{
+  strncpy(buf, "GTD", buflen);
+  TurbidoRatioBase::formatLine(buf + strlen(buf), buflen - strlen(buf), m);
+  snprintf(buf + strlen(buf), buflen - strlen(buf),
+    "\t%ld.%03ld", mTarget() / 1000, mTarget() % 1000);
+}
+
+void TurbidoDensityGradient::formatParams(char *buf, unsigned int buflen)
+{
+  TurbidoRatioBase::formatParams(buf, buflen);
+  snprintf(buf + strlen(buf), buflen - strlen(buf),
+           "# Initial target density %ld.%03ld\r\n# Density step %ld.%03ld\r\n# Number of steps %ld\r\n# Step time (seconds) %ld\r\n# Pump #1 percentage %d%%\r\n",
+           _mTargetStart/1000, _mTargetStart%1000, _mTargetStep/1000, _mTargetStep%1000,
+           _nSteps, _stepTime, _pump1Pct);
+}
+
+void TurbidoDensityGradient::manualReadParams(void)
+{
+  TurbidoRatioBase::manualReadParams();
+  manualReadMeasure("initial target density", _mTargetStart);
+  manualReadMeasure("density step percentage", _mTargetStep);
+  manualReadLong("number of steps", _nSteps);
+  manualReadLong("time per step (seconds)", _stepTime);
+  manualReadPercent("pump #1 percentage", _pump1Pct);
+}
+
+long TurbidoDensityGradient::mTarget(void)
+{
+  long runningSecs = rtcSeconds() - startSec();
+  long stepno = runningSecs / _stepTime;
+  stepno = (stepno >= _nSteps) ? (_nSteps - 1) : stepno;
+  long target = _mTargetStart + (stepno * _mTargetStep);
+  return (target < 0) ? 0 : ((target > Nephel::maxMeasure) ? Nephel::maxMeasure : target);
+}
+
 
 TurbidoCycle::TurbidoCycle(Supervisor &s):
   TurbidoRatioBase(s),

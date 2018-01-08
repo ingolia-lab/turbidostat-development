@@ -16,7 +16,7 @@ Supervisor::Supervisor(void):
   _runningController(&_defaultController),
   _nextController(&_defaultController)
 {
-  _nControllers = 11;
+  _nControllers = 12;
   _controllers = new Controller*[_nControllers];
   _controllers[0] = &_defaultController;
   _controllers[1] = new Turbidostat(*this);
@@ -29,6 +29,7 @@ Supervisor::Supervisor(void):
   _controllers[8] = new TurbidoConcGradient(*this);
   _controllers[9] = new TurbidoConcLogGradient(*this);
   _controllers[10] = new TurbidoConcPulse(*this);
+  _controllers[11] = new TurbidoDensityGradient(*this);
   Serial.println("# Supervisor initialized");
 }
 
@@ -250,6 +251,10 @@ int Supervisor::blockingReadFixed(long *res, int fractDigits)
     buffer[bufpos] = '\0';
     char *next;
     long x = strtol(buffer, &next, 10);
+
+    int negate = (x < 0);
+    x = x * (negate ? (-1) : (+1));
+    
     if ( (*next) == '.') { 
       next++;
     }
@@ -260,6 +265,8 @@ int Supervisor::blockingReadFixed(long *res, int fractDigits)
         next++;
       } 
     }
+
+    x = x * (negate ? (-1) : (+1));
 
     *res = x;
     
