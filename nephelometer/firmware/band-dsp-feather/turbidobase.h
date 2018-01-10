@@ -18,8 +18,8 @@ class TurbidoBase : public Controller
     void formatParams(char *buf, unsigned int buflen);
     void manualReadParams(void);
   protected:
-    long mLower(void) { return _mLower; }
-    long mUpper(void) { return _mUpper; }
+    virtual long mLower(void) { return _mLower; }
+    virtual long mUpper(void) { return _mUpper; }
 
     long startSec(void) { return _startSec; }
     
