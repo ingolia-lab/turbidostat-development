@@ -13770,9 +13770,9 @@ http://www.fairchildsemi.com/ds/LM/LM7805.pdf</description>
 <attribute name="MANF#" value="WP7113SRD/D"/>
 </part>
 <part name="D3" library="adafruit" deviceset="1N4004" device="" value="1N4935">
-<attribute name="DIGIKEY#" value="1N4935FSCT-ND"/>
-<attribute name="MANF" value="Fairchild Semiconductor"/>
-<attribute name="MANF#" value="1N4935"/>
+<attribute name="DIGIKEY#" value="1N4935GOS-ND"/>
+<attribute name="MANF" value="ON Semiconductor"/>
+<attribute name="MANF#" value="1N4935G"/>
 </part>
 <part name="SUPPLY15" library="supply2" deviceset="GND" device=""/>
 <part name="P+6" library="supply1" deviceset="+12V" device=""/>
@@ -13814,9 +13814,9 @@ http://www.fairchildsemi.com/ds/LM/LM7805.pdf</description>
 <attribute name="MANF#" value="WP7113SRD/D"/>
 </part>
 <part name="D4" library="adafruit" deviceset="1N4004" device="" value="1N4935">
-<attribute name="DIGIKEY#" value="1N4935FSCT-ND"/>
-<attribute name="MANF" value="Fairchild Semiconductor"/>
-<attribute name="MANF#" value="1N4935"/>
+<attribute name="DIGIKEY#" value="1N4935GOS-ND"/>
+<attribute name="MANF" value="ON Semiconductor"/>
+<attribute name="MANF#" value="1N4935G"/>
 </part>
 <part name="SUPPLY16" library="supply2" deviceset="GND" device=""/>
 <part name="P+7" library="supply1" deviceset="+12V" device=""/>
@@ -13842,6 +13842,18 @@ http://www.fairchildsemi.com/ds/LM/LM7805.pdf</description>
 <attribute name="MANF" value="TDK Corporation"/>
 <attribute name="MANF#" value="FK14X7R1C105K"/>
 </part>
+<part name="R24" library="adafruit" deviceset="R-US_" device="0207/9" value="33k">
+<attribute name="DIGIKEY#" value="CF14JT33K0CT-ND"/>
+<attribute name="MANF" value="Stackpole Electronics Inc"/>
+<attribute name="MANF#" value="CF14JT33K0"/>
+</part>
+<part name="P+11" library="supply1" deviceset="+5V" device=""/>
+<part name="R25" library="adafruit" deviceset="R-US_" device="0207/9" value="33k">
+<attribute name="DIGIKEY#" value="CF14JT33K0CT-ND"/>
+<attribute name="MANF" value="Stackpole Electronics Inc"/>
+<attribute name="MANF#" value="CF14JT33K0"/>
+</part>
+<part name="P+12" library="supply1" deviceset="+5V" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -14284,6 +14296,18 @@ Gain Amplifier</text>
 <attribute name="MANF" x="185.42" y="106.68" size="1.778" layer="96" display="off"/>
 <attribute name="MANF#" x="185.42" y="106.68" size="1.778" layer="96" display="off"/>
 </instance>
+<instance part="R24" gate="G$1" x="309.88" y="187.96" rot="MR90">
+<attribute name="DIGIKEY#" x="309.88" y="187.96" size="1.778" layer="96" rot="MR90" display="off"/>
+<attribute name="MANF" x="309.88" y="187.96" size="1.778" layer="96" rot="MR90" display="off"/>
+<attribute name="MANF#" x="309.88" y="187.96" size="1.778" layer="96" rot="MR90" display="off"/>
+</instance>
+<instance part="P+11" gate="1" x="309.88" y="198.12"/>
+<instance part="R25" gate="G$1" x="309.88" y="137.16" rot="MR90">
+<attribute name="DIGIKEY#" x="309.88" y="137.16" size="1.778" layer="96" rot="MR90" display="off"/>
+<attribute name="MANF" x="309.88" y="137.16" size="1.778" layer="96" rot="MR90" display="off"/>
+<attribute name="MANF#" x="309.88" y="137.16" size="1.778" layer="96" rot="MR90" display="off"/>
+</instance>
+<instance part="P+12" gate="1" x="309.88" y="147.32"/>
 </instances>
 <busses>
 </busses>
@@ -14703,6 +14727,16 @@ Gain Amplifier</text>
 <pinref part="R21" gate="G$1" pin="2"/>
 <wire x1="284.48" y1="129.54" x2="284.48" y2="127" width="0.1524" layer="91"/>
 </segment>
+<segment>
+<pinref part="P+11" gate="1" pin="+5V"/>
+<pinref part="R24" gate="G$1" pin="2"/>
+<wire x1="309.88" y1="195.58" x2="309.88" y2="193.04" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="P+12" gate="1" pin="+5V"/>
+<pinref part="R25" gate="G$1" pin="2"/>
+<wire x1="309.88" y1="144.78" x2="309.88" y2="142.24" width="0.1524" layer="91"/>
+</segment>
 </net>
 <net name="N$4" class="0">
 <segment>
@@ -14852,8 +14886,12 @@ Gain Amplifier</text>
 </segment>
 <segment>
 <pinref part="R22" gate="G$1" pin="2"/>
-<wire x1="322.58" y1="180.34" x2="307.34" y2="180.34" width="0.1524" layer="91"/>
+<wire x1="322.58" y1="180.34" x2="309.88" y2="180.34" width="0.1524" layer="91"/>
 <label x="309.88" y="180.34" size="1.778" layer="95"/>
+<pinref part="R24" gate="G$1" pin="1"/>
+<wire x1="309.88" y1="180.34" x2="307.34" y2="180.34" width="0.1524" layer="91"/>
+<wire x1="309.88" y1="182.88" x2="309.88" y2="180.34" width="0.1524" layer="91"/>
+<junction x="309.88" y="180.34"/>
 </segment>
 </net>
 <net name="VDD" class="0">
@@ -14884,8 +14922,12 @@ Gain Amplifier</text>
 </segment>
 <segment>
 <pinref part="R23" gate="G$1" pin="2"/>
-<wire x1="322.58" y1="129.54" x2="307.34" y2="129.54" width="0.1524" layer="91"/>
+<wire x1="322.58" y1="129.54" x2="309.88" y2="129.54" width="0.1524" layer="91"/>
 <label x="309.88" y="129.54" size="1.778" layer="95"/>
+<pinref part="R25" gate="G$1" pin="1"/>
+<wire x1="309.88" y1="129.54" x2="307.34" y2="129.54" width="0.1524" layer="91"/>
+<wire x1="309.88" y1="132.08" x2="309.88" y2="129.54" width="0.1524" layer="91"/>
+<junction x="309.88" y="129.54"/>
 </segment>
 </net>
 <net name="MOT3_CTRL" class="0">

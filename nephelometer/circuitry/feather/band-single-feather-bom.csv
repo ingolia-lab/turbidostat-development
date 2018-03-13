@@ -20,8 +20,8 @@
 "D$11";"BPV10NF";"BPV10NF";"LED5MM";"";"751-1002-ND";"";"";"Vishay Semiconductor Opto Division";"BPV10NF";"";"";"";"";"";"";"";"";
 "D1";"";"ZENER-DIODEF126-10";"F126Z10";"Z-Diode";"SA12ALFCT-ND";"";"";"Littelfuse Inc.";"SA12A";"";"";"";"";"";"";"";"";
 "D2";"1N5817-T";"1N5817-T";"DO41-7.6";"1.0A SCHOTTKY BARRIER RECTIFIER";"1N5817FSCT-ND";"";"";"Fairchild Semiconductor";"1N5817";"";"";"";"";"";"";"";"";
-"D3";"1N4935";"1N4004";"DO41-10";"DIODE";"1N4935FSCT-ND";"";"";"Fairchild Semiconductor";"1N4935";"";"";"";"";"";"";"";"";
-"D4";"1N4935";"1N4004";"DO41-10";"DIODE";"1N4935FSCT-ND";"";"";"Fairchild Semiconductor";"1N4935";"";"";"";"";"";"";"";"";
+"D3";"1N4935";"1N4004";"DO41-10";"DIODE";"1N4935GOS-ND";"";"";"ON Semiconductor";"1N4935G";"";"";"";"";"";"";"";"";
+"D4";"1N4935";"1N4004";"DO41-10";"DIODE";"1N4935GOS-ND";"";"";"ON Semiconductor";"1N4935G";"";"";"";"";"";"";"";"";
 "IC1";"LP2950ACZ-3.3";"LP2950ACZ-3.3";"TO92";"Source: http://cache.national.com/ds/LP/LP2950.pdf";"LP2950ACZ-3.3/NOPB-ND";"";"";"Texas Instruments";"LP2950ACZ-3.3/NOPB";"";"";"";"";"";"";"";"";
 "IC2";"LM4041CILP";"LM4041CILP";"LP_O-PBCY-W3";"PRECISION MICROPOWER SHUNT VOLTAGE REFERENCE Adjustable Output";"296-22173-1-ND";"";"";"Texas Instruments";"LM4041CILPR";"";"";"";"";"";"LM4041CILP";"1673945";"50M8856";
 "IC3";"AD822N";"AD822N";"DIL08";"Single-Supply, Rail-to-Rail Low Power FET-Input Op Amp";"AD823ANZ-ND";"";"";"Analog Devices Inc.";"AD823ANZ";"";"";"";"";"";"";"1438581";"unknown";
@@ -63,6 +63,8 @@
 "R21";"4K7";"R-US_0207/10";"0207/10";"RESISTOR, American symbol";"CF14JT4K70CT-ND";"";"";"Stackpole Electronics Inc";"CF14JT4K70";"";"";"";"";"";"";"";"";
 "R22";"2K2";"R-US_0207/10";"0207/10";"RESISTOR, American symbol";"CF14JT2K20CT-ND";"";"";"Stackpole Electronics Inc";"CF14JT2K20";"";"";"";"";"";"";"";"";
 "R23";"2K2";"R-US_0207/10";"0207/10";"RESISTOR, American symbol";"CF14JT2K20CT-ND";"";"";"Stackpole Electronics Inc";"CF14JT2K20";"";"";"";"";"";"";"";"";
+"R24";"33k";"R-US_0207/9";"0207/9";"RESISTOR, American symbol";"CF14JT33K0CT-ND";"";"";"Stackpole Electronics Inc";"CF14JT33K0";"";"";"";"";"";"";"";"";
+"R25";"33k";"R-US_0207/9";"0207/9";"RESISTOR, American symbol";"CF14JT33K0CT-ND";"";"";"Stackpole Electronics Inc";"CF14JT33K0";"";"";"";"";"";"";"";"";
 "T1";"2N2222";"2N2222";"TO92-EBC-OVAL";"NPN TRANSISTOR";"PN2222ATFCT-ND";"";"";"Fairchild Semiconductor";"PN2222ATF";"";"";"";"";"";"";"";"";
 "T2";"2N2222";"2N2222";"TO92-EBC-OVAL";"NPN TRANSISTOR";"PN2222ATFCT-ND";"";"";"Fairchild Semiconductor";"PN2222ATF";"";"";"";"";"";"";"";"";
 "T3";"2N2222";"2N2222";"TO92-EBC-OVAL";"NPN TRANSISTOR";"PN2222ATFCT-ND";"";"";"Fairchild Semiconductor";"PN2222ATF";"";"";"";"";"";"";"";"";
