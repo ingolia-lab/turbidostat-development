@@ -111,6 +111,6 @@ void TurbidoBase::manualReadParams(void)
 {
   do {
     manualReadMeasure("target neph measurement", _mTarget);
-  } while (_mTarget >= 0);
+  } while (_mTarget < 0);
 }
 
