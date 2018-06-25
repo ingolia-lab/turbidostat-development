@@ -48,8 +48,10 @@ class Supervisor : protected ParamSettings
     void loop(void);
 
     void serialWriteControllers(void);    
-    void pickNextController(void);
+    void startConfiguredController(void);
     void manualSetupController(void);
+
+    const char *configuredControllerName(void) { if (_configuredController != NULL) { return _configuredController->name(); } else { return "NONE"; } }
 
     void useTestNephel(void);
   protected:
@@ -74,6 +76,8 @@ class Supervisor : protected ParamSettings
     
     Controller *_runningController;
     Controller *_nextController;
+
+    Controller *_configuredController;
 
     void manualLoop(void);
 

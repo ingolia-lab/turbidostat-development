@@ -79,10 +79,21 @@ void ManualAnnotate::run(void)
   } 
 }
 
+#define HELPBUF_LEN 128
+const unsigned int ManualStartController::buflen = HELPBUF_LEN;
+char ManualStartController::buf[HELPBUF_LEN];
+
+const char *ManualStartController::help(void)
+{
+  snprintf(buf, buflen, "Start configured controller: %s",
+           supervisor().configuredControllerName());
+  return buf;
+}
+
 void ManualStartController::run(void)
 {
   Serial.println();
-  supervisor().pickNextController();
+  supervisor().startConfiguredController();
 }
 
 void ManualGain::run(void)

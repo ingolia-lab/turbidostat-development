@@ -6,7 +6,7 @@
 
 TurbidoInduce::TurbidoInduce(Supervisor &s):
   TurbidoRatioBase(s),
-  _induceTime(60)
+  _induceTime(86400)
 {
   
 }
@@ -46,7 +46,6 @@ uint8_t TurbidoInduce::pump1Percent()
   long runningSecs = rtcSeconds() - startSec();
   return (runningSecs >= _induceTime) ? 0 : 100;
 }
-
 
 TurbidoGradient::TurbidoGradient(Supervisor &s):
   TurbidoRatioBase(s),

@@ -70,8 +70,11 @@ class ManualStartController : public ManualCommand
     ManualStartController(Supervisor &s) : ManualCommand(s) { }
     const char *name(void) { return "Start Controller"; }
     char letter(void) { return 'c'; }
-    const char *help(void) { return "Start an automatic controller"; }
+    const char *help(void);
     void run(void);
+  private:
+    static const unsigned int buflen;
+    static char buf[];
 };
 
 class ManualGain : public ManualCommand

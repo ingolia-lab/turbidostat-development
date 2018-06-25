@@ -162,7 +162,7 @@ void TurbidoConcFixed::formatParams(char *buf, unsigned int buflen)
 {
   TurbidoConcBase::formatParams(buf, buflen);
   snprintf(buf + strlen(buf), buflen - strlen(buf),
-           "# Target media #1 %07lu ppm\r\n", 
+           "# Target fraction media #1 %07lu ppm\r\n", 
            _targetPpm1);
 }
 

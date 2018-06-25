@@ -14,22 +14,25 @@ Supervisor::Supervisor(void):
   _neph(new Nephel()),
   _defaultController(ManualController(*this)),
   _runningController(&_defaultController),
-  _nextController(&_defaultController)
+  _nextController(&_defaultController),
+  _configuredController(NULL)
 {
   _nControllers = 12;
   _controllers = new Controller*[_nControllers];
-  _controllers[0] = &_defaultController;
-  _controllers[1] = new Turbidostat(*this);
-  _controllers[2] = new TurbidoRatioFixed(*this);
-  _controllers[3] = new TurbidoInduce(*this);
-  _controllers[4] = new TurbidoGradient(*this);
-  _controllers[5] = new TurbidoCycle(*this);
-  _controllers[6] = new TurbidoConcFixed(*this);
-  _controllers[7] = new TurbidoConcCycle(*this);
-  _controllers[8] = new TurbidoConcGradient(*this);
-  _controllers[9] = new TurbidoConcLogGradient(*this);
-  _controllers[10] = new TurbidoConcPulse(*this);
-  _controllers[11] = new TurbidoDensityGradient(*this);
+  unsigned int cno = 0;
+  _controllers[cno++] = &_defaultController;
+  _controllers[cno++] = new Turbidostat(*this);
+  _controllers[cno++] = new TurbidoRatioFixed(*this);
+  _controllers[cno++] = new TurbidoInduce(*this);
+//  _controllers[_] = new TurbidoGradient(*this);
+//  _controllers[_] = new TurbidoCycle(*this);
+//  _controllers[_] = new TurbidoConcFixed(*this);
+  _controllers[cno++] = new TurbidoConcCycle(*this);
+  _controllers[cno++] = new TurbidoConcGradient(*this);
+  _controllers[cno++] = new TurbidoConcLogGradient(*this);
+//  _controllers[10] = new TurbidoConcPulse(*this);
+  _controllers[cno++] = new TurbidoDensityGradient(*this);
+  _nControllers = cno;
   Serial.println("# Supervisor initialized");
 }
 
@@ -60,6 +63,12 @@ void Supervisor::loop(void)
 
 void Supervisor::serialWriteControllers(void)
 {
+  snprintf(outbuf, outbufLen, "# CONFIGURED CONTROLLER: %s\r\n", 
+           configuredControllerName());
+  Serial.write(outbuf);
+  if (_configuredController != NULL) {
+    _configuredController->serialWriteParams();
+  }
   Serial.println("# CONTROLLERS:");
   for (unsigned int i = 0; i < _nControllers; i++) {
     snprintf(outbuf, outbufLen, "#   %c %25s\r\n", _controllers[i]->letter(), _controllers[i]->name());
@@ -96,21 +105,19 @@ void Supervisor::manualSetupController(void)
   Controller *c;
   if ((c = pickController()) != NULL) {
     c->manualSetParams();
+    _configuredController = c;
   } else {
     Serial.println();
     Serial.print(F("# Input does not match a known controller\r\n# No controller picked to configure\r\n"));
   }
 }
 
-void Supervisor::pickNextController(void)
+void Supervisor::startConfiguredController(void)
 {  
-  Serial.print(F("# Pick a controller to start:\r\n"));
-  Controller *c;
-  if ((c = pickController()) != NULL) {
-    _nextController = c;
+  if (_configuredController != NULL) {
+    _nextController = _configuredController;
   } else {
-    Serial.println();
-    Serial.print(F("# Input does not match a known controller\r\n# No controller picked\r\n"));
+    Serial.print(F("# No configured controller -- controller must be setup before starting\r\n"));
   }
 }
 
