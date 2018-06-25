@@ -71,7 +71,7 @@ void Supervisor::serialWriteControllers(void)
   }
   Serial.println("# CONTROLLERS:");
   for (unsigned int i = 0; i < _nControllers; i++) {
-    snprintf(outbuf, outbufLen, "#   %c %25s\r\n", _controllers[i]->letter(), _controllers[i]->name());
+    snprintf(outbuf, outbufLen, "#   %c %50s\r\n", _controllers[i]->letter(), _controllers[i]->name());
     Serial.write(outbuf);
   }
 }

@@ -67,21 +67,16 @@ void TurbidoConcBase::setPumpOn(void)
 
 void TurbidoConcBase::formatHeader(char *buf, unsigned int buflen)
 {
-  TurbidoBase::formatHeader(buf, buflen);
-  strncpy(buf + strlen(buf), "\tpumpon\tpump1.s\tpump2.s\tcurrPpm\ttargPpm", buflen - strlen(buf));  
+  TurbidoMixBase::formatHeader(buf, buflen);
+  strncpy(buf + strlen(buf), "\tcurrPpm\ttargPpm", buflen - strlen(buf));  
 }
 
 void TurbidoConcBase::formatLine(char *buf, unsigned int buflen, long currMeasure)
 {
-  long time1 = pump1().totalOnMsec(), time2 = pump2().totalOnMsec();
-
-  TurbidoBase::formatLine(buf, buflen, currMeasure);
+  TurbidoMixBase::formatLine(buf, buflen, currMeasure);
   
   snprintf(buf + strlen(buf), buflen - strlen(buf), 
-           "\t%d\t%ld.%03ld\t%ld.%03ld\t%07lu\t%07lu", 
-           whichPumpOn(),
-           time1 / ((long) 1000), time1 % ((long) 1000),
-           time2 / ((long) 1000), time2 % ((long) 1000),
+           "\t%07lu\t%07lu", 
            currentPpm1(), targetPpm1());
 }
 

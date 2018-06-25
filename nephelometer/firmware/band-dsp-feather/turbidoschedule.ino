@@ -113,15 +113,12 @@ void TurbidoDensityGradient::formatHeader(char *buf, unsigned int buflen)
 {
   strncpy(buf, "GTD", buflen);
   TurbidoRatioBase::formatHeader(buf + strlen(buf), buflen - strlen(buf));
-  strncpy(buf + strlen(buf), "\ttarget", buflen - strlen(buf));
 }
 
 void TurbidoDensityGradient::formatLine(char *buf, unsigned int buflen, long m)
 {
   strncpy(buf, "GTD", buflen);
   TurbidoRatioBase::formatLine(buf + strlen(buf), buflen - strlen(buf), m);
-  snprintf(buf + strlen(buf), buflen - strlen(buf),
-    "\t%ld.%03ld", mTarget() / 1000, mTarget() % 1000);
 }
 
 void TurbidoDensityGradient::formatParams(char *buf, unsigned int buflen)

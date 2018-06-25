@@ -14,18 +14,20 @@ TurbidoMixBase::TurbidoMixBase(Supervisor &s):
 void TurbidoMixBase::formatHeader(char *buf, unsigned int buflen)
 {
   TurbidoBase::formatHeader(buf, buflen);
-  strncpy(buf + strlen(buf), "\tpumpon\tpump1.s\tpump2.s", buflen);
+  strncpy(buf + strlen(buf), "\tpumpon\tpumptime.s\tpump1time.s\tpump2time.s", buflen);
 }
 
 void TurbidoMixBase::formatLine(char *buf, unsigned int buflen, long m)
 {
   long time1 = pump1().totalOnMsec(), time2 = pump2().totalOnMsec();
+  long timettl = time1 + time2;
 
   TurbidoBase::formatLine(buf, buflen, m);
   
   snprintf(buf + strlen(buf), buflen - strlen(buf), 
-           "\t%d\t%ld.%03ld\t%ld.%03ld", 
+           "\t%d\t%ld.%03ld\t%ld.%03ld\t%ld.%03ld", 
            whichPumpOn(),
+           timettl / ((long) 1000), timettl % ((long) 1000),
            time1 / ((long) 1000), time1 % ((long) 1000),
            time2 / ((long) 1000), time2 % ((long) 1000));
 }
@@ -80,13 +82,13 @@ TurbidoRatioFixed::TurbidoRatioFixed(Supervisor &s):
 
 void TurbidoRatioFixed::formatHeader(char *buf, unsigned int buflen)
 {
-  buf[0] = 'M';
+  buf[0] = 'R';
   TurbidoRatioBase::formatHeader(buf + 1, buflen - 1);
 }
 
 void TurbidoRatioFixed::formatLine(char *buf, unsigned int buflen, long m)
 {
-  buf[0] = 'M';
+  buf[0] = 'R';
   TurbidoRatioBase::formatLine(buf + 1, buflen - 1, m);
 }
 

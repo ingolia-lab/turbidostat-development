@@ -46,7 +46,7 @@ class TurbidoGradient : public TurbidoRatioBase
     void manualReadParams(void);
 
     const char *name(void) { return "Turbidostat Mix Gradient"; }
-    char letter(void) { return 'g'; }
+    char letter(void) { return 'h'; }
     
   protected:
     uint8_t pump1Percent();
@@ -132,7 +132,7 @@ class TurbidoConcGradient : public TurbidoConcBase
     void manualReadParams(void);
 
     const char *name(void) { return "Turbidostat Gradient Time Conc"; }
-    char letter(void) { return 'h'; }
+    char letter(void) { return 'g'; }
     
   protected:
     unsigned long targetPpm1();
@@ -211,7 +211,7 @@ class TurbidoConcCycle: public TurbidoConcBase
     void manualReadParams(void);
 
     const char *name(void) { return "Turbidostat Cycle Time Conc"; }
-    char letter(void) { return 'e'; }
+    char letter(void) { return 'c'; }
     
   protected:
     unsigned long targetPpm1();
