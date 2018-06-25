@@ -9,8 +9,7 @@ char TurbidoBase::linebuf[LINEBUF_LEN];
 
 TurbidoBase::TurbidoBase(Supervisor &s):
   _s(s),
-  _mUpper(Nephel::maxMeasure + 1),
-  _mLower(0),
+  _mTarget(Nephel::maxMeasure + 1),
   _startSec(0)
 {
 
@@ -45,10 +44,10 @@ int TurbidoBase::loop(void)
 
   if (pumpMeasureOverride()) {
     // Density-dependent pumping overridden
-  } else if (isLow()) {
-    setPumpOff();
   } else if (isHigh()) {
     setPumpOn();
+  } else {
+    setPumpOff();
   }
 
   formatLine(linebuf, linebufLen, m);
@@ -70,22 +69,11 @@ int TurbidoBase::loop(void)
   return 0;
 }
 
-int TurbidoBase::isLow(void)
-{
-  int nLow = 0;
-  for (int i = 0; i < _nMeasure; i++) {
-    if (_measures[i] < mLower()) {
-      nLow++;      
-    }
-  }
-  return (nLow * 2) > _nMeasure;
-}
-
 int TurbidoBase::isHigh(void)
 {
   int nHigh = 0;
   for (int i = 0; i < _nMeasure; i++) {
-    if (_measures[i] > mUpper()) {
+    if (_measures[i] > mTarget()) {
       nHigh++;      
     }
   }
@@ -94,31 +82,35 @@ int TurbidoBase::isHigh(void)
 
 void TurbidoBase::formatHeader(char *buf, unsigned int buflen)
 {
-  strncpy(buf, "\ttime.s\tneph\tgain", buflen);    
+  strncpy(buf, "\ttime.s\tneph\tgain\ttarget", buflen);    
 }
 
 void TurbidoBase::formatLine(char *buf, unsigned int buflen, long m)
 {
   long sec = rtcSeconds();
 
+  // Handle fixed-point display of negative measurements
+  const long mmodulo = m % 1000;
+  const long mint = (mmodulo < 0) ? (-(m / 1000)) : (m / 1000);
+  const unsigned long mdec = abs(mmodulo);
+
   snprintf(buf, buflen, 
-           "\t%lu\t%ld.%03ld\t%ld", 
-           sec - startSec(), m / 1000, m % 1000, s().nephelometer().pgaScale());
+           "\t%lu\t%ld.%03lu\t%ld\t%ld.%03ld", 
+           sec - startSec(), mint, mdec, s().nephelometer().pgaScale(), _mTarget/1000, _mTarget%1000);
 }
 
 long TurbidoBase::measure(void) { return _s.nephelometer().measure(); }
 
 void TurbidoBase::formatParams(char *buf, unsigned int buflen)
 {
-  snprintf(buf, buflen, "# Pump on @ %ld.%03ld\r\n# Pump off @ %ld.%03ld\r\n", 
-           _mUpper/1000, _mUpper%1000, _mLower/1000, _mLower%1000);
+  snprintf(buf, buflen, "# Target neph %ld.%03ld\r\n", 
+           _mTarget/1000, _mTarget%1000);
 }
 
 void TurbidoBase::manualReadParams(void)
 {
-  manualReadMeasure("pump on (high) measurement", _mUpper);
   do {
-    manualReadMeasure("pump off (low) measurement", _mLower);
-  } while (_mLower > _mUpper);
+    manualReadMeasure("target neph measurement", _mTarget);
+  } while (_mTarget >= 0);
 }
 

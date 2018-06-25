@@ -18,9 +18,8 @@ class TurbidoBase : public Controller
     void formatParams(char *buf, unsigned int buflen);
     void manualReadParams(void);
   protected:
-    virtual long mLower(void) { return _mLower; }
-    virtual long mUpper(void) { return _mUpper; }
-
+    virtual long mTarget(void) { return _mTarget; }
+    
     long startSec(void) { return _startSec; }
     
     long measure(void);
@@ -35,19 +34,18 @@ class TurbidoBase : public Controller
   private:
     Supervisor &_s;
   
-    long _mUpper;  // Measurement for pump-on
-    long _mLower; // Measurement for pump-off
+    long _mTarget; 
 
     long _startSec;
 
     static const unsigned int linebufLen;
     static char linebuf[];
 
+    // 11-entry ring buffer for measurements
     static const int _nMeasure = 11;
     long _measures[_nMeasure];
     int _currMeasure;
 
-    int isLow(void);
     int isHigh(void); 
 };
 
