@@ -90,8 +90,8 @@ void TurbidoBase::formatLine(char *buf, unsigned int buflen, long m)
   long sec = rtcSeconds();
 
   // Handle fixed-point display of negative measurements
-  const long mmodulo = m % 1000;
-  const long mint = (mmodulo < 0) ? (-(m / 1000)) : (m / 1000);
+  const long mmodulo = m % ((long) 1000);
+  const long mint = (mmodulo < 0) ? (-(m / ((long) 1000))) : (m / ((long) 1000));
   const unsigned long mdec = abs(mmodulo);
 
   snprintf(buf, buflen, 
