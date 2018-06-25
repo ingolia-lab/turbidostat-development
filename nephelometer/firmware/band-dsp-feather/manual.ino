@@ -107,12 +107,16 @@ void ManualMeasure::run(void)
     unsigned long startMsec = millis();
 
     long avg10 = supervisor().nephelometer().measure();
+
+    long mmodulo = avg10 % ((long) 1000);
+    long mint = (mmodulo < 0) ?  (-(avg10 / ((long) 1000))) : (avg10 / ((long) 1000));
+    const unsigned long mdec = abs(mmodulo);
     
     snprintf(Supervisor::outbuf, Supervisor::outbufLen, 
              "M\t%lu.%01lu\t%2ld.%03ld\t%ld",
              startMsec / ((unsigned long) 1000), 
              (startMsec / ((unsigned long) 100)) % ((unsigned long) 10),
-             avg10 / ((long) 1000), avg10 % ((long) 1000),
+             mint, mdec,
              supervisor().nephelometer().pgaScale());
     Serial.println(Supervisor::outbuf);
 
