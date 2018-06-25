@@ -106,7 +106,7 @@ class TurbidoCycle : public TurbidoRatioBase
     void formatParams(char *buf, unsigned int buflen);
     void manualReadParams(void);
 
-    const char *name(void) { return "Turbidostat Cycle Time Ratio"; }
+    const char *name(void) { return "Turbidostat Ratio Cycle"; }
     char letter(void) { return 'b'; }
     
   protected:
@@ -131,7 +131,7 @@ class TurbidoConcGradient : public TurbidoConcBase
     void formatParams(char *buf, unsigned int buflen);
     void manualReadParams(void);
 
-    const char *name(void) { return "Turbidostat Gradient Time Conc"; }
+    const char *name(void) { return "Turbidostat Conc Gradient"; }
     char letter(void) { return 'g'; }
     
   protected:
@@ -155,7 +155,7 @@ class TurbidoConcLogGradient : public TurbidoConcBase
     void formatParams(char *buf, unsigned int buflen);
     void manualReadParams(void);
 
-    const char *name(void) { return "Turbidostat Log-Gradient Time Conc"; }
+    const char *name(void) { return "Turbidostat Conc Gradient, Logarithmic"; }
     char letter(void) { return 'l'; }
     
   protected:
@@ -181,7 +181,7 @@ class TurbidoConcPulse: public TurbidoConcBase
     void formatParams(char *buf, unsigned int buflen);
     void manualReadParams(void);
 
-    const char *name(void) { return "Turbidostat Pulse Time Conc"; }
+    const char *name(void) { return "Turbidostat Conc Pulse"; }
     char letter(void) { return 'p'; }
 
   protected:
@@ -210,7 +210,7 @@ class TurbidoConcCycle: public TurbidoConcBase
     void formatParams(char *buf, unsigned int buflen);
     void manualReadParams(void);
 
-    const char *name(void) { return "Turbidostat Cycle Time Conc"; }
+    const char *name(void) { return "Turbidostat Conc Cycle"; }
     char letter(void) { return 'c'; }
     
   protected:
