@@ -13,16 +13,19 @@ Turbidostat::Turbidostat(Supervisor &s):
 
 void Turbidostat::formatHeader(char *buf, unsigned int buflen)
 {
-  strncpy(buf, "T\ttime.s\tneph\tgain\tpumpon\tpumptime.s", buflen);
+  strncpy(buf, "T", buflen);
+  TurbidoBase::formatHeader(buf + strlen(buf), buflen - strlen(buf));
+  strncpy(buf + strlen(buf), "\tpumpon\tpumptime.s", buflen - strlen(buf));
 }
 
 void Turbidostat::formatLine(char *buf, unsigned int buflen, long m)
 {
-  long sec = rtcSeconds();
   long ptime = pump().totalOnMsec();
 
-  snprintf(buf, buflen, "T\t%lu\t%ld.%03ld\t%ld\t%d\t%ld.%03ld", 
-           sec - startSec(), m/1000, m%1000, s().nephelometer().pgaScale(), pump().isPumping(),
+  strncpy(buf, "T", buflen);
+  TurbidoBase::formatLine(buf + strlen(buf), buflen - strlen(buf), m);
+  snprintf(buf + strlen(buf), buflen - strlen(buf), "\t%d\t%ld.%03ld", 
+           pump().isPumping(),
            ptime / ((long) 1000), ptime % ((long) 1000));
 }
 
