@@ -1,5 +1,10 @@
+### Consumables
 
+* Sterivex pressure-driven 0.22µm PES membrane filter, Luer: EMD Millipore SVGPL10RC
+* Acrodisk 13mm Luer syringe filter, 0.22µm, PES:  Pall Laboratories 4602, VWR 28143-300
+* 5 ml Luer syringe: BD Biosciences 309646, VWR BD309646
 
+---
 ### Sterilizing the Media Reservoir
 
 The media reservoir can be sterilized in advance.
@@ -64,7 +69,7 @@ The growth chamber can be sterilized in advance of an experiment.  The sterilize
 1. Snake the waste line through a conical tube holder (or similar) in order to create an "S" trap.
 1. Uncap the waste line and put the end into a waste reservoir.
 
-   The humidifer should bubble more vigorously once the waste line is uncapped. Occasionally, air flow through the humidifer will be blocked by wetting of the filter on the air inlet. If this happens, spray the air inlet connector on the humidifier with 70% ethanol, remove the wetted filter, and replace it.
+   The humidifer should bubble more vigorously once the waste line is uncapped. Occasionally, air flow through the humidifer will be blocked by wetting of the filter on the air inlet. If this happens, spray the air inlet connector on the humidifier with 70% ethanol, remove the wetted filter, and replace it with a fresh filter.
    
 1. Insert the thin peristaltic pump tubing on the media line into the media pump.
    1. Flip the cover latch up until you can pull the cover off of the pump
@@ -76,12 +81,18 @@ The growth chamber can be sterilized in advance of an experiment.  The sterilize
    1. Spray the media line connector and the media delivery connector on the reservoir with 70% ethanol.
    1. Uncap the connectors and join them together.
 1. Prime the media line by running the media pump.
-
-   Use the `p` command in the controller software to run the pump for 2 - 3 minutes. Watch flow of media through the feed line and stop the pump by hitting any key as soon as media starts to drip into the growth chamber. If the line was installed backwards in the peristaltic pump, air will bubble into the media reservoir; if this happens, simply reverse the pump tubing and re-prime the line. 
+	1. Use `p` to manually activate a pump
+	1. Select the pump connected to the media pump line, e.g. `A`.
+	1. Specify 100 seconds of pumping
+	1. Watch flow of media through the feed line and stop the pump by hitting any key as soon as media starts to drip into the growth chamber. 
+	
+	   If the line was installed backwards in the peristaltic pump, air will bubble into the media reservoir; if this happens, simply reverse the pump tubing and re-prime the line. 
 
 1. Fill the growth chamber with media.
 
-   Use the `p` command in the controller software to run the pump for 800 seconds.
+	1. Use `p` to manually activate a pump
+	1. Select the pump connected to the media pump line, e.g. `A`.
+	1. Specify 800 seconds of pumping
    
 1. Switch on the stir plate
 1. Rotate the growth chamber within the controller band to ensure that the printing on the side of the bottle does not line up either with the LED or the photodetector.
