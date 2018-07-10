@@ -102,7 +102,7 @@ The growth chamber can be sterilized in advance of an experiment.  The sterilize
 
 1. Begin turbidity measurements
 
-   Use the `m` command in the controller software. The turbidity measurements should read a small value between 0.1 and 0.5. Leave the measurement running during inoculation.
+   Use the `m` command in the controller software. The turbidity measurements should read a small value (typically between 0.1 and 0.5). Leave the measurement running during inoculation.
    
 1. Shut off the air input. Clamp the silicone tubing from the air pump to the humidifier, or detach the tubing entirely.
 
