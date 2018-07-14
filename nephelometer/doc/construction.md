@@ -9,23 +9,41 @@ The controller electronics can be assembled entirely by through-hole soldering. 
 1. **Nephelometer LED** The SFH 4547 IR LED (Osram) is connected to the controller by hookup wire on screw terminals.
 
    1. Cut matched ~15cm lengths of red and black hookup wire and strip both ends.
+   
    ![led-01-cut-wires](./led-01-cut-wires.jpeg)
+   
    2. Wrap the black wire around the cathode lead (longer with a flat region on the package) just at the thick point of the lead.
+
    ![led-02-wrap-wire](./led-02-wrap-wire.jpeg)
+
    3. Solder the wire to the lead and trim away the remaining lead along with any excess wire.
+
    ![led-03-solder-wire](./led-03-solder-wire.jpeg)
+
    ![led-04-trim-lead](./led-04-trim-lead.jpeg)
+
    4. Wrap the red wire around the anode lead, solder it, and trim.
+
    ![led-05-second-wire](./led-05-second-wire.jpeg)
+
    5. Slide 1cm pieces of heat shrink tubing along each wire up past the solder joints to the base of the package
+
    ![led-06-heatshrink](./led-06-heatshrink.jpeg)
+
    6. Shrink the tubing with a heat gun, using a piece of cardboard (or something else) to shield the case itself.
+
    ![led-07-heatshrunk](./led-07-heatshrunk.jpeg)
+
    7. For stranded hookup wire, twist and tin the other ends
+
    ![led-08-tin-leads](./led-08-tin-leads.jpeg)
+
    8. Wind the wires around themselves
+
    9. Insert the wires into the screw terminal, taking care to put the red lead in the `+`.
+
    ![led-09-screw-terminal](./led-09-screw-terminal.jpeg)
+
    10.	 Screw down the connectors firmly onto the wires.
 
 2. **Peristaltic pump connector** Cut a JST extension cable a few cm from ZZZ
