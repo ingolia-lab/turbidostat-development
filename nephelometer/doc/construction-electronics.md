@@ -2,6 +2,30 @@
 
 ### Ordering Information
 
+The printed circuit board design files can be found in `design/circuit/`. The `band-single-feather.brd` file can be uploaded directly to printed circuit board fabricators such as (Oshpark)[https://oshpark.com]. Order it as a two-layer board, with a 63 mil (1.6 mm) thickness FR4 board with 1 oz copper.
+
+The  list of components needed for circuit board assembly can be found in `design/circuit/` as well. The `band-single-feather-bom.csv` file is a list of each component with ordering information. The `band-single-feather-bom-order.txt` file is a simplified list of component quantities and part numbers that can be uploaded directly.
+
+#### Equipment
+
+* Soldering iron
+
+* Heat gun
+
+* Wire cutters
+
+* Wire strippers
+
+* Small screwdrivers
+
+#### Consumables
+
+* Solder
+
+* Hookup wire -- red and black -- 22 - 26 AWG stranded
+
+* Heat shrink tubing
+
 ### Assembly
 
 The controller electronics can be assembled entirely by through-hole soldering. Most components can be assembled with no special considerations. Exceptions are noted below, and should be handled in the order described.
@@ -46,7 +70,16 @@ The controller electronics can be assembled entirely by through-hole soldering. 
 
    10.	 Screw down the connectors firmly onto the wires.
 
-2. **Peristaltic pump connector** A short cable with a female JST PH 2-pin connector is attached to the screw terminal. This 2-pin connector can be cut from a JST PH extension cable, as described in the "Peristaltic Pump" section. A short female cable can be purchased as well (Adafruit 261).
+2. **Peristaltic pump connector** A short cable with a female JST PH 2-pin connector is attached to the screw terminal. This 2-pin connector can be cut from a JST PH extension cable, as described in the (Peristaltic Pump)[./construction-pump.md] section. A short female cable can be purchased as well (Adafruit 261).
+
+   1. Strip and tin the ends of the cable, if they are not already stripped and tinned.
+   
+   1. Insert the wires into the screw terminal, placing the red wire on the positive side marked with a "+"
+   
+   ![mot-01-jst](./images/mot-01-jst.jpeg)
+
+   ![mot-02-polarity](./images/mot-02-polarity.jpeg)
+
 
 3. **Feather microcontroller board** We prefer to use "stacking" header (Adafruit 2830) on the Feather board itself. The header must be installed with the correct alignment in order to fit into the headers on the controller electronics. 
 
