@@ -52,6 +52,9 @@ The growth chamber can be sterilized in advance of an experiment.  The sterilize
 1. Close the inoculation (blue) connector on the growth chamber cap with a male Luer cap.
 1. Connect the waste line to the waste (red) connector on the growth chamber cap and close the other end of the waste line with a female Luer cap.
 1. Connect the shorter end of the media pump line to the media (green) connector on the growth chamber cap. Close the other end of the media line with a female Luer cap.
+
+   ![growth-chamber-assembled](./images/growth-chamber-assembled.jpeg)
+
 1. Autoclave on liquid cycle to sterilize.
 1. Uncap the air inlet connector on the humidifier and attach a sterile Luer 13mm disc filter
 1. Screw the growth chamber cap tightly onto the growth chamber bottle

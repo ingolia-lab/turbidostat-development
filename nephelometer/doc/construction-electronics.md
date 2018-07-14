@@ -12,7 +12,7 @@ The  list of components needed for circuit board assembly can be found in `desig
 
 * Heat gun
 
-* Wire cutters
+* Diagonal cutters
 
 * Wire strippers
 
