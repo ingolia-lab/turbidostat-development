@@ -2,36 +2,12 @@
 
 Turbidostat construction is broken down into several individual components:
 
-1. (Electronics)[./construction-electronics.md]
+1. [Electronics](./construction-electronics.md) to assemble the printed circuit board
+1. [Housing](./construction-housing.md) to print the enclosure and mount the assembled circuit
+1. [Pump](./construction-pump.md) to mount and wire the media pump
+1. [Fluidics](./construction-fluidics.md) to assemble the growth chamber, media reservoir, and other associated fluidics
 
-## Controller Housing
 
-### Part information
-* Krylon Ultra-flat Black 1602 spray paint
-
-  This ultra-flat black spray-paint is highly absorbing in the near-infrared wavelength used to measure turbidity. Many other visually black materials reflect near-IR light.
-
-* M2 x 8mm pan head phillips screw, 316 stainless: McMaster-Carr 90116A015
-* M2 hex nut, 316 stainless: McMaster-Carr 94150A305	
-
-### Assembly
-
-The controller housing is printed as two separate components, a "band" that wraps around the growth chamber and a "box" that houses the detector circuit board. 
-
-1. Remove any support material from the printed parts.
-1. Spray paint the band and the box flat black, paying particular attention to the holes for the LED and the photodiode. Dry overnight.
-
-1. Fit the band against the box. 
-
-   * The square protrusion from the band should align with the square hole on the box. 
-   * The two flat arms extending from the band with screw holes should align with screw holes on the box.
-   
-1. Insert M2 x 8mm screws through the holes in the band into the box.
-1. Thread M2 hex nuts onto the screws and tighten.
-1. Insert the detector circuit board into the box, with the photodiode on the bottom passing through the square opening on the box and into the round hole in the band.
-1. Align the mounting holes on the detector circuit board with the mounting holes on the box.
-1. Insert M2 x 8mm screws through at least two mounting holes on the circuit board, passing through the box to protrude on the outside.
-1. Thread M2 hex nuts onto the screws outside the box and tighten. 
 
 ## Peristaltic Pump
 
