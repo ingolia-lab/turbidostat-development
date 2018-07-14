@@ -97,10 +97,6 @@ The peristaltic pump is mounted on a 3-D printed housing and wired to a barrier 
 
    ![pump-13-strip-tin](./images/pump-13-strip-tin.jpeg)
 
-1. Strip the wires on both ends of the cut cable and tin the ends
-
-   ![pump-13-strip-tin](./images/pump-13-strip-tin.jpeg)
-
    The short cable with the female connector is connected to a screw terminal on the [printed circuit board](construction-electronics.md).
 
 1. Screw the red and black motor wires into one side of the barrier strip. Screw the red and black wires of the longer JST cable with a male connector into the other side of the barrier strip, matching the red wires together across the strip.
