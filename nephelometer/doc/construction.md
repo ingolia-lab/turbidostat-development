@@ -83,6 +83,8 @@ The controller electronics can be assembled entirely by through-hole soldering. 
 
    ![feather-05-soldered](./feather-05-soldered.jpeg)
 
+   1. Insert the male pins on the Feather header into the female sockets on the printed circuit board.
+
    ![feather-06-mounted](./feather-06-mounted.jpeg)
 
    ![feather-07-mounted](./feather-07-mounted.jpeg)
