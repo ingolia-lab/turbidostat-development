@@ -120,11 +120,20 @@ The growth chamber can be sterilized in advance of an experiment.  The sterilize
 1. Allow the inoculum to mix homogeneously throughout the growth chamber, which typically takes a minute or so.
 1. Note the change in turbidity measurement and determine the relationship between cell density and turbidity.
 
-   The volume of media in the growth chamber is 200 ml (the peristaltic pump runs at 315 revolutions per minute and, with ID 1.0mm tubing, delivers 48 µl / revolution). Using the cell density of the inoculum, compute the density of cells in the growth chamber. Equate this density with the turbidity change produced by inoculation in order to find the turbidity-to-density relationship.
+   The volume of media in a 250 ml growth chamber is about 200 ml.  Using the cell density of the inoculum, compute the density of cells in the growth chamber. Equate this density with the turbidity change produced by inoculation in order to find the turbidity-to-density relationship.
    
 ---
 ### Turbidostatic Growth
 
+1. Determine the target culture turbidity.
+
+   The cell density to turbidity ratio computed during inoculation may be useful here.
+
+1. Set up the 
+
+zzz
+
+The peristaltic pump runs at 315 revolutions per minute and, with ID 1.0mm tubing, delivers 48 µl / revolution.
 ---
 ### Replenishing the Media Reservoir
 
