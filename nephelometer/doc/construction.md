@@ -10,43 +10,43 @@ The controller electronics can be assembled entirely by through-hole soldering. 
 
    1. Cut matched ~15cm lengths of red and black hookup wire and strip both ends.
    
-   ![led-01-cut-wires](./led-01-cut-wires.jpeg)
+   ![led-01-cut-wires](./images/led-01-cut-wires.jpeg)
    
    2. Wrap the black wire around the cathode lead (longer with a flat region on the package) just at the thick point of the lead.
 
-   ![led-02-wrap-wire](./led-02-wrap-wire.jpeg)
+   ![led-02-wrap-wire](./images/led-02-wrap-wire.jpeg)
 
    3. Solder the wire to the lead and trim away the remaining lead along with any excess wire.
 
-   ![led-03-solder-wire](./led-03-solder-wire.jpeg)
+   ![led-03-solder-wire](./images/led-03-solder-wire.jpeg)
 
-   ![led-04-trim-lead](./led-04-trim-lead.jpeg)
+   ![led-04-trim-lead](./images/led-04-trim-lead.jpeg)
 
    4. Wrap the red wire around the anode lead, solder it, and trim.
 
-   ![led-05-second-wire](./led-05-second-wire.jpeg)
+   ![led-05-second-wire](./images/led-05-second-wire.jpeg)
 
    5. Slide 1cm pieces of heat shrink tubing along each wire up past the solder joints to the base of the package
 
-   ![led-06-heatshrink](./led-06-heatshrink.jpeg)
+   ![led-06-heatshrink](./images/led-06-heatshrink.jpeg)
 
    6. Shrink the tubing with a heat gun, using a piece of cardboard (or something else) to shield the case itself.
 
-   ![led-07-heatshrunk](./led-07-heatshrunk.jpeg)
+   ![led-07-heatshrunk](./images/led-07-heatshrunk.jpeg)
 
    7. For stranded hookup wire, twist and tin the other ends
 
-   ![led-08-tin-leads](./led-08-tin-leads.jpeg)
+   ![led-08-tin-leads](./images/led-08-tin-leads.jpeg)
 
    8. Wind the wires around themselves
 
    9. Insert the wires into the screw terminal, taking care to put the red lead in the `+`.
 
-   ![led-09-screw-terminal](./led-09-screw-terminal.jpeg)
+   ![led-09-screw-terminal](./images/led-09-screw-terminal.jpeg)
 
    10.	 Screw down the connectors firmly onto the wires.
 
-2. **Peristaltic pump connector** A short cable with a female JST PH 2-pin connector is attached to the screw terminal. See the "Peristaltic Pump" section, below, for more details.
+2. **Peristaltic pump connector** A short cable with a female JST PH 2-pin connector is attached to the screw terminal. This 2-pin connector can be cut from a JST PH extension cable, as described in the "Peristaltic Pump" section. A short female cable can be purchased as well (Adafruit 261).
 
 3. **Feather microcontroller board** We prefer to use "stacking" header (Adafruit 2830) on the Feather board itself. The header must be installed with the correct alignment in order to fit into the headers on the controller electronics. 
 
@@ -65,33 +65,35 @@ The controller electronics can be assembled entirely by through-hole soldering. 
 
    1. Put ordinary male header into the female side of the stacking headers
    
-   ![feather-01-headers](./feather-01-headers.jpeg)
+   ![feather-01-headers](./images/feather-01-headers.jpeg)
 
-   ![feather-02-headers-together](./feather-02-headers-together.jpeg)
+   ![feather-02-headers-together](./images/feather-02-headers-together.jpeg)
    
    1. Insert the pins of that male header into the controller PCB itself, or another Feather board, on order to maintain proper alignment. 
 
-   ![feather-03-upside-down](./feather-03-upside-down.jpeg)
+   ![feather-03-upside-down](./images/feather-03-upside-down.jpeg)
 
    1. Place the Feather board over the pins of the stacking header, with the long pins protruding from the bottom. 
 
-   ![feather-04-upside-down](./feather-04-upside-down.jpeg)
+   ![feather-04-upside-down](./images/feather-04-upside-down.jpeg)
 
    1. Ensure that the boards and the headers are square, and then solder one pin on each header in place in order to stabilize the headers. 
 
    1. Solder the remaining pins of the header onto the bottom of the Feather board.
 
-   ![feather-05-soldered](./feather-05-soldered.jpeg)
+   ![feather-05-soldered](./images/feather-05-soldered.jpeg)
 
    1. Insert the male pins on the Feather header into the female sockets on the printed circuit board.
 
-   ![feather-06-mounted](./feather-06-mounted.jpeg)
+   ![feather-06-mounted](./images/feather-06-mounted.jpeg)
 
-   ![feather-07-mounted](./feather-07-mounted.jpeg)
+   ![feather-07-mounted](./images/feather-07-mounted.jpeg)
 
 4. **Headers for Feather microcontroller board** Place the headers on the bottom pins of the Feather board. Mount the header onto the controller board and solder it in place. Remove the Feather from the controller board.
 
 5. **Nephelometer photodiode** The design depends on the sensitivity and physical package of the BPV10NF (Vishay) photodiode and so the use of this specific part is important. The photodiode is mounted on the opposite side of the circuit board relative to all other components. Insert the diode through the holes in the correct orientation until the wider parts of the lead bind against the holes in the circuit board. Solder the photodiode in place from the "top" side of the circuit board with the circuit board level and the photodiode hanging vertically down from the bottom, with the leads fully inserted.
+
+![photodiode](./images/photodiode.jpeg)
 
 ### Testing
 
@@ -223,8 +225,8 @@ The peristaltic pump is mounted on a 3-D printed housing and wired to a barrier 
   
     Insert PTFE tubing OD 0.125in through the bottom of a bottle cap port. Slip an inverted EFTE ferrule on the end protruding above the cap. Screw an 0.125in barb to 1/4"-28 UNF fitting onto the port, tightening it firmly. The PTFE tubing should be held in place by the ferrule. Slip a ~5 cm length of ID 0.125in silicone tubing around the far end in order to weight it down, keeping it at the bottom of the bottle.
   
-![media-reservoir-cap](./media-reservoir-cap.JPG)
-![media-reservoir](./media-reservoir.JPG)  
+![media-reservoir-cap](./images/media-reservoir-cap.JPG)
+![media-reservoir](./images/media-reservoir.JPG)  
   
 * **Filtration pump line** is a peristaltic pump line with ID 3.0mm tubing. It delivers media to the Sterivex filter.
 
@@ -245,7 +247,7 @@ The peristaltic pump is mounted on a 3-D printed housing and wired to a barrier 
   
   Cut PEEK tubing to extend 1cm above the top of the PPS nut and extend 70mm (for waste) or 95mm (for air and inoculation) below the bottom of the nut. Cut a 2.5cm piece of ID 0.125in silicone tubing. Place the appropriate colored sleeve onto the PPS nut. Thread the PEEK tubing through the PPS nut and apply a small amount of RTV silicone sealant around the top of the PPS nut where the PEEK tubing emerges. Slide the silicone tubing over the top of the PEEK tubing. Twist the tubing around and slide it up and down slightly in order to coat the junction thoroughly with silicone. Apply a small amount of silicone sealant to the base of an ID 0.125in barb to female Luer adapter and insert it into the other end of the silicone tubing, twisting it around to spread the sealant across the junction. Allow the assembly to dry undisturbed for 24 hours and then screw the PPS nut into the cap.
 
-  ![PEEK tubing in PPS nut](./growth-chamber-port.JPG)
+  ![PEEK tubing in PPS nut](./images/growth-chamber-port.JPG)
 
   * **Air** *(yellow)* trim to 86 mm beneath the bottom of the cap
   
@@ -255,8 +257,8 @@ The peristaltic pump is mounted on a 3-D printed housing and wired to a barrier 
   
   * **Media** *(green)* attach to the 1/16" port on the cap 
   
-  ![Growth chamber cap](./growth-chamber-cap.JPG)
-  ![Growth chamber](./growth-chamber.JPG)
+  ![Growth chamber cap](./images/growth-chamber-cap.JPG)
+  ![Growth chamber](./images/growth-chamber.JPG)
 
 * **Media Pump Line** Thin, ID 1.0mm peristaltic pump tubing that delivers media to the growth chamber.
 
@@ -282,4 +284,4 @@ The peristaltic pump is mounted on a 3-D printed housing and wired to a barrier 
 
   Pierce a 1/8" hole through the rubber stopper. Thread a piece of PEEK tubing through the bottom of the hole until it extends 1cm above the top of the stopper. Cut the PEEK tubing so it will extend near the bottom of the filtering flask when the stopper is inserted. Cut a 2.5cm piece of ID 0125in silicone tubing. Apply a small amount of RTV silicone sealant around the PEEK tubing where it emerges from the top of the stopper and then slide the silicone tubing over the PEEK tubing and twist it to spread the silicone sealant thoroughly across the junction. Apply a small amount of silicone sealant to the base of an ID 0.125in barb to male Luer adapter and insert it into the other end of the silicone tubing, twisting it around to spread the sealant across the junction. Allow the assembly to dry undisturbed for 24 hours.
 
-![humidifier](./humidifier.JPG)
+![humidifier](./images/humidifier.JPG)
