@@ -46,25 +46,46 @@ The controller electronics can be assembled entirely by through-hole soldering. 
 
    10.	 Screw down the connectors firmly onto the wires.
 
-2. **Peristaltic pump connector** Cut a JST extension cable a few cm from ZZZ
+2. **Peristaltic pump connector** A short cable with a female JST PH 2-pin connector is attached to the screw terminal. See the "Peristaltic Pump" section, below, for more details.
 
 3. **Feather microcontroller board** We prefer to use "stacking" header (Adafruit 2830) on the Feather board itself. The header must be installed with the correct alignment in order to fit into the headers on the controller electronics. 
 
-   1. Use the Arduino software to load the controller software onto the Feather.
+   1. Use the Arduino software to load the controller software onto the Feather M0.
    
       The Feather should not be connected to the controller board and powered on before loading the software onto the microcontroller. Inappropriate configuration of certain microcontroller pins as "output" pins when the Feather is attached to the detector board could damage the microcontroller. The software ensures that pins are configured correctly for the detector board.
 
       1. Plug a micro-USB cable into the Feather
       1. Place the Feather on a non-conductive surface
       1. Plug the USB cable into a computer with the Arduino software and the Adafruit Feather board definitions installed
-      1. ZZZ
+      1. Open the "firmware" Arduino project.
+      1. From the "Tools" menu, use the "Board" submenu to select "Adafruit Feather M0".
+      1. From the "Tools" menu, use the "Port" submenu to select the USB port connected to the Feather M0.
+      1. From the "Sketch" menu, select "Upload". The Arduino IDE will compile the firmware and upload it onto the Feather
       1. Remove the micro-USB cable from the Feather
 
    1. Put ordinary male header into the female side of the stacking headers
+   
+   ![feather-01-headers](./feather-01-headers.jpeg)
+
+   ![feather-02-headers-together](./feather-02-headers-together.jpeg)
+   
    1. Insert the pins of that male header into the controller PCB itself, or another Feather board, on order to maintain proper alignment. 
+
+   ![feather-03-upside-down](./feather-03-upside-down.jpeg)
+
    1. Place the Feather board over the pins of the stacking header, with the long pins protruding from the bottom. 
+
+   ![feather-04-upside-down](./feather-04-upside-down.jpeg)
+
    1. Ensure that the boards and the headers are square, and then solder one pin on each header in place in order to stabilize the headers. 
+
    1. Solder the remaining pins of the header onto the bottom of the Feather board.
+
+   ![feather-05-soldered](./feather-05-soldered.jpeg)
+
+   ![feather-06-mounted](./feather-06-mounted.jpeg)
+
+   ![feather-07-mounted](./feather-07-mounted.jpeg)
 
 4. **Headers for Feather microcontroller board** Place the headers on the bottom pins of the Feather board. Mount the header onto the controller board and solder it in place. Remove the Feather from the controller board.
 
