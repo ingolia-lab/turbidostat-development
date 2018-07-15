@@ -4,9 +4,9 @@
 
 The housing is assembled from two separate pieces that are produced by 3D printing, painted black, and then screwed together. Files for 3D printing are located in `design/housing`. 
 
-* The `feather-nephel-housing.stl` file prints an enclosed box for the printed circuit board with a square hole for the photodetector. 
+* The `feather-nephel-housing.stl` file prints an enclosed box for the printed circuit board with a square hole for the photodetector. On filament deposition printers, put the widest face of the box on the build plate, with the other walls extending vertically.
 
-* The `250-ml-band.stl` file prints a band that wraps around a 250 ml bottle, with holes for the photodetector and the LED. The `500-ml-band.stl` file prints a band that fits a 500 ml bottle instead.
+* The `250-ml-band.stl` file prints a band that wraps around a 250 ml bottle, with holes for the photodetector and the LED. The `500-ml-band.stl` file prints a band that fits a 500 ml bottle instead. On filament deposition printers, put the band upside-down, with the flat top on the build plate and the legs extending upward.
 
 These files can be printed in PLA plastic on widely available 3D printers (we use an Ultimaker 2+) or fabricated by 3D printing services.
 
@@ -51,7 +51,7 @@ The controller housing is printed as two separate components, a "band" that wrap
 
         ![housing-04-screw-tight](./images/housing-04-screw-tight.jpeg)
 
-      ![]()
+      ![housing-05-screwed](housing-05-screwed.jpeg)
 
 1. Attach the band to the PCB housing
 
