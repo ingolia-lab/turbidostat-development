@@ -202,7 +202,7 @@ The growth chamber can be sterilized in advance of an experiment.  The sterilize
 
    In this example, the turbidity increased from ~0.5 to ~6.5 after inoculation.
 
-   The volume of media in a 250 ml growth chamber is about 200 ml.  Using the cell density of the inoculum, compute the density of cells in the growth chamber. For example, if the above inoculation used 3.0e8 cells, this would yield 1.5e6 cells / ml.
+   Using the cell density of the inoculum and the volume of media, compute the density of cells in the growth chamber. For example, if the above inoculation used 3.0e8 cells into 200 ml media, this would yield 1.5e6 cells / ml.
    
    In this example, a turbidity of 6.0 corresponds to 1.5e6 cells / ml, and 1.0 turbidity unit corresponds to 2.5e5 cells / ml.
       
