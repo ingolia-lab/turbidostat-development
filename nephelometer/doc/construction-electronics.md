@@ -135,14 +135,90 @@ The controller electronics can be assembled entirely by through-hole soldering. 
    1. Plug the USB cable into a computer
    1. Connect to the Feather with a serial terminal program
    1. Typing `h` in the serial window should provide a list of all commands
+   
+      ```
+      # band-dsp-feather manual [acghmpsz] > h
+      # COMMANDS:
+      #   a               Annotate   Type a note into the log file
+      #   c       Start Controller   Start configured controller: NONE
+      #   g               Set Gain   Set nephelometer gain
+      #   h                   Help   Print help information
+      #   m                Measure   Take online measurements
+      #   p                   Pump   Manually switch on a pump
+      #   s                  Setup   Set parameters for a controller
+      #   z      Test Nephelometer   Switch to test nephelometer stub
+      # CONFIGURED CONTROLLER: NONE
+      # CONTROLLERS:
+      #   m                                             Manual
+      #   t                                        Turbidostat
+      #   r                                  Turbidostat Ratio
+      #   i                                 Turbidostat Induce
+      #   c                        Turbidostat Cycle Time Conc
+      #   g                     Turbidostat Gradient Time Conc
+      #   l                 Turbidostat Log-Gradient Time Conc
+      #   d                       Turbidostat Density Gradient
+      # band-dsp-feather manual [acghmpsz] >
+      ```
+      
 1. Testing the optical turbidity measurement
    1. Type `m` into the serial window in order to begin periodic measurements
    1. Block light from the LED from reaching the photodiode and ensure that the system reports a small, positive value, typically 0.1 - 0.5
    1. Point the LED and the photodiode at a piece of paper in order to produce a strong reflected light signal and ensure that the system saturates at a measurement of roughly 40.
+   
+        ```
+        # band-dsp-feather manual [acghmpsz] > m
+		M	time.s	neph	gain
+		M	75.6	 0.347	2
+		M	76.1	 0.348	2
+		M	76.6	 0.353	2
+		M	77.1	 0.330	2
+		M	77.6	 0.336	2
+		M	78.1	 0.325	2
+		M	78.6	 0.336	2
+		M	79.1	 0.341	2
+		M	79.6	31.886	2
+		M	80.1	40.799	2
+		M	80.6	40.800	2
+		M	81.1	40.800	2
+		M	81.6	40.800	2
+		M	82.1	40.800	2
+		M	82.6	40.800	2
+		M	83.1	 8.606	2
+		M	83.6	 0.364	2
+		M	84.1	 0.301	2
+		M	84.6	 0.319	2
+		M	85.1	 0.304	2
+		M	85.7	 0.309	2
+		M	86.2	 0.300	2
+		M	86.7	 0.305	2
+		M	87.2	40.803	2
+		M	87.7	40.802	2
+		M	88.2	40.807	2
+		M	88.7	40.796	2
+		# band-dsp-feather manual [acghmpsz] >
+		```
 1. Testing the pumps
    1. Plug in the 12VDC power converter to the controller board and the wall outlet.
    1. Type `p` into the serial window in order to manually activate a pump
    1. Select pump `A`
    1. Type `5` followed by *Enter* to request 5 seconds of pumping
    1. The red LED for pump A should light up for five seconds.
+
+        ```   
+		# band-dsp-feather manual [acghmpsz] > p
+		# Which pump [A,B,C,D]: a
+		# Enter pump duration (sec): 5
+		# Planned pumping time: 5 sec (any key to interrupt)
+		# Pumped 5.000 seconds
+		# band-dsp-feather manual [acghmpsz] >
+        ```
    1. Repeat this procedure to activate pump B.
+
+		```
+		# band-dsp-feather manual [acghmpsz] > p
+		# Which pump [A,B,C,D]: b
+		# Enter pump duration (sec): 5
+		# Planned pumping time: 5 sec (any key to interrupt)
+		# Pumped 5.000 seconds
+		# band-dsp-feather manual [acghmpsz] >
+		```
