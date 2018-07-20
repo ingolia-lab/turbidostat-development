@@ -157,7 +157,7 @@
    
    1. The media pump determines which pump will be activated when the turbidity rises above the set point.
 
-      ```
+   ```
 		# band-dsp-feather manual [acghmpsz] > s
 		# Pick a controller to configure
 		# CONFIGURED CONTROLLER: NONE
@@ -181,7 +181,7 @@
 		# Current settings:
 		# Target neph 10.000
 		# Pump A
-      ```
+   ```
 
 1. Start the  turbidostat controller. Use the `c` command to start the configured controller.
 
@@ -203,7 +203,7 @@
    
    1. The `pumptime.s` column reports on the cumulative pumping time, in seconds.
 
-		```
+   ```
 		# band-dsp-feather manual [acghmpsz] > c
 		T	time.s	neph	gain	target	pumpon	pumptime.s
 		T	0	6.758	5	10.000	0	15.000
@@ -213,4 +213,4 @@
 		T	3	7.075	5	10.000	0	15.000
 		T	4	6.962	5	10.000	0	15.000
 		T	5	7.109	5	10.000	0	15.000
-		```
+   ```
