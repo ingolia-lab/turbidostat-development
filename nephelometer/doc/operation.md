@@ -4,7 +4,7 @@
 
   Used to sterilize liquid media
 
-* Acrodisk 13mm Luer syringe filter, 0.22µm, PES:  Pall Laboratories 4602, VWR 28143-300
+* Acrodisk 25mm Luer syringe filter, 0.22µm, PES:  VWR 28145-501
 
   Used to sterilize the air input and various vents
 
