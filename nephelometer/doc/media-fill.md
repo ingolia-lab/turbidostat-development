@@ -7,11 +7,11 @@ The nominal capacity of the Sterivex filter is 2 liters but with "clean" media (
 1. Spray the capped media fill connector with 70% ethanol. Uncap the fill connector and attach a Sterivex pressure filter.
 1. Attach the shorter side of the filtration pump line to the other end of the Sterivax pressure filter
 1. Insert the peristaltic pump tubing into the media pump
-  1. Flip the cover latch up until you can pull the cover off of the pump
-  1. Remove the tubing restraints from the cover and put one clip on the tubing
-  1. Place the clip with tubing in the cover and thread the tubing around the cover. The pump should turn clockwise. If you're facing the pump, media will move from the left side to the right side.
-  1. Clip the tubing on the other side of the cover as well
-  1. Slide the cover back onto the pump and flip the cover latch down
+   1. Flip the cover latch up until you can pull the cover off of the pump
+   1. Remove the tubing restraints from the cover and put one clip on the tubing
+   1. Place the clip with tubing in the cover and thread the tubing around the cover. The pump should turn clockwise. If you're facing the pump, media will move from the left side to the right side.
+   1. Clip the tubing on the other side of the cover as well
+   1. Slide the cover back onto the pump and flip the cover latch down
 1. Place the other end of the filtration pump line into the media
 1. Pump media through the Sterivex pressure filter into the reservoir
 1. Detach the filtration pump line and leave the Sterivex filter uncapped. 
