@@ -156,28 +156,8 @@
    1. The "Target neph" parameter is the target turbidity (nephelometry)
    
    1. The media pump determines which pump will be activated when the turbidity rises above the set point.
-   
-1. Start the  turbidostat controller. Use the `c` command to start the configured controller.
 
-1. The running turbidostat will measure cell density and report data every second.
-
-   1. Data lines from the turbidostat controller will begin with `T` so they can be extracted from log files easily.
-   
-   1. The `time.s` column reports on the time (in seconds) since the controller was started.
-   
-   1. The `neph` column reports on the turbidity (nephelometry) measurement
-   
-   1. The `gain` column reports on the gain setting for the turbidity measurement
-   
-      _Note_ that the gain factor is not divided out of the `neph` data. For example, a `neph` value of 3.0 with a `gain` factor of 2 is equivalent to a `neph` value of 7.5 with a `gain` factor of 5.
-   
-   1. The `target` column reports on the target turbidity setting.
-   
-   1. The `pumpon` column is _1_ when the pump was active during the preceding second and _0_ when the pump was not active.
-   
-   1. The `pumptime.s` column reports on the cumulative pumping time, in seconds.
-
-		```
+      ```
 		# band-dsp-feather manual [acghmpsz] > s
 		# Pick a controller to configure
 		# CONFIGURED CONTROLLER: NONE
@@ -201,6 +181,29 @@
 		# Current settings:
 		# Target neph 10.000
 		# Pump A
+      ```
+
+1. Start the  turbidostat controller. Use the `c` command to start the configured controller.
+
+1. The running turbidostat will measure cell density and report data every second.
+
+   1. Data lines from the turbidostat controller will begin with `T` so they can be extracted from log files easily.
+   
+   1. The `time.s` column reports on the time (in seconds) since the controller was started.
+   
+   1. The `neph` column reports on the turbidity (nephelometry) measurement
+   
+   1. The `gain` column reports on the gain setting for the turbidity measurement
+   
+      _Note_ that the gain factor is not divided out of the `neph` data. For example, a `neph` value of 3.0 with a `gain` factor of 2 is equivalent to a `neph` value of 7.5 with a `gain` factor of 5.
+   
+   1. The `target` column reports on the target turbidity setting.
+   
+   1. The `pumpon` column is _1_ when the pump was active during the preceding second and _0_ when the pump was not active.
+   
+   1. The `pumptime.s` column reports on the cumulative pumping time, in seconds.
+
+		```
 		# band-dsp-feather manual [acghmpsz] > c
 		T	time.s	neph	gain	target	pumpon	pumptime.s
 		T	0	6.758	5	10.000	0	15.000
