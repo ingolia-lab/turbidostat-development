@@ -51,7 +51,7 @@ The controller housing is printed as two separate components, a "band" that wrap
 
         ![housing-04-screw-tight](./images/housing-04-screw-tight.jpeg)
 
-      ![housing-05-screwed](housing-05-screwed.jpeg)
+      ![housing-05-screwed](./images/housing-05-screwed.jpeg)
 
 1. Attach the band to the PCB housing
 
