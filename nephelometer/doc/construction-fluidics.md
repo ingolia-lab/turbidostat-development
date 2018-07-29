@@ -29,9 +29,8 @@
 * PTFE tubing ID 0.085in / OD 0.125in, 5 meter: Vici Valco TTF285-5M
 * Whisper 20 aquarium pump: VWR 470100-740
 * RTV Silicone sealant: Permatex 82180
-
-* ZZZ magnetic stir plate
-* ZZZ magnetic stir bar
+* Magnetic stir plate (IKA "lab disc white", 0003907500)
+* 1.5 inch magnetic stir bar
 
 ### Media Reservoir
 * **Media Reservoir Bottle** glass bottle (2l or 5l) with GL45 cap
