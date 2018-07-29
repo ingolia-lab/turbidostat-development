@@ -14,7 +14,7 @@
 
 * Two-circuit screw-connector barrier strip: Molex Eurostyle 39100-1902, Digi-Key WM12408-ND
 
-* ZZZ JST cable
+* 50 cm JST-PH extension cable, Adafruit 1131
 
 ### Equipment
 
